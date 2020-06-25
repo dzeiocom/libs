@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"declaration": true,
+		"declarationMap": true,
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"noImplicitReturns": true,
+		"noImplicitAny": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"pretty": true,
+		"allowJs": true,
+		// "sourceMap": true,
+		"strict": true,
+		"target": "es5",
+		"module": "commonjs",
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"name": "components",
+	"private": true,
+	"workspaces": ["packages/*"],
+	"license": "MIT",
+	"dependencies": {
+		"lerna": "^3.22.1"
+	}
+}

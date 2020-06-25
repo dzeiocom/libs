@@ -1,0 +1,31 @@
+{
+	"name": "@aviortheking/logger",
+	"version": "1.0.0",
+	"description": "My Personnal Logger",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Aviortheking/components.git",
+		"directory": "packages/Logger"
+	},
+	"author": "Aviortheking",
+	"license": "MIT",
+	"private": false,
+	"main": "./dist/Logger.js",
+	"browser": "./dist/browser.js",
+	"types": "./dist/types/Logger.d.ts",
+	"dependencies": {
+		"chalk": "^4.1.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.10.3",
+		"@babel/preset-env": "^7.10.3",
+		"babel-loader": "^8.1.0",
+		"ts-loader": "^7.0.5",
+		"typescript": "^3.9.5",
+		"webpack": "^4.43.0",
+		"webpack-cli": "^3.3.12"
+	},
+	"scripts": {
+		"build": "webpack --mode=\"production\" && tsc"
+	}
+}
