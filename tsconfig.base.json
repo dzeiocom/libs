@@ -13,7 +13,7 @@
 		"noUnusedParameters": true,
 		"pretty": true,
 		"allowJs": true,
-		// "sourceMap": true,
+		"sourceMap": false,
 		"strict": true,
 		"target": "es5",
 		"module": "commonjs",
