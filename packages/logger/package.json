@@ -1,15 +1,14 @@
 {
-	"name": "@aviortheking/logger",
+	"name": "@dzeio/logger",
 	"version": "1.0.1",
 	"description": "My Personnal Logger",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Aviortheking/components.git",
+		"url": "https://github.com/dzeiocom/libs.git",
 		"directory": "packages/Logger"
 	},
 	"author": "Aviortheking",
 	"license": "MIT",
-	"private": false,
 	"main": "./dist/Logger.js",
 	"browser": "./dist/browser.js",
 	"types": "./dist/Logger.d.ts",
@@ -26,6 +25,7 @@
 		"webpack-cli": "^3.3.12"
 	},
 	"scripts": {
+		"prepublishOnly": "yarn build",
 		"build": "webpack --mode=\"production\" && tsc"
 	}
 }

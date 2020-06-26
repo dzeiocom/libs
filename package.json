@@ -1,7 +1,14 @@
 {
 	"name": "components",
 	"private": true,
-	"workspaces": ["packages/*"],
+	"workspaces": {
+		"packages": [
+			"packages/*"
+		],
+		"nohoist": [
+			"**/@types/**"
+		]
+	},
 	"license": "MIT",
 	"dependencies": {
 		"lerna": "^3.22.1"
