@@ -1,6 +1,7 @@
-*.d.td.map
+dist/*.d.ts.map
 node_modules
 src
 .gitignore
 webpack.config.js
 tsconfig.json
+.babelrc
