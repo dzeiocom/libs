@@ -34,7 +34,7 @@ export default class Logger {
 	 * @param message the message to log
 	 */
 	public static urgent(prefix: string, ...message: Array<any>) {
-		console.log(this.formatMessage(prefix, ...message))
+		console.log(...this.formatMessage(prefix, ...message))
 	}
 
 	private static formatMessage(prefix: string, ...message: Array<any>): Array<any> {
