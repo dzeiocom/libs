@@ -4,7 +4,7 @@
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
 		"declaration": true,
-		"declarationMap": true,
+		"declarationMap": false,
 		"esModuleInterop": true,
 		"moduleResolution": "node",
 		"noImplicitReturns": true,
@@ -15,7 +15,7 @@
 		"allowJs": true,
 		"sourceMap": false,
 		"strict": true,
-		"target": "es5",
-		"module": "commonjs",
+		"target": "ES2017", // Follow NodeJS oldest supported LTS
+		"module": "commonjs"
 	}
 }
