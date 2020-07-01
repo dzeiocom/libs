@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/logger",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "My Personnal Logger",
 	"repository": {
 		"type": "git",
