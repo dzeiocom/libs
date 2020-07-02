@@ -1,0 +1,24 @@
+{
+	"name": "@dzeio/queue",
+	"version": "1.0.0",
+	"description": "My Personnal Promise Queue System",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dzeiocom/libs.git",
+		"directory": "packages/Queue"
+	},
+	"author": "Aviortheking",
+	"license": "MIT",
+	"main": "./dist/Queue.js",
+	"types": "./dist/Queue.d.ts",
+	"devDependencies": {
+		"typescript": "^3.9.5"
+	},
+	"scripts": {
+		"prepublishOnly": "yarn build",
+		"build": "tsc"
+	},
+	"dependencies": {
+		"@dzeio/logger": "^1.1.1"
+	}
+}
