@@ -17,5 +17,8 @@
 		"strict": true,
 		"target": "ES2017", // Follow NodeJS oldest supported LTS
 		"module": "commonjs"
-	}
+	},
+	"exclude": [
+		"node_modules"
+	]
 }
