@@ -1,9 +1,11 @@
-import Logger from "@dzeio/logger"
+import Logger from '@dzeio/logger'
+
+const logger = new Logger('Queue')
 
 export default class Queue {
 	private queue = 0
 	private isPaused = false
-	
+
 	public constructor(
 		private maxQueueLength = 5,
 		private timeToWait = 500
@@ -39,7 +41,7 @@ export default class Queue {
 		while (this.queue !== 0) {
 			await new Promise((res) => setTimeout(() => {
 				if (currentQueue !== this.queue) {
-					Logger.log('PromiseQueue', this.queue, 'remaining in queue')
+					logger.log('PromiseQueue', this.queue, 'remaining in queue')
 					currentQueue = this.queue
 				}
 				res()
