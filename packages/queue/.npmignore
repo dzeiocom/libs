@@ -1,3 +1,6 @@
-Queue.ts
+node_modules
+.eslintrc.js
 .gitignore
+.npmignore
 tsconfig.json
+Queue.ts
