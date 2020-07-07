@@ -19,6 +19,6 @@
 		"build": "tsc"
 	},
 	"dependencies": {
-		"@dzeio/logger": "^1.1.1"
+		"@dzeio/logger": "^2.0.0-alpha.0"
 	}
 }
