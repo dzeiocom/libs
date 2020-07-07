@@ -13,7 +13,7 @@
 	"browser": "./dist/browser.js",
 	"types": "./dist/Logger.d.ts",
 	"dependencies": {
-		"chalk": "^4.1.0"
+		"ansi-colors": "^4.1.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.10.3",
@@ -29,6 +29,7 @@
 	},
 	"scripts": {
 		"prepublishOnly": "yarn build",
-		"build": "webpack --mode=\"production\" && tsc"
+		"build": "webpack --mode=\"production\" && tsc",
+		"test": "ts-node test"
 	}
 }
