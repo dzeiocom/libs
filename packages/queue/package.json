@@ -17,8 +17,5 @@
 	"scripts": {
 		"prepublishOnly": "yarn build",
 		"build": "tsc"
-	},
-	"dependencies": {
-		"@dzeio/logger": "^2.0.0-alpha.0"
 	}
 }

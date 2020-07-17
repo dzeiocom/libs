@@ -1,7 +1,3 @@
-import Logger from '@dzeio/logger'
-
-const logger = new Logger('Queue')
-
 export default class Queue {
 	private queue = 0
 	private isPaused = false
@@ -37,15 +33,8 @@ export default class Queue {
 	}
 
 	public async waitEnd() {
-		let currentQueue = this.queue
 		while (this.queue !== 0) {
-			await new Promise((res) => setTimeout(() => {
-				if (currentQueue !== this.queue) {
-					logger.log('PromiseQueue', this.queue, 'remaining in queue')
-					currentQueue = this.queue
-				}
-				res()
-			}, this.timeToWait))
+			await new Promise((res) => setTimeout(res, this.timeToWait))
 		}
 	}
 }
