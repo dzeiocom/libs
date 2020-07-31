@@ -1,6 +1,7 @@
 export default class Queue {
 	private queue = 0
 	private isPaused = false
+	private throwError?: Error
 
 	public constructor(
 		private maxQueueLength = 5,
@@ -27,13 +28,17 @@ export default class Queue {
 		promise
 			.then(() => {
 				this.updateCurrentQueueLength(this.queue-1)
-			}).catch(() => {
+			}).catch((e) => {
 				this.updateCurrentQueueLength(this.queue-1)
+				this.throwError = e
 			})
 	}
 
 	public async waitEnd() {
 		while (this.queue !== 0) {
+			if (this.throwError) {
+				throw this.throwError
+			}
 			await new Promise((res) => setTimeout(res, this.timeToWait))
 		}
 	}
