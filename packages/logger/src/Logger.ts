@@ -372,6 +372,12 @@ export default class Logger implements Console {
 				if (typeof el === 'object') {
 					return el
 				}
+				if (el === undefined) {
+					return yellow('undefined')
+				}
+				if (el === null) {
+					return yellow('null')
+				}
 				return typeof el !== 'string' ? yellow(el.toString()) : green(el)
 			})
 		)
