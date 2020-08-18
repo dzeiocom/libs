@@ -405,11 +405,7 @@ export default class Logger implements Console {
 	 * @param count number of spaces to add
 	 */
 	private buildSpace(count: number): string {
-		let str = ''
-		for(let i = 0; i < count; i++) {
-			str += ' '
-		}
-		return str
+		return ''.padStart(count, ' ')
 	}
 
 	/**
