@@ -14,6 +14,6 @@
 		"lerna": "^3.22.1"
 	},
 	"scripts": {
-		"publish": "lerna publish"
+		"lerna": "lerna publish"
 	}
 }
