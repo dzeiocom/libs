@@ -26,6 +26,6 @@
 	"scripts": {
 		"prepublishOnly": "yarn build",
 		"build": "webpack --mode=\"production\" && tsc",
-		"test": "jest --coverage && codecov -f coverage/coverage-final.json"
+		"test": "jest --coverage"
 	}
 }
