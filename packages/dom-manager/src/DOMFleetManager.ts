@@ -5,9 +5,13 @@ export default class DOMFleetManager<T extends HTMLElement = HTMLElement> {
 
 	public constructor(
 		private query: string,
-		private source?: HTMLElement
+		private source?: HTMLElement | DOMElement
 	) {
 		this.refresh()
+	}
+
+	public last() {
+		return this.items[this.items.length - 1]
 	}
 
 	public each(fn: (item: DOMElement, index: number) => void) {
@@ -24,7 +28,7 @@ export default class DOMFleetManager<T extends HTMLElement = HTMLElement> {
 
 	public refresh() {
 		this.items = []
-		;(this.source || document).querySelectorAll<T>(this.query).forEach((item) => {
+		;(this.source instanceof DOMElement ? this.source.item : this.source || document).querySelectorAll<T>(this.query).forEach((item) => {
 			const element = DOMElement.get<T>(item)
 			if (!element) {
 				return

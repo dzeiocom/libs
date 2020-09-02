@@ -18,9 +18,9 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 	}
 
 
-	public static get<T extends HTMLElement = HTMLElement>(query: string | T, source?: HTMLElement): DOMElement<T> | undefined {
+	public static get<T extends HTMLElement = HTMLElement>(query: string | T, source?: HTMLElement | DOMElement): DOMElement<T> | undefined {
 		if (!(query instanceof HTMLElement)) {
-			const tmp = (source || document).querySelector<T>(query)
+			const tmp = (source instanceof DOMElement ? source.item : source || document).querySelector<T>(query)
 			if (!tmp) {
 				return undefined
 			}
