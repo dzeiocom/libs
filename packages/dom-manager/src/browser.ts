@@ -1,4 +1,4 @@
-import { DOMFleetManager, DOMElement} from ".";
+import { DOMFleetManager, DOMElement} from '.'
 
 // @ts-expect-error
 window.DOMElement = DOMElement

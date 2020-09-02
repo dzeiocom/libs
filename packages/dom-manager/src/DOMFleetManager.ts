@@ -1,4 +1,4 @@
-import { DOMElement } from "."
+import { DOMElement } from '.'
 
 export default class DOMFleetManager<T extends HTMLElement = HTMLElement> {
 	public items: Array<DOMElement<T>> = []

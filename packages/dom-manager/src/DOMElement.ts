@@ -4,11 +4,6 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 
 	public item: T
 
-	public static create<K extends Tags>(tagName: K, options?: ElementCreationOptions): DOMElement<HTMLElementTagNameMap[K]>;
-	public static create(tagName: string, options?: ElementCreationOptions): DOMElement<HTMLElement> {
-		return new DOMElement(tagName as Tags, options)
-	}
-
 	public constructor(tagName: Tags | T, options?: ElementCreationOptions) {
 		if (tagName instanceof HTMLElement) {
 			this.item = tagName
@@ -16,6 +11,12 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 		}
 		this.item = document.createElement(tagName, options) as any
 	}
+
+	public static create<K extends Tags>(tagName: K, options?: ElementCreationOptions): DOMElement<HTMLElementTagNameMap[K]>;
+	public static create(tagName: string, options?: ElementCreationOptions): DOMElement<HTMLElement> {
+		return new DOMElement(tagName as Tags, options)
+	}
+
 
 	public static get<T extends HTMLElement = HTMLElement>(query: string | T, source?: HTMLElement): DOMElement<T> | undefined {
 		if (!(query instanceof HTMLElement)) {
@@ -98,23 +99,11 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 		return this
 	}
 
-	public placeBefore(item: DOMElement | HTMLElement) {
-		if (item instanceof DOMElement) {
-			item = item.item
-		}
-		const parent = item.parentElement
-		if (!parent) {
-			throw new Error('can\'t place DOMElement before item because it has no parent')
-		}
-		parent.insertBefore(this.item, item)
-		return this
-	}
-
 	public emit<E extends keyof HTMLElementEventMap>(event: E): this
 	public emit(event: string): this
 	public emit(event: string): this {
 		if (event in this.item) {
-			;(this.item as any)[event]()
+			(this.item as any)[event]()
 			return this
 		}
 		this.item.dispatchEvent(new Event(event))
@@ -122,9 +111,8 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 	}
 
 	public attr(key: string): string | null
-	public attr(key: string, value: string): this
+	public attr(key: string, value: string | null): this
 	public attr(key: keyof T, value: boolean): this
-	public attr(key: string, value: null): this
 	public attr(key: string | keyof T, value?: string | boolean | null): this | string | null {
 		if (!value) {
 			return this.item.getAttribute(key as string)
@@ -143,8 +131,7 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 
 
 	public data(key: string): string | null
-	public data(key: string, value: string): this
-	public data(key: string, value: null): this
+	public data(key: string, value: string | null): this
 	public data(key: string, value?: string | null): this | string | null {
 		// @ts-ignore
 		return this.attr(`data-${key}`, value)
@@ -160,5 +147,34 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 
 	public exist() {
 		return !!this.item
+	}
+
+	public placeBefore(item: DOMElement | HTMLElement) {
+		if (item instanceof DOMElement) {
+			item = item.item
+		}
+		const parent = item.parentElement
+		if (!parent) {
+			throw new Error('can\'t place DOMElement before item because it has no parent')
+		}
+		parent.insertBefore(this.item, item)
+		return this
+	}
+
+	public placeAsChildOf(item: DOMElement | HTMLElement) {
+		if (item instanceof DOMElement) {
+			item = item.item
+		}
+
+		item.appendChild(this.item)
+		return this
+	}
+
+	public place(verb: 'before' | 'asChildOf', item: DOMElement | HTMLElement) {
+		if (verb === 'before') {
+			return this.placeBefore(item)
+		} else {
+			return this.placeAsChildOf(item)
+		}
 	}
 }
