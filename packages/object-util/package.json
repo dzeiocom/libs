@@ -2,12 +2,16 @@
 	"name": "@dzeio/object-util",
 	"version": "1.0.0",
 	"description": "some Function to make work on objects easier",
-	"repository": "https://github.com/dzeiocom/libs.git",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dzeiocom/libs.git",
+		"directory": "packages/object-util"
+	},
 	"author": "Aviortheking",
 	"license": "MIT",
-	"main": "./dist/URLManager.js",
+	"main": "./dist/ObjectUtil.js",
 	"browser": "./dist/browser.js",
-	"types": "./dist/URLManager.d.ts",
+	"types": "./dist/ObjectUtil.d.ts",
 	"devDependencies": {
 		"@babel/core": "^7.11.4",
 		"@babel/preset-env": "^7.11.0",
