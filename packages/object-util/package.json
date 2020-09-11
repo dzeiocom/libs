@@ -1,0 +1,31 @@
+{
+	"name": "@dzeio/object-util",
+	"version": "0.0.1",
+	"description": "some Function to make work on objects easier",
+	"repository": "https://github.com/dzeiocom/libs.git",
+	"author": "Aviortheking",
+	"license": "MIT",
+	"main": "./dist/URLManager.js",
+	"browser": "./dist/browser.js",
+	"types": "./dist/URLManager.d.ts",
+	"devDependencies": {
+		"@babel/core": "^7.11.4",
+		"@babel/preset-env": "^7.11.0",
+		"@babel/preset-typescript": "^7.10.4",
+		"@types/chai": "^4.2.12",
+		"@types/jest": "^26.0.10",
+		"babel-loader": "^8.1.0",
+		"codecov": "^3.7.2",
+		"jest": "^26.4.2",
+		"ts-loader": "^8.0.3",
+		"ts-node": "^9.0.0",
+		"typescript": "^4.0.2",
+		"webpack": "^4.44.1",
+		"webpack-cli": "^3.3.12"
+	},
+	"scripts": {
+		"prepublishOnly": "yarn build",
+		"build": "webpack --mode=\"production\" && tsc",
+		"test": "jest --coverage"
+	}
+}

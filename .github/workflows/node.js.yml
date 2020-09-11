@@ -24,7 +24,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn 
+    - run: yarn
     - run: yarn workspaces run build
     - run: yarn workspaces run test
     # You may pin to the exact commit or the version.
@@ -32,4 +32,4 @@ jobs:
     - uses: codecov/codecov-action@v1.0.13
       with:
         # Comma-separated list of files to upload
-        files: ./packages/url-manager/coverage/coverage-final.json # optional
+        files: ./packages/url-manager/coverage/coverage-final.json,./packages/object-util/coverage/coverage-final.json # optional
