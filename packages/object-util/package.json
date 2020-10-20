@@ -10,7 +10,6 @@
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/ObjectUtil.js",
-	"browser": "./dist/browser.js",
 	"types": "./dist/ObjectUtil.d.ts",
 	"devDependencies": {
 		"@babel/core": "^7.11.4",

@@ -10,7 +10,6 @@
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/index.js",
-	"browser": "./dist/browser.js",
 	"types": "./dist/index.d.ts",
 	"devDependencies": {
 		"@babel/core": "^7.11.4",
@@ -18,7 +17,7 @@
 		"babel-loader": "^8.1.0",
 		"ts-loader": "^8.0.3",
 		"ts-node": "^9.0.0",
-		"typescript": "^4.0.2",
+		"typescript": "^4.0.3",
 		"webpack": "^4.44.1",
 		"webpack-cli": "^3.3.12"
 	},
