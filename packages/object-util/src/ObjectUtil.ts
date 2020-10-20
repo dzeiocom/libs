@@ -1,43 +1,84 @@
-export const objectMap = <T = any, J = any>(items: Record<string, T>, fn: (el: T, key: string) => J) => {
+/**
+ * Remap an object to an array through a function
+ *
+ * (Same as Array.map)
+ * @param obj the object to remap
+ * @param fn the fn to run
+ */
+export function objectMap<T = any, J = any>(obj: Record<string, T>, fn: (value: T, key: string) => J): Array<J> {
 	const list: Array<J> = []
-	objectLoop(items, (item, key) => {
+	objectLoop(obj, (item, key) => {
 		list.push(fn(item, key))
 	})
 	return list
 }
 
-export const objectLoop = <T = any>(items: Record<string, T>, fn: (el: T, key: string) => void | boolean) => {
-	let res: void | boolean
-	for (const key in items) {
-		if (!Object.prototype.hasOwnProperty.call(items, key)) {
+/**
+ * Loop through the object
+ * @param obj the object to loop through
+ * @param fn the function to run for each childs
+ */
+export function objectLoop<T = any>(obj: Record<string, T>, fn: (value: T, key: string) => boolean | void): boolean {
+	for (const key in obj) {
+		if (!Object.prototype.hasOwnProperty.call(obj, key)) {
 			continue
 		}
-		res = fn(items[key], key)
-		if (typeof res === 'boolean' && !res) {
-			return res
+		const stop = fn(obj[key], key)
+		if (stop === false) {
+			return false
 		}
 	}
-	return res
+	return true
 }
 
+/**
+ * Transform an object to an array removing the keys
+ * @param obj the object to transform
+ */
 export function objectToArray<T = any>(obj: Record<string, T>): Array<T> {
 	return Object.values(obj)
 }
 
-export function objectSize(obj: Record<string, any>) {
-	return Object.keys(obj).length
+/**
+ * return the keys of th object
+ * @param obj the object
+ */
+export function objectKeys(obj: Record<string, any>): Array<string> {
+	return Object.keys(obj)
 }
 
-export function objectSort<T = Record<string, any>>(obj: Record<string, any>, fn?: (a: string, b: string) => number): T {
-	const ordered: any = {};
-	for (const key of Object.keys(obj).sort(fn)) {
+/**
+ * return the length of an object
+ * @param obj the object
+ */
+export function objectSize(obj: Record<string, any>): number {
+	return objectKeys(obj).length
+}
+
+/**
+ * Sort an object by its keys
+ *
+ * Same as Array.sort
+ * @param obj the object to sort
+ * @param fn (Optionnal) the function to run to sort
+ */
+export function objectSort<T = Record<string, any>>(
+	obj: Record<string, any>,
+	fn?: (a: string, b: string) => number
+): T {
+	const ordered: any = {}
+	for (const key of objectKeys(obj).sort(fn)) {
 		ordered[key] = obj[key]
 	}
 	return ordered
 }
 
+/**
+ * Deeply clone an object
+ * @param obj the object to clone
+ */
 export function cloneObject<T = Record<string, any>>(obj: T): T {
-	const clone: T = {} as any
+	const clone: Partial<T> = {}
 	objectLoop(obj, (value, key) => {
 		if (typeof value === 'object' && value != null) {
 			clone[key as Extract<keyof T, string>] = cloneObject(value)
@@ -45,10 +86,20 @@ export function cloneObject<T = Record<string, any>>(obj: T): T {
 		}
 		clone[key as Extract<keyof T, string>] = value
 	})
-	return clone
+	return clone as T
 }
 
-export function objectSet(obj: Record<string, any>, path: Array<string | number>, value: any) {
+/**
+ * deeply set the value at the path given
+ *
+ * (Create sub object/array if not made)
+ *
+ * _NOTE: it is way quicker to use obj[path][path]... = value_
+ * @param obj the object to set the value
+ * @param path the path
+ * @param value the value
+ */
+export function objectSet(obj: Record<string, any>, path: Array<string | number>, value: any): void {
 	let pointer = obj
 	for (let index = 0; index < path.length; index++) {
 		const key = path[index]
@@ -74,7 +125,15 @@ export function objectSet(obj: Record<string, any>, path: Array<string | number>
 	}
 }
 
+/**
+ * deeply compare objects and return if they are equal or not
+ * @param x the first object
+ * @param y the second object
+ */
 export function objectEqual(x: Record<string, any>, y: Record<string, any>): boolean {
+	if (objectSize(x) !== objectSize(y)) {
+		return false
+	}
 	const res = objectLoop(x, (item, key) => {
 		if (!(key in y)) {
 			return false
@@ -85,9 +144,6 @@ export function objectEqual(x: Record<string, any>, y: Record<string, any>): boo
 		}
 		return item === item2
 	})
-	if (typeof res !== 'boolean') {
-		return true
-	}
 	return res
 }
 
@@ -95,6 +151,7 @@ export default {
 	objectMap,
 	objectLoop,
 	objectToArray,
+	objectKeys,
 	objectSize,
 	objectSort,
 	cloneObject,

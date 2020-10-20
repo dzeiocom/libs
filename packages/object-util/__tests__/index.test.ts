@@ -1,9 +1,58 @@
 /// <reference types="jest" />
 
-import { objectSize, objectToArray, objectMap, objectSort, cloneObject, objectEqual } from '../src/ObjectUtil'
+import { objectSize, objectToArray, objectMap, objectSort, cloneObject, objectEqual, objectKeys, objectSet, objectLoop } from '../src/ObjectUtil'
 
+describe('Object Map tests', () => {
+	it('should works', () => {
+		const obj = {
+			pouet: 'first',
+			toto: 'second'
+		}
+		expect(objectMap(obj, (value, index) => {
+			return [index, value]
+		})).toEqual([['pouet', 'first'],['toto','second']])
+	})
+})
 
-describe('Basic tests', () => {
+describe('Object Loop Tests', () => {
+	it('Should works', () => {
+		const obj = {
+			pouet: true,
+			toto: 'object-util'
+		}
+		objectLoop(obj, (value, key) => {
+			if (key === 'pouet') {
+				expect(value).toBe(true)
+			} else if (key === 'toto') {
+				expect(value).toBe('object-util')
+			} else {
+				throw "it should not come here"
+			}
+		})
+	})
+})
+
+describe('Object To Array Tests', () => {
+	it('Should Works', () => {
+		const obj = {
+			pouet: 'first',
+			toto: 'second'
+		}
+		expect(objectToArray(obj)).toEqual(['first', 'second'])
+	})
+})
+
+describe('Object Keys Tests', () => {
+	it('Should Works', () => {
+		const obj = {
+			pouet: 'first',
+			toto: 'second'
+		}
+		expect(objectKeys(obj)).toEqual(['pouet', 'toto'])
+	})
+})
+
+describe('Object Sort Tests', () => {
 	it('shoud return length of the object', () => {
 		const obj = {
 			index0: true,
@@ -20,25 +69,9 @@ describe('Basic tests', () => {
 		}
 		expect(objectSize(obj)).toBe(11)
 	})
+})
 
-	it('should convert the object to an array', () => {
-		const obj = {
-			pouet: 'first',
-			toto: 'second'
-		}
-		expect(objectToArray(obj)).toEqual(['first', 'second'])
-	})
-
-	it('should run through the object', () => {
-		const obj = {
-			pouet: 'first',
-			toto: 'second'
-		}
-		expect(objectMap(obj, (value, index) => {
-			return [index, value]
-		})).toEqual([['pouet', 'first'],['toto','second']])
-	})
-
+describe('Object sort Tests', () => {
 	it('should sort the object', () => {
 		const obj = {
 			b: 'first',
@@ -49,7 +82,9 @@ describe('Basic tests', () => {
 			b: 'first'
 		})
 	})
+})
 
+describe('Object Clone Tests', () => {
 	it('should clone the object', () => {
 		const obj = {
 			pouet: 'first',
@@ -71,7 +106,39 @@ describe('Basic tests', () => {
 		clone.toto = 'third'
 		expect(clone).not.toEqual(obj)
 	})
-});
+})
+
+describe('Object Set Tests', () => {
+	it('set the value of an empty object', () => {
+		const obj = {}
+		objectSet(obj, ['test'], true)
+		expect(obj).toEqual({test: true})
+	})
+
+	it('set the deep value of an empty object', () => {
+		const obj = {}
+		objectSet(obj, ['test', 'pouet'], true)
+		expect(obj).toEqual({test: {'pouet': true}})
+	})
+
+	it('set the deep first array value of an empty object', () => {
+		const obj = {}
+		objectSet(obj, ['test', 0], true)
+		expect(obj).toEqual({test: [true]})
+	})
+
+	it('set the deep any array value of an empty object', () => {
+		const obj = {}
+		objectSet(obj, ['test', 2], true)
+		expect(obj).toEqual({test: [undefined, undefined, true]})
+	})
+
+	it('delete the deep value of an object', () => {
+		const obj = {test: {pouet: true}}
+		objectSet(obj, ['test', 'pouet'], undefined)
+		expect(obj).toEqual({test: {}})
+	})
+})
 
 describe('Object Equal Test', () => {
 	it('should be equal', () => {
@@ -82,6 +149,13 @@ describe('Object Equal Test', () => {
 	})
 	it('should be deeply equal', () => {
 		expect(objectEqual({pouet: {is: true}}, {pouet: {is: true}})).toBe(true)
+	})
+	it('should not be equal if lengths are differents', () => {
+		expect(objectEqual({pouet: true, added: true }, {pouet: true})).toBe(false)
+		expect(objectEqual({pouet: true }, {pouet: true, added: true})).toBe(false)
+	})
+	it('should not be equal if lengths are equal but content different', () => {
+		expect(objectEqual({pouet: true, added: true }, {pouet: true, removed: true})).toBe(false)
 	})
 	it('should not be deeply equal', () => {
 		expect(objectEqual({pouet: {is: true}}, {pouet: {is: false}})).toBe(false)
