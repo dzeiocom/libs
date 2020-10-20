@@ -3,6 +3,7 @@
 	"version": "1.0.2",
 	"description": "Manage URL",
 	"repository": "https://github.com/dzeiocom/libs.git",
+	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/url-manager#readme",
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/URLManager.js",

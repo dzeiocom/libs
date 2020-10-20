@@ -32,7 +32,13 @@ export default class URLManager {
 
 	private fromURL(url: string) {
 		const protocolIndex = url.indexOf('://')
-		const indexOfPath = url.indexOf('/', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
+		let indexOfPath = url.indexOf('/', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
+		if (indexOfPath === -1) {
+			indexOfPath = url.indexOf('?', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
+		}
+		if (indexOfPath === -1) {
+			indexOfPath = url.indexOf('#', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
+		}
 		const firstPart = url.substr(0, indexOfPath !== -1 ? indexOfPath : undefined)
 		const path = url.substr(firstPart.length)
 

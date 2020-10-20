@@ -21,10 +21,6 @@ describe('Basic tests', () => {
 		expect(url.toString())
 			.toBe('git+ssh://username:password@domain.com:65565/path?test=true#hash')
 	})
-	it('should parse and give back the same url', () => {
-		const url = 'git+ssh://username:password@domain.com:65565/path?test=true&test=false#hash'
-		expect(new URLManager(url).toString()).toBe(url)
-	})
 
 	it('should be able to add and delete query', () => {
 		const url = new URLManager()
