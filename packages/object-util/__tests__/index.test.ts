@@ -157,6 +157,14 @@ describe('Object Equal Test', () => {
 	it('should not be equal if lengths are equal but content different', () => {
 		expect(objectEqual({pouet: true, added: true }, {pouet: true, removed: true})).toBe(false)
 	})
+	it('should be equal object contains null', () => {
+		expect(objectEqual({pouet: null, added: true }, {pouet: true, added: true})).toBe(false)
+		expect(objectEqual({pouet: null, added: true }, {pouet: null, added: true})).toBe(true)
+	})
+	it('should be equal object contains undefined', () => {
+		expect(objectEqual({pouet: undefined, added: true }, {pouet: true, added: true})).toBe(false)
+		expect(objectEqual({pouet: undefined, added: true }, {pouet: undefined, added: true})).toBe(true)
+	})
 	it('should not be deeply equal', () => {
 		expect(objectEqual({pouet: {is: true}}, {pouet: {is: false}})).toBe(false)
 	})

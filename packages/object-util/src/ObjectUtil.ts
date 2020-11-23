@@ -139,6 +139,9 @@ export function objectEqual(x: Record<string, any>, y: Record<string, any>): boo
 			return false
 		}
 		const item2 = y[key]
+		if (item === null && item2 === null) {
+			return true
+		}
 		if (typeof item === 'object' && typeof item2 === 'object') {
 			return objectEqual(item, item2)
 		}

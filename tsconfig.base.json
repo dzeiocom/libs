@@ -15,7 +15,7 @@
 		"allowJs": true,
 		"sourceMap": false,
 		"strict": true,
-		"target": "ES2017", // Follow NodeJS oldest supported LTS
+		"target": "ES2017", // Follow NodeJS oldest supported LTS and compare with https://node.green
 		"module": "commonjs"
 	},
 	"exclude": [
