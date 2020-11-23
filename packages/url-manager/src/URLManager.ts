@@ -30,83 +30,6 @@ export default class URLManager {
 		this.fromURL(`${url}`)
 	}
 
-	private fromURL(url: string) {
-		const protocolIndex = url.indexOf('://')
-		let indexOfPath = url.indexOf('/', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
-		if (indexOfPath === -1) {
-			indexOfPath = url.indexOf('?', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
-		}
-		if (indexOfPath === -1) {
-			indexOfPath = url.indexOf('#', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
-		}
-		const firstPart = url.substr(0, indexOfPath !== -1 ? indexOfPath : undefined)
-		const path = url.substr(firstPart.length)
-
-		// PROTOCOL
-		const procotolSplit = firstPart.split('://')
-		if (procotolSplit.length === 2) {
-			this.protocols(procotolSplit[0].split('+'))
-		}
-
-		// USERNAME and PASSWORD
-		const usrSplit = url.split('@')
-		if (usrSplit.length === 2) {
-			const usrPass = usrSplit[0].substr(protocolIndex !== -1 ? protocolIndex + 3 : 0)
-			const data = usrPass.split(':')
-			this.username(data.shift() as string)
-			if (data.length >= 1) {
-				this.password(data.join(':'))
-			}
-		}
-
-		// DOMAIN & PORT
-		let splitted = firstPart.split('@')
-		if (splitted.length === 1) {
-			splitted = firstPart.split('://')
-		}
-		const post = splitted.length > 1 ? splitted[1] : splitted[0]
-		const data = post.split(':')
-		this.domain(data[0])
-		if (data.length === 2) {
-			this.port(parseInt(data[1]))
-		}
-
-		const hashPos = path.indexOf('#')
-		const queryStart = path.indexOf('?')
-
-		// PATH
-		const pathEnd = queryStart !== -1 ? queryStart : hashPos
-		this.path(path.substr(0, pathEnd !== -1 ? pathEnd : undefined))
-
-		// QUERY
-		if (queryStart !== -1) {
-			const queryString = path.substring(queryStart + 1, hashPos !== -1 ? hashPos : undefined)
-			const queryArray = queryString.split('&')
-			for (const queryItem of queryArray) {
-				const item = queryItem.split('=')
-				const key = item[0]
-				const val = item.length === 2 ? item[1] : ''
-
-				let query = this.query(key)
-				if (query) {
-					if (typeof query === 'string') {
-						query = [query, val]
-					} else {
-						query.push(val)
-					}
-					this.query(key, query)
-				} else {
-					this.query(key, val)
-				}
-			}
-		}
-
-		// HASH
-		if (hashPos !== -1) {
-			this.hash(path.substr(hashPos + 1))
-		}
-	}
-
 	/**
 	 * Make a new URLManager from the current location
 	 * @return { this }
@@ -134,18 +57,11 @@ export default class URLManager {
 	public query(key: string): string | Array<string>
 
 	/**
-	 * set a key to a value in the query string
-	 * @param key the key to set
-	 * @param value the value to set
+	 * set/delete a key to a value in the query string
+	 * @param key the key to set/delete
+	 * @param value the value to set or null to delete it
 	 */
-	public query(key: string, value: string | Array<string>): this
-
-	/**
-	 * delete key from the query string
-	 * @param key the key to delete
-	 * @param value the `null` keyword
-	 */
-	public query(key: string, value: null): this
+	public query(key: string, value: string | Array<string> | null): this
 
 	/**
 	 * Manipulate the query string
@@ -332,6 +248,63 @@ export default class URLManager {
 		return this
 	}
 
+	/**
+	 * Build the string back
+	 * @param { Record<string, string> | undefined } format Formatting options ex: if path contains `[test]` and format is `{test: 'working'}` `[test]` will be replaced by the value
+	 * @param { Record<string, string> | undefined } options options for formatting
+	 * @param { string | undefined } options.queryArrayJoin Query formatting
+	 * @return { string } return the builded string
+	 */
+	public toString(format?: Record<string, string>, options?: {queryArrayJoin?: string}): string {
+
+		let result = ''
+
+		const protocols = this.protocols()
+		if (protocols.length > 0) {
+			result += `${protocols.join('+')}://`
+		}
+
+		const user = this.username()
+		const pass = this.password()
+		if (user) {
+			result += user
+			if (pass) {
+				result += `:${pass}`
+			}
+			result += '@'
+		}
+
+		result += this.domain()
+
+		const port = this.port()
+		if (port) {
+			result += `:${port}`
+		}
+
+		result += this.formatPath(format) || ''
+
+		result += this.formatQuery(options) || ''
+
+		const hash = this.hash()
+		if (hash) {
+			result += `#${hash}`
+		}
+
+		return result
+	}
+
+	/**
+	 * Go to the page built
+	 * @param {boolean} reload is normal push or history only push
+	 */
+	public go(reload = true) {
+		if (reload) {
+			window.location.href = this.toString()
+			return
+		}
+		window.history.pushState(undefined, document.head.title, this.toString())
+	}
+
 	private formatPath(format?: Record<string, string>) {
 		let path = this.path()
 		if (!path) {
@@ -388,62 +361,81 @@ export default class URLManager {
 		return result
 	}
 
+	private fromURL(url: string) {
+		const protocolIndex = url.indexOf('://')
+		let indexOfPath = url.indexOf('/', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
+		if (indexOfPath === -1) {
+			indexOfPath = url.indexOf('?', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
+		}
+		if (indexOfPath === -1) {
+			indexOfPath = url.indexOf('#', protocolIndex !== -1 ? protocolIndex + 3 : undefined)
+		}
+		const firstPart = url.substr(0, indexOfPath !== -1 ? indexOfPath : undefined)
+		const path = url.substr(firstPart.length)
 
-	/**
-	 * Build the string back
-	 * @param { Record<string, string> | undefined } format Formatting options ex: if path contains `[test]` and format is `{test: 'working'}` `[test]` will be replaced by the value
-	 * @param { Record<string, string> | undefined } options options for formatting
-	 * @param { string | undefined } options.queryArrayJoin Query formatting
-	 * @return { string } return the builded string
-	 */
-	public toString(format?: Record<string, string>, options?: {queryArrayJoin?: string}): string {
-
-		let result = ''
-
-		const protocols = this.protocols()
-		if (protocols.length > 0) {
-			result += `${protocols.join('+')}://`
+		// PROTOCOL
+		const procotolSplit = firstPart.split('://')
+		if (procotolSplit.length === 2) {
+			this.protocols(procotolSplit[0].split('+'))
 		}
 
-		const user = this.username()
-		const pass = this.password()
-		if (user) {
-			result += user
-			if (pass) {
-				result += `:${pass}`
+		// USERNAME and PASSWORD
+		const usrSplit = url.split('@')
+		if (usrSplit.length === 2) {
+			const usrPass = usrSplit[0].substr(protocolIndex !== -1 ? protocolIndex + 3 : 0)
+			const arr = usrPass.split(':')
+			this.username(arr.shift() as string)
+			if (arr.length >= 1) {
+				this.password(arr.join(':'))
 			}
-			result += '@'
 		}
 
-		result += this.domain()
-
-		const port = this.port()
-		if (port) {
-			result += `:${port}`
+		// DOMAIN & PORT
+		let splitted = firstPart.split('@')
+		if (splitted.length === 1) {
+			splitted = firstPart.split('://')
+		}
+		const post = splitted.length > 1 ? splitted[1] : splitted[0]
+		const data = post.split(':')
+		this.domain(data[0])
+		if (data.length === 2) {
+			this.port(parseInt(data[1]))
 		}
 
-		result += this.formatPath(format) || ''
+		const hashPos = path.indexOf('#')
+		const queryStart = path.indexOf('?')
 
-		result += this.formatQuery(options) || ''
+		// PATH
+		const pathEnd = queryStart !== -1 ? queryStart : hashPos
+		this.path(path.substr(0, pathEnd !== -1 ? pathEnd : undefined))
 
-		const hash = this.hash()
-		if (hash) {
-			result += `#${hash}`
+		// QUERY
+		if (queryStart !== -1) {
+			const queryString = path.substring(queryStart + 1, hashPos !== -1 ? hashPos : undefined)
+			const queryArray = queryString.split('&')
+			for (const queryItem of queryArray) {
+				const item = queryItem.split('=')
+				const key = item[0]
+				const val = item.length === 2 ? item[1] : ''
+
+				let query = this.query(key)
+				if (query) {
+					if (typeof query === 'string') {
+						query = [query, val]
+					} else {
+						query.push(val)
+					}
+					this.query(key, query)
+				} else {
+					this.query(key, val)
+				}
+			}
 		}
 
-		return result
-	}
-
-	/**
-	 * Go to the page built
-	 * @param {boolean} reload is normal push or history only push
-	 */
-	public go(reload = true) {
-		if (reload) {
-			window.location.href = this.toString()
-			return
+		// HASH
+		if (hashPos !== -1) {
+			this.hash(path.substr(hashPos + 1))
 		}
-		window.history.pushState(undefined, document.head.title, this.toString())
 	}
 
 }
