@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/url-manager",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Manage URL",
 	"repository": "https://github.com/dzeiocom/libs.git",
 	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/url-manager#readme",
