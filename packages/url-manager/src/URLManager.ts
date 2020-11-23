@@ -6,11 +6,11 @@ export default class URLManager {
 	private _protocols: Array<string> = []
 	private _username: string | undefined
 	private _password: string | undefined
-	private _domain = ''
+	private _domain: string | undefined
 	private _port: number | undefined
 	private _path: string | undefined
-	private _query: Record<string, string | Array<string>> = {}
-	private _hash = ''
+	private _query: Record<string, string | Array<string> | undefined> = {}
+	private _hash: string | undefined
 
 	/**
 	 * Initialize the Manager
@@ -54,7 +54,7 @@ export default class URLManager {
 	 * get a value from the query string
 	 * @param key the key to get the value from
 	 */
-	public query(key: string): string | Array<string>
+	public query(key: string): string | Array<string> | undefined
 
 	/**
 	 * set/delete a key to a value in the query string
@@ -67,7 +67,7 @@ export default class URLManager {
 	 * Manipulate the query string
 	 * @param { string | undefined } key the key to manipulate (is not set return a list of key-value pair)
 	 * @param { string | Array<string> | null | undefined } value the value to set or action to run (if not set it returns the value)
-	 * @return { this | string | Array<string> }
+	 * @return { this | string | Array<string> | undefined }
 	 */
 	public query(key?: string, value?: string | Array<string> | null) {
 		if (!key) {
@@ -135,7 +135,7 @@ export default class URLManager {
 	/**
 	 * Get the url protocol
 	 */
-	public protocol(): string
+	public protocol(): string | undefined
 
 	/**
 	 * Set the url protocol
@@ -159,7 +159,7 @@ export default class URLManager {
 	/**
 	 * Get the url Domain
 	 */
-	public domain(): string
+	public domain(): string | undefined
 
 	/**
 	 * set the url domain name
@@ -238,7 +238,7 @@ export default class URLManager {
 		return this
 	}
 
-	public hash(): string
+	public hash(): string | undefined
 	public hash(val: string): this
 	public hash(val?: string) {
 		if (!val) {
@@ -274,7 +274,7 @@ export default class URLManager {
 			result += '@'
 		}
 
-		result += this.domain()
+		result += this.domain() || ''
 
 		const port = this.port()
 		if (port) {
