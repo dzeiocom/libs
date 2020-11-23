@@ -1,0 +1,22 @@
+{
+	"name": "@dzeio/listener",
+	"version": "0.0.1",
+	"description": "A NodeJS Listener implementation",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dzeiocom/libs.git",
+		"directory": "packages/listener"
+	},
+	"author": "Aviortheking",
+	"license": "MIT",
+	"main": "./dist/Listener.js",
+	"types": "./dist/Listener.d.ts",
+	"devDependencies": {
+		"typescript": "^4.0.3"
+	},
+	"scripts": {
+		"prepublishOnly": "yarn build",
+		"build": "tsc",
+		"test": "tsc --noEmit"
+	}
+}
