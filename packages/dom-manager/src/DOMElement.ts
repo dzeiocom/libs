@@ -12,15 +12,24 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 		this.item = document.createElement(tagName, options) as any
 	}
 
-	public static create<K extends Tags>(tagName: K, options?: ElementCreationOptions): DOMElement<HTMLElementTagNameMap[K]>;
-	public static create(tagName: string, options?: ElementCreationOptions): DOMElement<HTMLElement> {
+	public static create<K extends Tags>(
+		tagName: K,
+		options?: ElementCreationOptions
+	): DOMElement<HTMLElementTagNameMap[K]>
+	public static create(
+		tagName: string,
+		options?: ElementCreationOptions
+	): DOMElement<HTMLElement> {
 		return new DOMElement(tagName as Tags, options)
 	}
 
 
-	public static get<T extends HTMLElement = HTMLElement>(query: string | T, source?: HTMLElement | DOMElement): DOMElement<T> | undefined {
+	public static get<GT extends HTMLElement = HTMLElement>(
+		query: string | GT,
+		source?: HTMLElement | DOMElement
+	): DOMElement<GT> | undefined {
 		if (!(query instanceof HTMLElement)) {
-			const tmp = (source instanceof DOMElement ? source.item : source || document).querySelector<T>(query)
+			const tmp = (source instanceof DOMElement ? source.item : source || document).querySelector<GT>(query)
 			if (!tmp) {
 				return undefined
 			}
@@ -29,14 +38,29 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 		return new DOMElement(query)
 	}
 
-	public on<K extends keyof HTMLElementEventMap>(type: K, listener: (this: T, ev: HTMLElementEventMap[K]) => void, options?: boolean | AddEventListenerOptions): this
-	public on(type: string, listener: (this: T, ev: Event) => void, options?: boolean | AddEventListenerOptions): this
-	public on(type: string, listener: (this: T, ev: Event) => void, options?: boolean | AddEventListenerOptions) {
+	public on<K extends keyof HTMLElementEventMap>(
+		type: K,
+		listener: (this: T, ev: HTMLElementEventMap[K]) => void,
+		options?: boolean | AddEventListenerOptions
+	): this
+	public on(
+		type: string,
+		listener: (this: T, ev: Event) => void,
+		options?: boolean | AddEventListenerOptions
+	): this
+	public on(
+		type: string,
+		listener: (this: T, ev: Event) => void,
+		options?: boolean | AddEventListenerOptions
+	) {
 		this.item.addEventListener(type, listener, options)
 		return this
 	}
 
-	public off<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void) {
+	public off<K extends keyof HTMLElementEventMap>(
+		type: K,
+		listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void
+	) {
 		this.item.removeEventListener(type, listener)
 		return this
 	}
