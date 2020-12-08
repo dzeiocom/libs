@@ -3,7 +3,7 @@
  *
  * (Same as Array.map)
  * @param obj the object to remap
- * @param fn the fn to run
+ * @param fn the function to run for each key: value pairs
  */
 export function objectMap<T = any, J = any>(obj: Record<string, T>, fn: (value: T, key: string) => J): Array<J> {
 	const list: Array<J> = []
