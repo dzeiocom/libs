@@ -76,12 +76,21 @@ export function objectSort<T = Record<string, any>>(
 /**
  * Deeply clone an object
  * @param obj the object to clone
+ * @deprecated Replace with objectClone
  */
 export function cloneObject<T = Record<string, any>>(obj: T): T {
+	return objectClone(obj)
+}
+
+/**
+ * Deeply clone an object
+ * @param obj the object to clone
+ */
+export function objectClone<T = Record<string, any>>(obj: T): T {
 	const clone: Partial<T> = {}
 	objectLoop(obj, (value, key) => {
 		if (typeof value === 'object' && value != null) {
-			clone[key as Extract<keyof T, string>] = cloneObject(value)
+			clone[key as Extract<keyof T, string>] = objectClone(value)
 			return
 		}
 		clone[key as Extract<keyof T, string>] = value
@@ -158,6 +167,7 @@ export default {
 	objectSize,
 	objectSort,
 	cloneObject,
+	objectClone,
 	objectSet,
 	objectEqual
 }
