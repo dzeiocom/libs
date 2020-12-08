@@ -1,5 +1,5 @@
 import colors, { black, white, blue, yellow, green } from 'ansi-colors'
-import { theme, logType, ObjectArray } from './types'
+import { theme, logType, ObjectArray } from '../typing/types'
 
 export default class Logger implements Console {
 

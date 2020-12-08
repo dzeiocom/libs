@@ -6,9 +6,9 @@ import Logger from './Logger'
  * Init Logger in global context and add function to replace default console
  */
 
-// @ts-ignore
+// @ts-expect-error
 window.Logger = Logger
-// @ts-ignore
+// @ts-expect-error
 window.initConsole = function() {
 	window.console = new Logger('Console')
 }
