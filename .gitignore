@@ -1,5 +1,4 @@
 node_modules
-*.d.ts
 lerna-debug.log
 yarn-error.log
 dist
