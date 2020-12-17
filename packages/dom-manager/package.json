@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/dom-manager",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "JQuery but lighter",
 	"repository": {
 		"type": "git",
