@@ -68,7 +68,7 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 	public text(): string
 	public text(val: string): this
 	public text(val?: string) {
-		if (val) {
+		if (typeof val !== 'undefined') {
 			this.item.innerText = val
 			return this
 		}
@@ -78,11 +78,11 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 	public html(): string
 	public html(val: string): this
 	public html(val?: string) {
-		if (val) {
+		if (typeof val !== 'undefined') {
 			this.item.innerHTML = val
 			return this
 		}
-		return this.item.innerText
+		return this.item.innerHTML
 	}
 
 	public addClass(...classes: Array<string>) {
