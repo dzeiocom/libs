@@ -138,7 +138,7 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 	public attr(key: string, value: string | null): this
 	public attr(key: keyof T, value: boolean): this
 	public attr(key: string | keyof T, value?: string | boolean | null): this | string | null {
-		if (!value) {
+		if (typeof value === 'undefined') {
 			return this.item.getAttribute(key as string)
 		}
 		if (value === null) {
