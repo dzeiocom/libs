@@ -1,0 +1,30 @@
+{
+	"name": "easy-sitemap",
+	"version": "1.0.0",
+	"description": "A very easy sitemap maker library",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dzeiocom/libs.git",
+		"directory": "packages/easy-sitemap"
+	},
+	"author": "Aviortheking",
+	"license": "MIT",
+	"main": "./dist/Sitemap.js",
+	"types": "./dist/Sitemap.d.ts",
+	"devDependencies": {
+		"@types/chai": "^4.2.12",
+		"@types/jest": "^26.0.10",
+		"jest": "^26.4.2",
+		"ts-node": "^9.0.0",
+		"typescript": "^4.0.2"
+	},
+	"scripts": {
+		"prepublishOnly": "yarn build",
+		"build": "tsc",
+		"test": "jest --coverage"
+	},
+	"keywords": [
+		"sitemap",
+		"sitemap.xml"
+	]
+}
