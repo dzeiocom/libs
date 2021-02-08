@@ -6,3 +6,4 @@ src
 tsconfig.*
 webpack.config.js
 yarn-error.log
+.cache
