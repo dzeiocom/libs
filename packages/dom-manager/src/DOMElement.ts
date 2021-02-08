@@ -203,4 +203,11 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 			return this.placeAsChildOf(item)
 		}
 	}
+
+	public appendChild(item: DOMElement | HTMLElement) {
+		if (item instanceof DOMElement) {
+			item = item.item
+		}
+		this.item.appendChild(item)
+	}
 }
