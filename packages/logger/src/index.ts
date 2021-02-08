@@ -9,6 +9,8 @@ import Logger from './Logger'
 // @ts-expect-error
 window.Logger = Logger
 // @ts-expect-error
+window.logger = new Logger('Console')
+// @ts-expect-error
 window.initConsole = function() {
-	window.console = new Logger('Console')
+	console.log('// @deprecated Now use window.logger to get the correct logger')
 }
