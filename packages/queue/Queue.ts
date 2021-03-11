@@ -20,18 +20,20 @@ export default class Queue {
 		this.queue = len
 	}
 
-	public async add<T = any>(promise: Promise<T>) {
-		while (this.queue >= this.maxQueueLength || this.isPaused) {
-			await new Promise((res) => setTimeout(res, this.timeToWait))
+	public async add<T = any>(...promises: Array<Promise<T>>) {
+		for (const promise of promises) {
+			while (this.queue >= this.maxQueueLength || this.isPaused) {
+				await new Promise((res) => setTimeout(res, this.timeToWait))
+			}
+			this.updateCurrentQueueLength(this.queue+1)
+			promise
+				.then(() => {
+					this.updateCurrentQueueLength(this.queue-1)
+				}).catch((e) => {
+					this.updateCurrentQueueLength(this.queue-1)
+					this.throwError = e
+				})
 		}
-		this.updateCurrentQueueLength(this.queue+1)
-		promise
-			.then(() => {
-				this.updateCurrentQueueLength(this.queue-1)
-			}).catch((e) => {
-				this.updateCurrentQueueLength(this.queue-1)
-				this.throwError = e
-			})
 	}
 
 	public async waitEnd() {
