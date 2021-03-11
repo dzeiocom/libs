@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/queue",
-	"version": "1.1.2",
+	"version": "1.2.0",
 	"description": "My Personnal Promise Queue System",
 	"repository": {
 		"type": "git",
