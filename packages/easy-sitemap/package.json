@@ -7,6 +7,7 @@
 		"url": "https://github.com/dzeiocom/libs.git",
 		"directory": "packages/easy-sitemap"
 	},
+	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/easy-sitemap#readme",
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/Sitemap.js",
