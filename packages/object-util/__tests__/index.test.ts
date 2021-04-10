@@ -96,6 +96,21 @@ describe('Object sort Tests', () => {
 			d: 'fourth'
 		})
 	})
+	it('should sort by the specified key', () => {
+		const obj = {
+			b: 'first',
+			a: 'second',
+			c: 'zero',
+			d: 'fourth'
+		}
+		// @ts-expect-error
+		expect(objectSort(obj, ['c', 'a', 'e'])).toEqual({
+			c: 'zero',
+			a: 'second',
+			b: 'first',
+			d: 'fourth'
+		})
+	})
 })
 
 describe('Object Clone Tests', () => {
