@@ -33,6 +33,7 @@ export default class URLManager {
 	/**
 	 * Make a new URLManager from the current location
 	 * @return { this }
+	 * @deprecated use `new URLManager(window.location)`
 	 */
 	public static fromLocation() {
 		return new URLManager(window.location)
@@ -40,6 +41,7 @@ export default class URLManager {
 
 	/**
 	 * Reload the window
+	 * @deprecated use `window.location.reload()`
 	 */
 	public static reload() {
 		window.location.reload()
@@ -296,6 +298,7 @@ export default class URLManager {
 	/**
 	 * Go to the page built
 	 * @param {boolean} reload is normal push or history only push
+	 * @deprecated use `window.location.href = url.toString()` or `window.history.pushState(undefined, document.head.title, url.toString())`
 	 */
 	public go(reload = true) {
 		if (reload) {
