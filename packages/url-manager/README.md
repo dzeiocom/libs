@@ -1,6 +1,6 @@
 # URL Manager
 
-simple to use yet powerful Urls parser and formatter
+A simple to use yet complete Urls parser and serializer
 
 ## Usage
 
@@ -23,9 +23,7 @@ const URLManager = require('@dzeio/url-manager').default
 
 ```typescript
 // Create a new instance
-const url = new URLManager() // you can have an URL, URLSearchParams Objects or a string as parameter
-// or
-const url = URLManager.fromLocation() // Browser only return a new instance from the current location
+const url = new URLManager(/* Optionnal */ baseUrl) // you can have an URL, URLSearchParams Objects or a string as parameter
 ```
 
 - manipulate the url
@@ -33,6 +31,7 @@ const url = URLManager.fromLocation() // Browser only return a new instance from
 ```typescript
 
 // Get set delete query
+url.query() // get an object containing everything
 url.query("sort") // get
 url.query("sort", 'value') // set
 url.query("sort", null) // delete
@@ -73,19 +72,10 @@ url.hash('i-am-a-hash') // set
 - format it back to a string
 
 ```typescript
-
-url.toString()
-`${url}`
+url.toString() // => the serialized URL
 
 // NOTE: if the path contains elements like [param]
 // you can replace them in the toString function like this
+// /pouet/[param] => /pouet/test
 url.toString({param: 'test'})
-```
-
-- you have also two "util" functions (Available only in the browser)
-
-```typescript
-url.reload() // reload the current page
-url.go() // go to the url
-url.go(false) // show the next url in the browser without changing the content of the document
 ```

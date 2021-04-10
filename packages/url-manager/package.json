@@ -1,13 +1,25 @@
 {
 	"name": "@dzeio/url-manager",
 	"version": "1.0.5",
-	"description": "Manage URL",
-	"repository": "https://github.com/dzeiocom/libs.git",
+	"description": "A simple to use yet complete Urls parser and serializer",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dzeiocom/libs.git",
+		"directory": "packages/url-manager"
+	},
 	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/url-manager#readme",
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/URLManager.js",
 	"types": "./dist/URLManager.d.ts",
+	"keywords": [
+		"url",
+		"url-manager",
+		"url serializer",
+		"url parser",
+		"parser",
+		"serializer"
+	],
 	"devDependencies": {
 		"@types/chai": "^4.2.12",
 		"@types/jest": "^26.0.10",

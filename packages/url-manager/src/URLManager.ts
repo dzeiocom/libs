@@ -61,7 +61,7 @@ export default class URLManager {
 	/**
 	 * set/delete a key to a value in the query string
 	 * @param key the key to set/delete
-	 * @param value the value to set or null to delete it
+	 * @param value the value to set or `null` to delete it
 	 */
 	public query(key: string, value: string | Array<string> | null): this
 
