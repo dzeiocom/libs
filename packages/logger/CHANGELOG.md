@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.4] - 2021-02-08
+
+### Removed
+
+- initConsole Function as it break the Console object (#17)
+
 ## [2.0.2] - 2020-10-20
 
 ### Changed
@@ -60,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Basic Logger with log and urgent functions
 
+[2.0.3]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Flogger%402.0.3
 [2.0.2]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Flogger%402.0.2
 [2.0.1]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Flogger%402.0.1
 [2.0.0]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Flogger%402.0.0

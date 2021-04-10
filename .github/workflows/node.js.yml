@@ -32,4 +32,4 @@ jobs:
     - uses: codecov/codecov-action@v1.0.13
       with:
         # Comma-separated list of files to upload
-        files: ./packages/url-manager/coverage/coverage-final.json,./packages/object-util/coverage/coverage-final.json # optional
+        files: ./packages/url-manager/coverage/coverage-final.json,./packages/object-util/coverage/coverage-final.json,./packages/easy-sitemap/coverage/coverage-final.json # optional

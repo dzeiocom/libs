@@ -1,12 +1,13 @@
 {
 	"name": "easy-sitemap",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "A very easy sitemap maker library",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/dzeiocom/libs.git",
 		"directory": "packages/easy-sitemap"
 	},
+	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/easy-sitemap#readme",
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/Sitemap.js",
@@ -25,6 +26,11 @@
 	},
 	"keywords": [
 		"sitemap",
-		"sitemap.xml"
+		"sitemap.xml",
+		"xml",
+		"easy-sitemap",
+		"generator",
+		"SEO",
+		"search-engine"
 	]
 }

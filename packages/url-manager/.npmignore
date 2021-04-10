@@ -11,3 +11,4 @@ yarn-error.log
 coverage
 __tests__
 jest.config.js
+.cache

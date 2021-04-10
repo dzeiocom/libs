@@ -4,7 +4,7 @@ export default class Sitemap {
 
 	private static allowedChangefreq = ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never']
 
-	private datas = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+	private datas = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" image:xmlns="http://www.google.com/schemas/sitemap-image/1.1">'
 
 	public constructor(
 		private domain: string, private options?: {
@@ -17,10 +17,22 @@ export default class Sitemap {
 		}
 	}
 
+	/**
+	 * Add a new Entry into the Sitemap
+	 * @param path the url path
+	 * @param options aditional datas you want in the sitemap for the `path`
+	 */
 	public addEntry(path: string, options?: {
 		changefreq?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
 		lastmod?: Date
 		priority?: 1 | 0.9 | 0.8 | 0.7 | 0.6 | 0.5 | 0.4 | 0.3 | 0.2 | 0.1 | 0
+		images?: Array<{
+			location: string
+			caption?: string
+			geoLocation?: string
+			title?: string
+			license?: string
+		}>
 	}) {
 		let entryString = '<url>'
 
@@ -35,7 +47,7 @@ export default class Sitemap {
 		if (options) {
 			if (options.changefreq) {
 				if (!Sitemap.allowedChangefreq.includes(options.changefreq)) {
-					console.warn(`changefreq is not one of the allowed words (${options.changefreq})\nChangeFreq won't be added`)
+					console.warn(`changefreq is not valid (${options.changefreq})`)
 				} else {
 					entryString += `<changefreq>${options.changefreq}</changefreq>`
 				}
@@ -47,7 +59,26 @@ export default class Sitemap {
 				if (options.priority <= 1 && options.priority >= 0 && options.priority.toString().length <= 3) {
 					entryString += `<priority>${options.priority}</priority>`
 				} else {
-					console.warn(`Priority is not between 0 and 1 and only containing one decimal (${options.priority})\nPriority won't be added`)
+					console.warn(`Priority is not valid (${options.priority})`)
+				}
+			}
+			if (options.images) {
+				if (options.images.length > 1000) {
+					console.warn('image cant have more than 1000 images, skipping')
+				} else {
+					for (const image of options.images) {
+						if (!image.location) {
+							console.warn('Images need a Location')
+							continue
+						}
+						entryString += '<image:image>'
+						entryString += `<image:loc>${image.location.startsWith('/') ? `${this.domain}${image.location}` : image.location}</image:loc>`
+						entryString += this.optionalEntry('image:caption', image.caption)
+						entryString += this.optionalEntry('image:geo_location', image.geoLocation)
+						entryString += this.optionalEntry('image:title', image.title)
+						entryString += this.optionalEntry('image:license', image.license)
+						entryString += '</image:image>'
+					}
 				}
 			}
 		}
@@ -59,6 +90,9 @@ export default class Sitemap {
 		}
 	}
 
+	/**
+	 * Finish the Sitemap
+	 */
 	public build(): string {
 		if (this.options?.response) {
 			this.options.response.write('</urlset>')
@@ -66,5 +100,9 @@ export default class Sitemap {
 			return ''
 		}
 		return this.datas + '</urlset>'
+	}
+
+	private optionalEntry(tag: string, entry?: string) {
+		return entry ? `<${tag}>${entry}</${tag}>` : ''
 	}
 }

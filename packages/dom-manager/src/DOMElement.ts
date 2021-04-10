@@ -157,13 +157,15 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 	public data(key: string): string | null
 	public data(key: string, value: string | null): this
 	public data(key: string, value?: string | null): this | string | null {
-		// @ts-ignore
+		// @ts-ignore Ignore because data-elements aren't valid attrs for an HTMLElement
 		return this.attr(`data-${key}`, value)
 	}
 
-	public style(key: string, value?: string | number) {
+	public style(key: keyof CSSStyleDeclaration): CSSStyleDeclaration[typeof key]
+	public style(key: keyof CSSStyleDeclaration, value: CSSStyleDeclaration[typeof key]): this
+	public style(key: keyof CSSStyleDeclaration, value?: CSSStyleDeclaration[typeof key]) {
 		if (typeof value === 'undefined') {
-			return this.item.style[key as any]
+			return this.item.style[key]
 		}
 		this.item.style[key as any] = value as string
 		return this
@@ -200,5 +202,12 @@ export default class DOMElement<T extends HTMLElement = HTMLElement> {
 		} else {
 			return this.placeAsChildOf(item)
 		}
+	}
+
+	public appendChild(item: DOMElement | HTMLElement) {
+		if (item instanceof DOMElement) {
+			item = item.item
+		}
+		this.item.appendChild(item)
 	}
 }

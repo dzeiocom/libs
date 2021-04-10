@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { objectSize, objectToArray, objectMap, objectSort, cloneObject, objectEqual, objectKeys, objectSet, objectLoop } from '../src/ObjectUtil'
+import { objectSize, objectToArray, objectMap, objectSort, cloneObject, objectEqual, objectKeys, objectSet, objectLoop, objectClone } from '../src/ObjectUtil'
 
 describe('Object Map tests', () => {
 	it('should works', () => {
@@ -120,6 +120,34 @@ describe('Object Clone Tests', () => {
 		clone.toto = 'third'
 		expect(clone).not.toEqual(obj)
 	})
+
+	it('Should keep types', () => {
+		const obj = {
+			a: [],
+			b: '10',
+			c: 10,
+			d: {},
+			e: [10],
+			f: {g: 10}
+		}
+		const clone = objectClone(obj)
+		expect(clone).toEqual(obj)
+	})
+
+	it ('Should clone any types', () => {
+		const obj = {
+			a: [],
+			b: '10',
+			c: 10,
+			d: {},
+			e: [10],
+			f: {g: 10}
+		}
+		objectLoop(obj, (subObj) => {
+			const clone = objectClone(subObj)
+			expect(clone).toEqual(subObj)
+		})
+	})
 })
 
 describe('Object Set Tests', () => {
@@ -184,5 +212,12 @@ describe('Object Equal Test', () => {
 	})
 	it('should not be differently equal', () => {
 		expect(objectEqual({pouet: true}, {})).toBe(false)
+	})
+	it('should handle every types', () => {
+		expect(objectEqual({
+			a: [10, {b: 'c'}], d: '1', e: 2, f: true, g: null, h: undefined
+		}, {
+			a: [10, {b: 'c'}], d: '1', e: 2, f: true, g: null, h: undefined
+		})).toBe(true)
 	})
 })

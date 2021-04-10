@@ -19,10 +19,8 @@ export function objectMap<T = any, J = any>(obj: Record<string, T>, fn: (value: 
  * @param fn the function to run for each childs
  */
 export function objectLoop<T = any>(obj: Record<string, T>, fn: (value: T, key: string) => boolean | void): boolean {
-	for (const key in obj) {
-		if (!Object.prototype.hasOwnProperty.call(obj, key)) {
-			continue
-		}
+	const keys = objectKeys(obj)
+	for (const key of keys) {
 		const stop = fn(obj[key], key)
 		if (stop === false) {
 			return false
@@ -93,6 +91,17 @@ export function cloneObject<T = Record<string, any>>(obj: T): T {
  * @param obj the object to clone
  */
 export function objectClone<T = Record<string, any>>(obj: T): T {
+	if (typeof obj !== 'object') {
+		const v = obj
+		return v
+	}
+	if (Array.isArray(obj)) {
+		const arr: Array<any> = []
+		for (const item of obj) {
+			arr.push(objectClone(item))
+		}
+		return arr as unknown as T
+	}
 	const clone: Partial<T> = {}
 	objectLoop(obj, (value, key) => {
 		if (typeof value === 'object' && value != null) {
