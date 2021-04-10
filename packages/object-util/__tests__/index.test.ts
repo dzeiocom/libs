@@ -52,7 +52,7 @@ describe('Object Keys Tests', () => {
 	})
 })
 
-describe('Object Sort Tests', () => {
+describe('Object Size Tests', () => {
 	it('shoud return length of the object', () => {
 		const obj = {
 			index0: true,
@@ -80,6 +80,20 @@ describe('Object sort Tests', () => {
 		expect(objectSort(obj)).toEqual({
 			a: 'second',
 			b: 'first'
+		})
+	})
+	it('should sort by the specified key', () => {
+		const obj = {
+			b: 'first',
+			a: 'second',
+			c: 'zero',
+			d: 'fourth'
+		}
+		expect(objectSort(obj, ['c', 'a'])).toEqual({
+			c: 'zero',
+			a: 'second',
+			b: 'first',
+			d: 'fourth'
 		})
 	})
 })

@@ -53,6 +53,10 @@ objectSize(object)
 // like Array.sort it sort and return an ordered object
 objectSort(object, /*optionnal*/ (key1, key2) => key1 - key2)
 
+// You can also sort by keys
+// items not set in the array won't have their order changed and will be after the sorted ones
+objectSort(object, ['key2', 'key1']) // => {key2: value, key1: value, key3: value}
+
 // deeply clone an object
 cloneObject(object)
 

@@ -62,12 +62,18 @@ export function objectSize(obj: Record<string, any>): number {
  * @param obj the object to sort
  * @param fn (Optionnal) the function to run to sort
  */
-export function objectSort<T = Record<string, any>>(
-	obj: Record<string, any>,
-	fn?: (a: string, b: string) => number
+export function objectSort<T extends Record<string, any> = Record<string, any>>(
+	obj: T,
+	fn?: Array<keyof T> | ((a: keyof T, b: keyof T) => number)
 ): T {
 	const ordered: any = {}
-	for (const key of objectKeys(obj).sort(fn)) {
+	let sortedKeys: Array<keyof T> = []
+	if (Array.isArray(fn)) {
+		sortedKeys = fn.concat(objectKeys(obj).filter((k) => !fn.includes(k)))
+	} else {
+		sortedKeys = objectKeys(obj).sort(fn)
+	}
+	for (const key of sortedKeys) {
 		ordered[key] = obj[key]
 	}
 	return ordered
