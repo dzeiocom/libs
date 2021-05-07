@@ -4,7 +4,7 @@ export default class Sitemap {
 
 	private static allowedChangefreq = ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never']
 
-	private datas = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" image:xmlns="http://www.google.com/schemas/sitemap-image/1.1">'
+	private datas = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
 
 	public constructor(
 		private domain: string, private options?: {
