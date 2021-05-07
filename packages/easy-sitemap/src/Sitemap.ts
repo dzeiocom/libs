@@ -36,12 +36,7 @@ export default class Sitemap {
 	}) {
 		let entryString = '<url>'
 
-		const url = `${this.domain}${path}`
-			.replace(/&/g, '&amp;')
-			.replace(/'/g, '&apos;')
-			.replace(/"/g, '&quot;')
-			.replace(/>/g, '&gt;')
-			.replace(/</g, '&lt;')
+		const url = this.fixText(`${this.domain}${path}`)
 
 		entryString += `<loc>${url}</loc>`
 		if (options) {
@@ -53,7 +48,7 @@ export default class Sitemap {
 				}
 			}
 			if (options.lastmod) {
-				entryString += `<lastmod>${options.lastmod.toISOString()}</lastmod>`
+				entryString += `<lastmod>${this.fixText(options.lastmod.toISOString())}</lastmod>`
 			}
 			if (options.priority) {
 				if (options.priority <= 1 && options.priority >= 0 && options.priority.toString().length <= 3) {
@@ -72,11 +67,11 @@ export default class Sitemap {
 							continue
 						}
 						entryString += '<image:image>'
-						entryString += `<image:loc>${image.location.startsWith('/') ? `${this.domain}${image.location}` : image.location}</image:loc>`
-						entryString += this.optionalEntry('image:caption', image.caption)
-						entryString += this.optionalEntry('image:geo_location', image.geoLocation)
-						entryString += this.optionalEntry('image:title', image.title)
-						entryString += this.optionalEntry('image:license', image.license)
+						entryString += `<image:loc>${this.fixText(image.location.startsWith('/') ? `${this.domain}${image.location}` : image.location)}</image:loc>`
+						entryString += this.fixText(this.optionalEntry('image:caption', image.caption))
+						entryString += this.fixText(this.optionalEntry('image:geo_location', image.geoLocation))
+						entryString += this.fixText(this.optionalEntry('image:title', image.title))
+						entryString += this.fixText(this.optionalEntry('image:license', image.license))
 						entryString += '</image:image>'
 					}
 				}
@@ -104,5 +99,13 @@ export default class Sitemap {
 
 	private optionalEntry(tag: string, entry?: string) {
 		return entry ? `<${tag}>${entry}</${tag}>` : ''
+	}
+
+	private fixText(txt: string): string {
+		return txt.replace(/&/g, '&amp;')
+			.replace(/'/g, '&apos;')
+			.replace(/"/g, '&quot;')
+			.replace(/>/g, '&gt;')
+			.replace(/</g, '&lt;')
 	}
 }
