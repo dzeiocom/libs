@@ -2,6 +2,10 @@
 
 A very easy to use sitemap generator
 
+![npm](https://img.shields.io/npm/v/easy-sitemap?style=flat-square)
+![npm bundle size](https://img.shields.io/bundlephobia/min/easy-sitemap?style=flat-square)
+![npm](https://img.shields.io/npm/dw/easy-sitemap?style=flat-square)
+
 ## Usage
 
 - Import easy-sitemap
@@ -30,12 +34,21 @@ const sitemap = new Sitemap('https://www.example.com', {
 ```typescript
 sitemap.addEntry('/path')
 
-// you can also add optionnal elements
+// you can also add optional elements
 sitemap.addEntry('/path', {
-	// each one are optionnal and they don't all need to be added
+	// each one are optional and they don't all need to be added
 	changefreq: 'always', // webpage change freq
 	lastmod: new Date('2021-01-20'), // webpage lastmod Date
-	priority: 1 // crawler priority
+	priority: 1, // crawler priority,
+	images: [{
+		location: '/path', // Location can be a path as well as a complete url
+		// Optional parameters in Image object
+		caption: 'Image Caption',
+		geoLocation: 'Image Geolocation',
+		title: 'Image Title',
+		license: 'Image License URL',
+
+	}]
 })
 ```
 
