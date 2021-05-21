@@ -40,8 +40,15 @@ export function objectLoop<T = any>(
  * Transform an object to an array removing the keys
  * @param obj the object to transform
  */
-export function objectToArray<T = any>(obj: Record<string, T>): Array<T> {
+export function objectValues<T = any>(obj: Record<string, T>): Array<T> {
 	return Object.values(obj)
+}
+
+/**
+ * @deprecated use `objectValues`
+ */
+export function objectToArray<T = any>(obj: Record<string, T>): Array<T> {
+	return objectValues(obj)
 }
 
 /**
@@ -85,9 +92,7 @@ export function objectSort<T extends Record<string, any> = Record<string, any>>(
 }
 
 /**
- * Deeply clone an object
- * @param obj the object to clone
- * @deprecated Replace with objectClone
+ * @deprecated use `objectClone`
  */
 export function cloneObject<T = Record<string, any>>(obj: T): T {
 	return objectClone(obj)
