@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2021-05-21
+
+### Added
+
+- `objectValues` - this does the same thing has objectToArray but make the naming better
+
+### Changed
+
+- `objectLoop` and `objectMap` now include an index after the key
+
+### Deprecated
+
+- `objectToArray` has been renamed to `objectValues`
+
 ## [1.1.1] - 2021-04-11
 
 ### Added
@@ -60,7 +74,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - objectEqual Function
 
 
-[1.1.0]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Fobject-util%401.1.0
+[1.2.0]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Fobject-util%401.2.0
+[1.1.1]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Fobject-util%401.1.1
 [1.0.5]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Fobject-util%401.0.5
 [1.0.4]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Fobject-util%401.0.4
 [1.0.2]: https://github.com/dzeiocom/libs/releases/tag/%40dzeio%2Fobject-util%401.0.2
