@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { objectSize, objectToArray, objectMap, objectSort, cloneObject, objectEqual, objectKeys, objectSet, objectLoop, objectClone } from '../src/ObjectUtil'
+import { objectSize, objectMap, objectSort, objectEqual, objectKeys, objectSet, objectLoop, objectClone, objectValues } from '../src/ObjectUtil'
 
 describe('Object Map tests', () => {
 	it('should works', () => {
@@ -38,7 +38,7 @@ describe('Object To Array Tests', () => {
 			pouet: 'first',
 			toto: 'second'
 		}
-		expect(objectToArray(obj)).toEqual(['first', 'second'])
+		expect(objectValues(obj)).toEqual(['first', 'second'])
 	})
 })
 
@@ -119,7 +119,7 @@ describe('Object Clone Tests', () => {
 			pouet: 'first',
 			toto: 'second'
 		}
-		const clone = cloneObject(obj)
+		const clone = objectClone(obj)
 		expect(clone).toEqual(obj)
 		clone.pouet = 'third'
 		expect(clone).not.toEqual(obj)
@@ -130,7 +130,7 @@ describe('Object Clone Tests', () => {
 			pouet: {is: 'first'},
 			toto: 'second'
 		}
-		const clone = cloneObject(obj)
+		const clone = objectClone(obj)
 		expect(clone).toEqual(obj)
 		clone.toto = 'third'
 		expect(clone).not.toEqual(obj)
