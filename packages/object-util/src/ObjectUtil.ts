@@ -5,10 +5,13 @@
  * @param obj the object to remap
  * @param fn the function to run for each key: value pairs
  */
-export function objectMap<T = any, J = any>(obj: Record<string, T>, fn: (value: T, key: string) => J): Array<J> {
+export function objectMap<T = any, J = any>(
+	obj: Record<string, T>,
+	fn: (value: T, key: string, index: number) => J
+): Array<J> {
 	const list: Array<J> = []
-	objectLoop(obj, (item, key) => {
-		list.push(fn(item, key))
+	objectLoop(obj, (item, key, index) => {
+		list.push(fn(item, key, index))
 	})
 	return list
 }
@@ -18,10 +21,14 @@ export function objectMap<T = any, J = any>(obj: Record<string, T>, fn: (value: 
  * @param obj the object to loop through
  * @param fn the function to run for each childs
  */
-export function objectLoop<T = any>(obj: Record<string, T>, fn: (value: T, key: string) => boolean | void): boolean {
+export function objectLoop<T = any>(
+	obj: Record<string, T>,
+	fn: (value: T, key: string, index: number) => boolean | void
+): boolean {
 	const keys = objectKeys(obj)
-	for (const key of keys) {
-		const stop = fn(obj[key], key)
+	for (let index = 0; index < keys.length; index++) {
+		const key = keys[index]
+		const stop = fn(obj[key], key, index)
 		if (stop === false) {
 			return false
 		}
