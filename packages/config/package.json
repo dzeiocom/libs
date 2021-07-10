@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/config",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "global configuration files for programming",
 	"author": "Avior",
 	"license": "MIT",
