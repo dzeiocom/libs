@@ -1,5 +1,5 @@
 {
-	"name": "components",
+	"name": "@dzeio/libs",
 	"private": true,
 	"workspaces": {
 		"packages": [
@@ -9,11 +9,5 @@
 			"**/@types/**"
 		]
 	},
-	"license": "MIT",
-	"dependencies": {
-		"lerna": "^3.22.1"
-	},
-	"scripts": {
-		"lerna": "lerna publish"
-	}
+	"license": "MIT"
 }
