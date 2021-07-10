@@ -1,0 +1,36 @@
+{
+	"compilerOptions": {
+		// Compilation
+		"target": "ES2020", // Follow NodeJS oldest supported LTS and compare with https://node.green
+		"module": "commonjs",
+		"resolveJsonModule": true,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"skipLibCheck": true,
+		"allowJs": true,
+		"pretty": true,
+		"allowSyntheticDefaultImports": true,
+
+		// Type Checking
+		"forceConsistentCasingInFileNames": true,
+
+		"alwaysStrict": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+	},
+	"exclude": [
+		"node_modules"
+	]
+}

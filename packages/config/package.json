@@ -1,0 +1,35 @@
+{
+	"name": "@dzeio/config",
+	"version": "0.0.0",
+	"description": "global configuration files for programming",
+	"author": "Avior",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dzeiocom/libs.git",
+		"directory": "packages/config"
+	},
+	"devDependencies": {
+		"next": "^11.0.1",
+		"typescript": "^4.3.5"
+	},
+	"peerDependencies": {
+		"@typescript-eslint/parser": "^4.28.2",
+		"next": "^11.0.1",
+		"next-pre-css": "^1.0.0"
+	},
+	"peerDependenciesMeta": {
+		"next": {
+			"optional": true
+		},
+		"next-pre-css": {
+			"optional": true
+		},
+		"@typescript-eslint/parser": {
+			"optional": true
+		}
+	},
+	"scripts": {
+		"prepublishOnly": "tsc"
+	}
+}

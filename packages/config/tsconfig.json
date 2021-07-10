@@ -1,0 +1,8 @@
+{
+	"files": ["./next.config.ts"],
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "./",
+		"rootDir": "./"
+	}
+}

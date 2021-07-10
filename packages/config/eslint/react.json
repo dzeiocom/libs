@@ -1,0 +1,15 @@
+{
+	"extends": [
+		"./base",
+		"plugin:react/recommended"
+	],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"plugins": [
+		"react"
+	],
+	"rules": {}
+}

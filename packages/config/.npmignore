@@ -1,0 +1,6 @@
+.gitignore
+.npmignore
+package-lock.json
+package.json
+next.config.ts
+tsconfig.json
