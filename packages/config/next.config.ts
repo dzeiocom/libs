@@ -12,6 +12,10 @@ export const config = (additionnalHost: string): typeof defaultConfig & NextConf
 		plugins: true,
 		profiling: process.env.NODE_ENV === 'developpment',
 		sprFlushToDisk: true,
+
+		// Bugged
+		// https://github.com/vercel/next.js/issues/18913
+		// reactRoot: true,
 		workerThreads: true,
 
 		pageEnv: true,
@@ -21,22 +25,23 @@ export const config = (additionnalHost: string): typeof defaultConfig & NextConf
 		scrollRestoration: true,
 
 		stats: process.env.NODE_ENV === 'developpment',
-		gzipSize: process.env.NODE_ENV === 'developpment',
 		externalDir: true,
-
-
 		conformance: true,
+		disableOptimizedLoading: false,
+		gzipSize: process.env.NODE_ENV === 'developpment',
+		craCompat: false,
 
-		// Bugged
-		// https://github.com/vercel/next.js/issues/18913
-		// reactRoot: true,
+
+
 	},
 
+	excludeDefaultMomentLocales: true,
+	trailingSlash: false,
+	cleanDistDir: true,
+	generateEtags: true,
+	compress: false,
 	// Non experimental config
 	// target: 'serverless',
-	cleanDistDir: true,
-	trailingSlash: false,
-	excludeDefaultMomentLocales: true,
 	poweredByHeader: false,
 	reactStrictMode: true,
 
