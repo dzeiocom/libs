@@ -3,7 +3,7 @@
  */
 export default class URLManager {
 
-	private _protocols: Array<string> = []
+	private _protocols?: Array<string>
 	private _username: string | undefined
 	private _password: string | undefined
 	private _domain: string | undefined
@@ -93,20 +93,24 @@ export default class URLManager {
 
 	/**
 	 * Set the url path
-	 * @param val the path to set
+	 * @param val the path to set, if `null` it will remove the path
 	 */
-	public path(val: string): this
+	public path(val: string | null): this
 
 	/**
 	 * Manipulate the url path
-	 * @param { string | undefined } val the path to set
+	 * @param { string | undefined | null } val the path to set
 	 * @return { URLManager | string } erer
 	 */
-	public path(val?: string) {
-		if (!val) {
+	public path(val?: string | null) {
+		if (typeof val === 'undefined') {
 			return this._path
 		}
-		this._path = val
+		if (val === null) {
+			delete this._path
+		} else {
+			this._path = val
+		}
 		return this
 	}
 
@@ -119,18 +123,22 @@ export default class URLManager {
 	 * set the list of protocols
 	 * @param val the list
 	 */
-	public protocols(val: Array<string>): this
+	public protocols(val: Array<string> | null): this
 
 	/**
 	 * Manipulate the list of protocols
 	 * @param { Array<string> | undefined } val the list of protocols to set
 	 * @return { Array<string> }
 	 */
-	public protocols(val?: Array<string>) {
-		if (!val) {
-			return this._protocols
+	public protocols(val?: Array<string> | null) {
+		if (typeof val === 'undefined') {
+			return this._protocols ?? []
 		}
-		this._protocols = val
+		if (val === null) {
+			delete this._protocols
+		} else {
+			this._protocols = val
+		}
 		return this
 	}
 
@@ -143,18 +151,23 @@ export default class URLManager {
 	 * Set the url protocol
 	 * @param val the protocol to set
 	 */
-	public protocol(val: string): this
+	public protocol(val: string | null): this
 
 	/**
 	 * Manipulate the url protocol
 	 * @param { string | undefined } val the protocol to set (Optionnal)
 	 * @return { string }
 	 */
-	public protocol(val?: string) {
-		if (!val) {
-			return this._protocols.length > 0 ? this._protocols[0] : undefined
+	public protocol(val?: string | null) {
+		if (typeof val === 'undefined') {
+			const protocols = this.protocols()
+			return protocols.length > 0 ? protocols[0] : undefined
 		}
-		this._protocols = [val]
+		if (val === null) {
+			this.protocols(null)
+		} else {
+			this.protocols([val])
+		}
 		return this
 	}
 
@@ -167,18 +180,22 @@ export default class URLManager {
 	 * set the url domain name
 	 * @param val the domain name
 	 */
-	public domain(val: string): this
+	public domain(val: string | null): this
 
 	/**
 	 * Manipulate the url domain
 	 * @param { string | undefined } val the url domain (Optionnal)
 	 * @return { string | this }
 	 */
-	public domain(val?: string) {
-		if (!val) {
+	public domain(val?: string | null) {
+		if (typeof val === 'undefined') {
 			return this._domain
 		}
-		this._domain = val
+		if (val === null) {
+			delete this._domain
+		} else {
+			this._domain = val
+		}
 		return this
 	}
 
