@@ -12,6 +12,7 @@
 			"rules": {
 				"no-extra-parens": "off",
 				"no-unused-expressions": "off",
+				"no-shadow": "off",
 				"quotes": "off",
 				"semi": "off",
 				"space-before-function-paren": "off"
@@ -77,6 +78,7 @@
 		"@typescript-eslint/no-misused-new": "error",
 		"@typescript-eslint/no-namespace": "error",
 		"@typescript-eslint/no-parameter-properties": "off",
+		"@typescript-eslint/no-shadow": "error",
 		"@typescript-eslint/no-unused-expressions": [
 			"error",
 			{
