@@ -18,11 +18,11 @@
 		"@typescript-eslint/eslint-plugin": "^4.5.0",
 		"@typescript-eslint/parser": "^4.5.0",
 		"eslint": "^7.4.0",
-		"parcel": "^1.12.4",
+		"parcel": "1.12.3",
 		"typescript": "^4.0.3"
 	},
 	"scripts": {
-		"prepublishOnly": "yarn build",
+		"prepublishOnly": "npm run build",
 		"build": "parcel build src/index.ts --out-file browser.js --experimental-scope-hoisting && tsc",
 		"test": "ts-node test"
 	}
