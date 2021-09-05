@@ -1,4 +1,6 @@
-import { logger as console } from '../src/Logger'
+import Logger, { logger as console } from '../src/Logger'
+
+Logger.timestamp = true
 
 /**
  * This test file is simple :D
