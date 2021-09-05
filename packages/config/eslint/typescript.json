@@ -71,7 +71,7 @@
 			"error",
 			"all",
 			{
-				"ignoreJSX": "multi-line"
+				"ignoreJSX": "all"
 			}
 		],
 		"@typescript-eslint/no-inferrable-types": "off",
