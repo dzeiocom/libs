@@ -9,6 +9,7 @@ export function objectMap<T = any, J = any>(
 	obj: Record<string, T>,
 	fn: (value: T, key: string, index: number) => J
 ): Array<J> {
+	mustBeObject(obj)
 	const list: Array<J> = []
 	objectLoop(obj, (item, key, index) => {
 		list.push(fn(item, key, index))
@@ -25,6 +26,7 @@ export function objectLoop<T = any>(
 	obj: Record<string, T>,
 	fn: (value: T, key: string, index: number) => boolean | void
 ): boolean {
+	mustBeObject(obj)
 	const keys = objectKeys(obj)
 	for (let index = 0; index < keys.length; index++) {
 		const key = keys[index]
@@ -41,6 +43,7 @@ export function objectLoop<T = any>(
  * @param obj the object to transform
  */
 export function objectValues<T = any>(obj: Record<string, T>): Array<T> {
+	mustBeObject(obj)
 	return Object.values(obj)
 }
 
@@ -48,6 +51,7 @@ export function objectValues<T = any>(obj: Record<string, T>): Array<T> {
  * @deprecated use `objectValues`
  */
 export function objectToArray<T = any>(obj: Record<string, T>): Array<T> {
+	mustBeObject(obj)
 	return objectValues(obj)
 }
 
@@ -56,6 +60,7 @@ export function objectToArray<T = any>(obj: Record<string, T>): Array<T> {
  * @param obj the object
  */
 export function objectKeys(obj: Record<string, any>): Array<string> {
+	mustBeObject(obj)
 	return Object.keys(obj)
 }
 
@@ -64,6 +69,7 @@ export function objectKeys(obj: Record<string, any>): Array<string> {
  * @param obj the object
  */
 export function objectSize(obj: Record<string, any>): number {
+	mustBeObject(obj)
 	return objectKeys(obj).length
 }
 
@@ -78,6 +84,7 @@ export function objectSort<T extends Record<string, any> = Record<string, any>>(
 	obj: T,
 	fn?: Array<keyof T> | ((a: keyof T, b: keyof T) => number)
 ): T {
+	mustBeObject(obj)
 	const ordered: any = {}
 	let sortedKeys: Array<keyof T> = []
 	if (Array.isArray(fn)) {
@@ -95,6 +102,7 @@ export function objectSort<T extends Record<string, any> = Record<string, any>>(
  * @deprecated use `objectClone`
  */
 export function cloneObject<T = Record<string, any>>(obj: T): T {
+	mustBeObject(obj)
 	return objectClone(obj)
 }
 
@@ -103,14 +111,15 @@ export function cloneObject<T = Record<string, any>>(obj: T): T {
  * @param obj the object to clone
  */
 export function objectClone<T = Record<string, any>>(obj: T): T {
-	if (typeof obj !== 'object') {
-		const v = obj
-		return v
-	}
+	mustBeObject(obj)
 	if (Array.isArray(obj)) {
 		const arr: Array<any> = []
 		for (const item of obj) {
-			arr.push(objectClone(item))
+			if (isObject(item)) {
+				arr.push(objectClone(item))
+			} else {
+				arr.push(item)
+			}
 		}
 		return arr as unknown as T
 	}
@@ -136,6 +145,7 @@ export function objectClone<T = Record<string, any>>(obj: T): T {
  * @param value the value
  */
 export function objectSet(obj: Record<string, any>, path: Array<string | number>, value: any): void {
+	mustBeObject(obj)
 	let pointer = obj
 	for (let index = 0; index < path.length; index++) {
 		const key = path[index]
@@ -167,6 +177,8 @@ export function objectSet(obj: Record<string, any>, path: Array<string | number>
  * @param y the second object
  */
 export function objectEqual(x: Record<string, any>, y: Record<string, any>): boolean {
+	mustBeObject(x)
+	mustBeObject(y)
 	if (objectSize(x) !== objectSize(y)) {
 		return false
 	}
@@ -186,6 +198,40 @@ export function objectEqual(x: Record<string, any>, y: Record<string, any>): boo
 	return res
 }
 
+/**
+ * deeply compare objects and return if they are equal or not
+ * @param x the first object
+ * @param y the second object
+ */
+export function objectClean(obj: Record<string, any>, options?: {cleanUndefined?: boolean, cleanNull?: boolean, deep?: boolean}): void {
+	mustBeObject(obj)
+	objectLoop(obj, (item, key) => {
+		if ((typeof options?.cleanUndefined === 'undefined' || options?.cleanUndefined) && item === undefined) {
+			delete obj[key]
+		}
+
+		if (options?.cleanNull && item === null) {
+			delete obj[key]
+		}
+
+		if ((typeof options?.deep === 'undefined' || options?.deep) && isObject(item)) {
+			return objectClean(item, options)
+		}
+	})
+}
+
+export function isObject(item: any): item is Record<any, any> {
+	return typeof item === 'object' && item !== null
+}
+
+function mustBeObject(item: any): item is Record<any, any> {
+	if (isObject(item)) {
+		return true
+	} else {
+		throw new Error("Input is not an object!")
+	}
+}
+
 export default {
 	objectMap,
 	objectLoop,
@@ -196,5 +242,7 @@ export default {
 	cloneObject,
 	objectClone,
 	objectSet,
-	objectEqual
+	objectEqual,
+	objectClean,
+	isObject
 }

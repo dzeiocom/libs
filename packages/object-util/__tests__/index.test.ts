@@ -1,6 +1,13 @@
 /// <reference types="jest" />
 
-import { objectSize, objectMap, objectSort, objectEqual, objectKeys, objectSet, objectLoop, objectClone, objectValues } from '../src/ObjectUtil'
+import { objectSize, objectMap, objectSort, objectEqual, objectKeys, objectSet, objectLoop, objectClone, objectValues, objectClean, isObject } from '../src/ObjectUtil'
+
+describe('Throw if parameter is not an object', () => {
+	it('should works', () => {
+		// @ts-ignore
+		expect(objectKeys).toThrow()
+	})
+})
 
 describe('Object Map tests', () => {
 	it('should works', () => {
@@ -136,32 +143,20 @@ describe('Object Clone Tests', () => {
 		expect(clone).not.toEqual(obj)
 	})
 
-	it('Should keep types', () => {
-		const obj = {
-			a: [],
-			b: '10',
-			c: 10,
-			d: {},
-			e: [10],
-			f: {g: 10}
-		}
+	it('should clone an Array', () => {
+		const obj = ['one', 'two']
 		const clone = objectClone(obj)
 		expect(clone).toEqual(obj)
+		clone[0] = 'three'
+		expect(clone).not.toEqual(obj)
 	})
 
-	it ('Should clone any types', () => {
-		const obj = {
-			a: [],
-			b: '10',
-			c: 10,
-			d: {},
-			e: [10],
-			f: {g: 10}
-		}
-		objectLoop(obj, (subObj) => {
-			const clone = objectClone(subObj)
-			expect(clone).toEqual(subObj)
-		})
+	it('should deeply clone an Array', () => {
+		const obj = ['one', 'two', ['three']]
+		const clone = objectClone(obj)
+		expect(clone).toEqual(obj)
+		;(clone[2][0] as string) = 'zero'
+		expect(clone).not.toEqual(obj)
 	})
 })
 
@@ -234,5 +229,48 @@ describe('Object Equal Test', () => {
 		}, {
 			a: [10, {b: 'c'}], d: '1', e: 2, f: true, g: null, h: undefined
 		})).toBe(true)
+	})
+})
+
+describe('Object Clean Tests', () => {
+	it('should clean undefined by default', () => {
+		const obj = {a: '', b: null, c: undefined}
+		objectClean(obj)
+		expect(obj).toEqual({a: '', b: null})
+
+		const obj2 = {a: '', b: null, c: undefined}
+		objectClean(obj2, {cleanUndefined: false})
+		expect(obj2).toEqual({a: '', b: null, c: undefined})
+	})
+	it('should clean null when set', () => {
+		const obj = {a: '', b: null, c: undefined}
+		objectClean(obj, {cleanNull: true})
+		expect(obj).toEqual({a: ''})
+	})
+	it('should clean deep by default', () => {
+		const obj = {a: '', b: null, c: undefined, d: {da: '', db: null, dc: undefined}}
+		objectClean(obj)
+		expect(obj).toEqual({a: '', b: null, d: {da: '', db: null}})
+	})
+})
+
+describe('Is Object Tests', () => {
+	it('null is not an "object"', () => {
+		expect(isObject(null)).toBe(false)
+	})
+	it('boolean is not an "object"', () => {
+		expect(isObject(true)).toBe(false)
+	})
+	it('undefined is not an "object"', () => {
+		expect(isObject(undefined)).toBe(false)
+	})
+	it('string is not an "object"', () => {
+		expect(isObject("null")).toBe(false)
+	})
+	it('number is not an "object"', () => {
+		expect(isObject(0)).toBe(false)
+	})
+	it('object is an "object"', () => {
+		expect(isObject({})).toBe(true)
 	})
 })
