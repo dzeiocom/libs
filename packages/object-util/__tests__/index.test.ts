@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { objectSize, objectMap, objectSort, objectEqual, objectKeys, objectSet, objectLoop, objectClone, objectValues, objectClean, isObject } from '../src/ObjectUtil'
+import { objectSize, objectMap, objectSort, objectEqual, objectKeys, objectSet, objectLoop, objectClone, objectValues, objectClean, isObject, objectOmit } from '../src/ObjectUtil'
 
 describe('Throw if parameter is not an object', () => {
 	it('should works', () => {
@@ -251,6 +251,22 @@ describe('Object Clean Tests', () => {
 		const obj = {a: '', b: null, c: undefined, d: {da: '', db: null, dc: undefined}}
 		objectClean(obj)
 		expect(obj).toEqual({a: '', b: null, d: {da: '', db: null}})
+	})
+	it('should clean deep when set', () => {
+		const obj = {a: '', b: null, c: undefined, d: {da: '', db: null, dc: undefined}}
+		objectClean(obj, {deep: true})
+		expect(obj).toEqual({a: '', b: null, d: {da: '', db: null}})
+	})
+})
+
+describe('Object Omit Tests', () => {
+	it('should omit certain elements', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectOmit(obj, 'b')).toEqual({a: 'a', c: 'b'})
+	})
+	it('should not care when key to omit is not present', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectOmit(obj, 'b', 'd')).toEqual({a: 'a', c: 'b'})
 	})
 })
 

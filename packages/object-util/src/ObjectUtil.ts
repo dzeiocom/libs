@@ -39,7 +39,7 @@ export function objectLoop<T = any>(
 }
 
 /**
- * Transform an object to an array removing the keys
+ * Transform an object to an array of its values
  * @param obj the object to transform
  */
 export function objectValues<T = any>(obj: Record<string, T>): Array<T> {
@@ -56,7 +56,7 @@ export function objectToArray<T = any>(obj: Record<string, T>): Array<T> {
 }
 
 /**
- * return the keys of th object
+ * return the keys of the object
  * @param obj the object
  */
 export function objectKeys(obj: Record<string, any>): Array<string> {
@@ -69,7 +69,6 @@ export function objectKeys(obj: Record<string, any>): Array<string> {
  * @param obj the object
  */
 export function objectSize(obj: Record<string, any>): number {
-	mustBeObject(obj)
 	return objectKeys(obj).length
 }
 
@@ -102,13 +101,13 @@ export function objectSort<T extends Record<string, any> = Record<string, any>>(
  * @deprecated use `objectClone`
  */
 export function cloneObject<T = Record<string, any>>(obj: T): T {
-	mustBeObject(obj)
 	return objectClone(obj)
 }
 
 /**
  * Deeply clone an object
  * @param obj the object to clone
+ * @returns the clone of the object
  */
 export function objectClone<T = Record<string, any>>(obj: T): T {
 	mustBeObject(obj)
@@ -199,9 +198,11 @@ export function objectEqual(x: Record<string, any>, y: Record<string, any>): boo
 }
 
 /**
- * deeply compare objects and return if they are equal or not
- * @param x the first object
- * @param y the second object
+ * deeply clean an object from having {key: undefined}
+ * @param obj the object to clean
+ * @param {boolean?} options.cleanUndefined (default: true) clean undefined from the object
+ * @param {boolean?} options.cleanNull clean null frrom the object
+ * @param {boolean?} options.deep (default: true) deeply clean the object
  */
 export function objectClean(obj: Record<string, any>, options?: {cleanUndefined?: boolean, cleanNull?: boolean, deep?: boolean}): void {
 	mustBeObject(obj)
@@ -220,10 +221,38 @@ export function objectClean(obj: Record<string, any>, options?: {cleanUndefined?
 	})
 }
 
+/**
+ * clone the object (not deeply) and emit some keys from cloning
+ * @param obj the object to clone
+ * @param keys the keys to emit
+ * @returns the cloned object
+ */
+export function objectOmit<T extends Record<string, any> = Record<string, any>>(obj: T, ...keys: Array<string>): T {
+	const cloned = obj
+	for (const key of keys) {
+		if (key in cloned) {
+			delete cloned[key]
+		}
+	}
+	return cloned
+}
+
+/**
+ * return if an item is an object
+ * @param item the item to check
+ * @returns {boolean} the item is an object
+ */
 export function isObject(item: any): item is Record<any, any> {
 	return typeof item === 'object' && item !== null
 }
 
+/**
+ * Strict check for an object
+ *
+ * @internal
+ * @param item the item to check
+ * @returns {boolean} throw an error is the item is not an item
+ */
 function mustBeObject(item: any): item is Record<any, any> {
 	if (isObject(item)) {
 		return true
@@ -244,5 +273,6 @@ export default {
 	objectSet,
 	objectEqual,
 	objectClean,
+	objectOmit,
 	isObject
 }
