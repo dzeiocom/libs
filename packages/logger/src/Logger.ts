@@ -30,12 +30,6 @@ export default class Logger implements Console {
 	 */
 	public static timestamp = false
 
-	/**
-	 * Console memory
-	 * (IDK what it is)
-	 */
-	public memory = console.memory
-
 	// NodeJS console (will be undefined on )
 	/**
 	 * NODEJS ONLY
