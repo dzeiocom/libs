@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		// Compilation
-		"target": "ES2020", // Follow NodeJS oldest supported LTS and compare with https://node.green
+		"target": "ES2019", // Follow NodeJS oldest supported LTS and use version from https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
 		"module": "commonjs",
 		"resolveJsonModule": true,
 		"moduleResolution": "node",
