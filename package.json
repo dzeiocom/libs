@@ -2,14 +2,14 @@
 	"name": "@dzeio/libs",
 	"private": true,
 	"workspaces": [
-		"packages\\config",
-		"packages\\dom-manager",
-		"packages\\easy-sitemap",
-		"packages\\listener",
-		"packages\\logger",
-		"packages\\object-util",
-		"packages\\queue",
-		"packages\\url-manager"
+		"packages/config",
+		"packages/dom-manager",
+		"packages/easy-sitemap",
+		"packages/listener",
+		"packages/logger",
+		"packages/object-util",
+		"packages/queue",
+		"packages/url-manager"
 	],
 	"license": "MIT"
 }
