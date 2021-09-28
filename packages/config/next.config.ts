@@ -1,4 +1,4 @@
-import { NextConfig, defaultConfig } from 'next/dist/next-server/server/config-shared'
+import { NextConfig, defaultConfig } from 'next/dist/server/config-shared'
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants'
 // @ts-expect-error next-pre-css has no typing available
 import preCSS from 'next-pre-css'
@@ -11,7 +11,7 @@ export const config = (additionnalHost: string): typeof defaultConfig & NextConf
 	experimental: {
 		plugins: true,
 		profiling: process.env.NODE_ENV === 'developpment',
-		sprFlushToDisk: true,
+		isrFlushToDisk: true,
 
 		// Bugged
 		// https://github.com/vercel/next.js/issues/18913
