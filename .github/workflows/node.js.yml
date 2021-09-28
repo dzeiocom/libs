@@ -40,7 +40,7 @@ jobs:
 
     # You may pin to the exact commit or the version.
     # uses: codecov/codecov-action@6004246f47ab62d32be025ce173b241cd84ac58e
-    - uses: codecov/codecov-action@v1.0.13
+    - uses: codecov/codecov-action@v2.1.0
       with:
         # Comma-separated list of files to upload
         files: ./packages/url-manager/coverage/coverage-final.json,./packages/object-util/coverage/coverage-final.json,./packages/easy-sitemap/coverage/coverage-final.json # optional
