@@ -68,10 +68,10 @@ export default class Sitemap {
 						}
 						entryString += '<image:image>'
 						entryString += `<image:loc>${this.fixText(image.location.startsWith('/') ? `${this.domain}${image.location}` : image.location)}</image:loc>`
-						entryString += this.fixText(this.optionalEntry('image:caption', image.caption))
-						entryString += this.fixText(this.optionalEntry('image:geo_location', image.geoLocation))
-						entryString += this.fixText(this.optionalEntry('image:title', image.title))
-						entryString += this.fixText(this.optionalEntry('image:license', image.license))
+						entryString += this.optionalEntry('image:caption', image.caption)
+						entryString += this.optionalEntry('image:geo_location', image.geoLocation)
+						entryString += this.optionalEntry('image:title', image.title)
+						entryString += this.optionalEntry('image:license', image.license)
 						entryString += '</image:image>'
 					}
 				}
@@ -98,7 +98,7 @@ export default class Sitemap {
 	}
 
 	private optionalEntry(tag: string, entry?: string) {
-		return entry ? `<${tag}>${entry}</${tag}>` : ''
+		return entry ? `<${tag}>${this.fixText(entry)}</${tag}>` : ''
 	}
 
 	private fixText(txt: string): string {
