@@ -16,7 +16,6 @@
 	},
 	"scripts": {
 		"prepublishOnly": "yarn build",
-		"build": "tsc",
-		"test": "tsc --noEmit"
+		"build": "tsc"
 	}
 }

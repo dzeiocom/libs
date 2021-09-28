@@ -32,7 +32,6 @@
 	},
 	"scripts": {
 		"prepublishOnly": "tsc",
-		"build": "tsc --noEmit",
-		"test": "tsc --noEmit"
+		"build": "tsc --noEmit"
 	}
 }

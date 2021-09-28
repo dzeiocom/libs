@@ -24,9 +24,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn workspaces run build
-    - run: yarn workspaces run test
+    - run: npm i --workspaces
+    - run: npm run build --workspaces --if-present
+    - run: npm run test --workspaces --if-present
     # You may pin to the exact commit or the version.
     # uses: codecov/codecov-action@6004246f47ab62d32be025ce173b241cd84ac58e
     - uses: codecov/codecov-action@v1.0.13

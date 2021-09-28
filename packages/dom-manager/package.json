@@ -18,7 +18,6 @@
 	},
 	"scripts": {
 		"prepublishOnly": "yarn build",
-		"build": "parcel build src/browser.ts --out-file browser.js --experimental-scope-hoisting && tsc",
-		"test": "tsc --noEmit"
+		"build": "parcel build src/browser.ts --out-file browser.js --experimental-scope-hoisting && tsc"
 	}
 }
