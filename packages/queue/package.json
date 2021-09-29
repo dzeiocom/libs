@@ -11,9 +11,6 @@
 	"license": "MIT",
 	"main": "./dist/Queue.js",
 	"types": "./dist/Queue.d.ts",
-	"devDependencies": {
-		"typescript": "^4.0.3"
-	},
 	"scripts": {
 		"prepublishOnly": "yarn build",
 		"build": "tsc"
