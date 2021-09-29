@@ -109,7 +109,7 @@ export function cloneObject<T = Record<string, any>>(obj: T): T {
  * @param obj the object to clone
  * @returns the clone of the object
  */
-export function objectClone<T = Record<string, any>>(obj: T): T {
+export function objectClone<T = Record<string, any>>(obj: T, options?: {deep?: boolean}): T {
 	mustBeObject(obj)
 	if (Array.isArray(obj)) {
 		const arr: Array<any> = []
@@ -124,7 +124,7 @@ export function objectClone<T = Record<string, any>>(obj: T): T {
 	}
 	const clone: Partial<T> = {}
 	objectLoop(obj, (value, key) => {
-		if (typeof value === 'object' && value != null) {
+		if (typeof value === 'object' && value != null && (typeof options?.deep === 'undefined' || options.deep)) {
 			clone[key as Extract<keyof T, string>] = objectClone(value)
 			return
 		}
@@ -228,7 +228,7 @@ export function objectClean(obj: Record<string, any>, options?: {cleanUndefined?
  * @returns the cloned object
  */
 export function objectOmit<T extends Record<string, any> = Record<string, any>>(obj: T, ...keys: Array<string>): T {
-	const cloned = obj
+	const cloned = objectClone(obj, {deep: false})
 	for (const key of keys) {
 		if (key in cloned) {
 			delete cloned[key]
