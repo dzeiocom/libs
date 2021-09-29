@@ -44,8 +44,8 @@ jobs:
         args: >
           -Dsonar.organization=dzeio
           -Dsonar.projectKey=dzeiocom_libs
-          -Dsonar.python.coverage.reportPaths=packages/**/coverage/clover.xml
-          -Dsonar.sources=.
+          -Dsonar.javascript.lcov.reportPaths=packages/**/coverage/lcov.info
+          -Dsonar.sources=packages
           -Dsonar.verbose=true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
