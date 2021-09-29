@@ -39,6 +39,7 @@ jobs:
       run: npm run test --workspaces --if-present
 
     - uses: sonarsource/sonarcloud-github-action@master
+      if: matrix.node-version == '16.x'
       with:
         args: >
           -Dsonar.organization=dzeio
