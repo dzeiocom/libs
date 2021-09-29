@@ -30,7 +30,7 @@ jobs:
       run: npm -g install npm
 
     - name: Install packages
-      run: npm i --workspaces
+      run: npm i && npm i --workspaces
 
     - name: Build packages
       run: npm run build --workspaces --if-present
