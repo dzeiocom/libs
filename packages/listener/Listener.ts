@@ -2,11 +2,14 @@ type ItemToArray<T> = {
 	[P in keyof T]?: Array<T[P]>
 }
 
+type BuiltInEvents = {
+	newListener: (eventName: string, listener: (...args: Array<any>) => void) => void
+	removeListener: (eventName: string, listener: (...args: Array<any>) => void) => void
+	all: (eventName: string, ...args: Array<any>) => void
+}
+
 export default abstract class Listener<
-	T extends Record<string, (...args: Array<any>) => void> = {
-		newListener: (eventName: string, listener: (...args: Array<any>) => void) => void
-		removeListener: (eventName: string, listener: (...args: Array<any>) => void) => void
-	}
+	T extends Record<string, (...args: Array<any>) => void> = BuiltInEvents
 > {
 
 	private maxListeners = 10

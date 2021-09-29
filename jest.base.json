@@ -1,5 +1,5 @@
 {
-	"transform": {
-		"^.+\\.tsx?$": "ts-jest"
-	}
+	"preset": "ts-jest",
+	"testEnvironment": "node",
+	"testResultsProcessor": "jest-sonar-reporter"
 }

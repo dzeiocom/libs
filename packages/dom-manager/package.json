@@ -12,13 +12,10 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"devDependencies": {
-		"parcel": "^1.12.4",
-		"ts-node": "^9.0.0",
-		"typescript": "^4.0.3"
+		"parcel": "1.12.3"
 	},
 	"scripts": {
 		"prepublishOnly": "yarn build",
-		"build": "parcel build src/browser.ts --out-file browser.js --experimental-scope-hoisting && tsc",
-		"test": "tsc --noEmit"
+		"build": "parcel build src/browser.ts --out-file browser.js --experimental-scope-hoisting && tsc"
 	}
 }

@@ -1,33 +1,22 @@
-# URL Manager
+# Object Util
 
-simple to use yet powerful Urls parser and formatter
+Utility functions to manipulate an object
 
 ## Usage
 
-- Import URLManager
+- Import Object Util
 
 ```typescript
-import ObjectUtil from '@dzeio/object-util'
+import { objectMap, ... } from '@dzeio/object-util'
 // or
-const ObjectUtil = require('@dzeio/object-util').default
-
-// or you can import each funcitons individually
+const {objectMap, ...} = require('@dzeio/object-util')
 ```
 
 - or import it from the browser
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@dzeio/object-util@1/dist/browser.js"></script>
-<!-- It will be available as the same variable -->
-```
-
-- Create a new instance
-
-```typescript
-// Create a new instance
-const url = new URLManager() // you can have an URL, URLSearchParams Objects or a string as parameter
-// or
-const url = URLManager.fromLocation() // Browser only return a new instance from the current location
+<!-- each functions will be available as window.{objectMap, ...} or {objectMap, ...}-->
 ```
 
 - explore !
@@ -35,14 +24,14 @@ const url = URLManager.fromLocation() // Browser only return a new instance from
 ```typescript
 
 // Does the same as Array.map
-objectMap(object, (value, key) => {value + "pouet"})
+objectMap(object, (value, key) => value + "pouet")
 
-// does the same as Array.forEach with the addon of stopping if false is returned (like break)
-// and return if loop was finished or not
+// does the same as Array.forEach with the addition of stopping if false is returned (like break)
+// and return if loop was stopped or not
 objectLoop(object, (value, key) => {})
 
 // return the values of an object as an array
-objectToArray(object)
+objectValues(object)
 
 // return the keys of an object as an array
 ObjectKeys(object)
@@ -61,9 +50,20 @@ objectSort(object, ['key2', 'key1']) // => {key2: value, key1: value, key3: valu
 cloneObject(object)
 
 // deeply set an object value while creating empty childs if necessary
-//ex: this will return {path1, [{path3: 'value'}]} if object is an empty object
+//ex: this will set {path1, [{path3: 'value'}]} if object is an empty object
 objectSet(object, ['path1', 0, 'path3'], 'value')
 
 // deeply compare two objects
 objectEqual(object, object2)
+
+// deeply clean an object from undefined, null variables
+objectClean(object, /* optionnal, defaults */{cleanUndefined: true, cleanNull: false, deep: true})
+
+// clone (not deeply) an object and remove the keys from the object, 'a' and 'b' for this one
+objectOmit(object, 'a', 'b')
+
+// check if a variable is an object
+isObject(object)
 ```
+
+_note: with the exception of isObject, every function will throw an error if the object is not an object_

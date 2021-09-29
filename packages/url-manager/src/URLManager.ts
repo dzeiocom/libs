@@ -1,3 +1,5 @@
+import { objectLoop } from '@dzeio/object-util'
+
 /**
  * Easy URLs manager
  */
@@ -331,13 +333,9 @@ export default class URLManager {
 			return undefined
 		}
 		if (format) {
-			for (const key in format) {
-				if (!(key in format)) {
-					continue
-				}
-				const replacing = format[key]
-				path = path.replace(`[${key}]`, replacing)
-			}
+			objectLoop(format, (replacing, key) => {
+				path = path?.replace(`[${key}]`, replacing)
+			})
 		}
 		return `${(path.startsWith('/') ? '' : '/')}${path}`
 	}
@@ -345,24 +343,17 @@ export default class URLManager {
 	private formatQuery(options?: { queryArrayJoin?: string }) {
 		let result = ''
 		const queryTmp = this.query()
-
-		for (const key in queryTmp) {
-			if (!Object.prototype.hasOwnProperty.call(queryTmp, key)) {
-				continue
-			}
-
-			const element = queryTmp[key]
-
+		objectLoop(queryTmp, (element, key) => {
 			result += result.length === 0 ? '?' : '&'
 
 			if (typeof element !== 'object') {
 				result += `${key}=${element}`
-				continue
+				return
 			}
 
 			if (options?.queryArrayJoin) {
 				result += `${key}=${element.join(options.queryArrayJoin)}`
-				continue
+				return
 			}
 
 			for (let i = 0; i < element.length; i++) {
@@ -372,7 +363,7 @@ export default class URLManager {
 				}
 				result += `${key}=${val}`
 			}
-		}
+		})
 
 		if (!result) {
 			return undefined

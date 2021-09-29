@@ -4,7 +4,7 @@ export default class Sitemap {
 
 	private static allowedChangefreq = ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never']
 
-	private datas = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" image:xmlns="http://www.google.com/schemas/sitemap-image/1.1">'
+	private datas = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
 
 	public constructor(
 		private domain: string, private options?: {
@@ -36,12 +36,7 @@ export default class Sitemap {
 	}) {
 		let entryString = '<url>'
 
-		const url = `${this.domain}${path}`
-			.replace(/&/g, '&amp;')
-			.replace(/'/g, '&apos;')
-			.replace(/"/g, '&quot;')
-			.replace(/>/g, '&gt;')
-			.replace(/</g, '&lt;')
+		const url = this.fixText(`${this.domain}${path}`)
 
 		entryString += `<loc>${url}</loc>`
 		if (options) {
@@ -53,7 +48,7 @@ export default class Sitemap {
 				}
 			}
 			if (options.lastmod) {
-				entryString += `<lastmod>${options.lastmod.toISOString()}</lastmod>`
+				entryString += `<lastmod>${this.fixText(options.lastmod.toISOString())}</lastmod>`
 			}
 			if (options.priority) {
 				if (options.priority <= 1 && options.priority >= 0 && options.priority.toString().length <= 3) {
@@ -72,7 +67,7 @@ export default class Sitemap {
 							continue
 						}
 						entryString += '<image:image>'
-						entryString += `<image:loc>${image.location.startsWith('/') ? `${this.domain}${image.location}` : image.location}</image:loc>`
+						entryString += `<image:loc>${this.fixText(image.location.startsWith('/') ? `${this.domain}${image.location}` : image.location)}</image:loc>`
 						entryString += this.optionalEntry('image:caption', image.caption)
 						entryString += this.optionalEntry('image:geo_location', image.geoLocation)
 						entryString += this.optionalEntry('image:title', image.title)
@@ -103,6 +98,14 @@ export default class Sitemap {
 	}
 
 	private optionalEntry(tag: string, entry?: string) {
-		return entry ? `<${tag}>${entry}</${tag}>` : ''
+		return entry ? `<${tag}>${this.fixText(entry)}</${tag}>` : ''
+	}
+
+	private fixText(txt: string): string {
+		return txt.replace(/&/g, '&amp;')
+			.replace(/'/g, '&apos;')
+			.replace(/"/g, '&quot;')
+			.replace(/>/g, '&gt;')
+			.replace(/</g, '&lt;')
 	}
 }

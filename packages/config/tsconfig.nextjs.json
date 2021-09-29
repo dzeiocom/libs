@@ -1,0 +1,15 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"target": "ES5",
+		"lib": [
+			"DOM",
+			"DOM.Iterable",
+			"ESNext"
+		],
+		"noEmit": true,
+		"module": "ESNext",
+		"jsx": "preserve",
+		"isolatedModules": true
+	}
+}

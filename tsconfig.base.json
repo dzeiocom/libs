@@ -1,26 +1,7 @@
 {
+	"extends": "./packages/config/tsconfig.base.json",
 	"compilerOptions": {
-		"allowJs": true,
-		"allowSyntheticDefaultImports": true,
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
 		"declaration": true,
 		"declarationMap": false,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"pretty": true,
-		"skipLibCheck": true,
-		"sourceMap": false,
-		"strict": true,
-		"target": "ES2017" // Follow NodeJS oldest supported LTS and compare with https://node.green
-	},
-	"exclude": [
-		"node_modules"
-	]
+	}
 }

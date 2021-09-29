@@ -23,10 +23,12 @@ export default class Logger implements Console {
 	private static loggers: Array<Logger> = []
 
 	/**
-	 * Console memory
-	 * (IDK what it is)
+	 *Define if you want a timestamp with your logs
+	 *
+	 * @static
+	 * @memberof Logger
 	 */
-	public memory = console.memory
+	public static timestamp = false
 
 	// NodeJS console (will be undefined on )
 	/**
@@ -367,7 +369,16 @@ export default class Logger implements Console {
 		}
 		const res: Array<any> = [
 			`${this.blackOrWhite('[ ')}${spacers[0]}${blue(prefix)}${spacers[1]}${this.blackOrWhite(' ]')}:`
-		].concat(
+		]
+
+		if (Logger.timestamp) {
+			const now = new Date()
+			const h = now.getHours() >= 10 ? now.getHours().toString() : `0${now.getHours()}`
+			const m = now.getMinutes() >= 10 ? now.getMinutes().toString() : `0${now.getMinutes()}`
+			const s = now.getSeconds() >= 10 ? now.getSeconds().toString() : `0${now.getSeconds()}`
+			res.unshift(`${this.blackOrWhite('<')}${yellow(h)}:${yellow(m)}:${yellow(s)}${this.blackOrWhite('>')}`)
+		}
+		return res.concat(
 			message.map((el) => {
 				if (typeof el === 'object') {
 					return el
@@ -381,7 +392,6 @@ export default class Logger implements Console {
 				return typeof el !== 'string' ? yellow(el.toString()) : green(el)
 			})
 		)
-		return res
 	}
 
 	/**

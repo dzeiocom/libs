@@ -1,6 +1,13 @@
 /// <reference types="jest" />
 
-import { objectSize, objectToArray, objectMap, objectSort, cloneObject, objectEqual, objectKeys, objectSet, objectLoop, objectClone } from '../src/ObjectUtil'
+import { objectSize, objectMap, objectSort, objectEqual, objectKeys, objectSet, objectLoop, objectClone, objectValues, objectClean, isObject, objectOmit } from '../src/ObjectUtil'
+
+describe('Throw if parameter is not an object', () => {
+	it('should works', () => {
+		// @ts-ignore
+		expect(objectKeys).toThrow()
+	})
+})
 
 describe('Object Map tests', () => {
 	it('should works', () => {
@@ -38,7 +45,7 @@ describe('Object To Array Tests', () => {
 			pouet: 'first',
 			toto: 'second'
 		}
-		expect(objectToArray(obj)).toEqual(['first', 'second'])
+		expect(objectValues(obj)).toEqual(['first', 'second'])
 	})
 })
 
@@ -96,6 +103,21 @@ describe('Object sort Tests', () => {
 			d: 'fourth'
 		})
 	})
+	it('should sort by the specified key', () => {
+		const obj = {
+			b: 'first',
+			a: 'second',
+			c: 'zero',
+			d: 'fourth'
+		}
+		// @ts-expect-error
+		expect(objectSort(obj, ['c', 'a', 'e'])).toEqual({
+			c: 'zero',
+			a: 'second',
+			b: 'first',
+			d: 'fourth'
+		})
+	})
 })
 
 describe('Object Clone Tests', () => {
@@ -104,7 +126,7 @@ describe('Object Clone Tests', () => {
 			pouet: 'first',
 			toto: 'second'
 		}
-		const clone = cloneObject(obj)
+		const clone = objectClone(obj)
 		expect(clone).toEqual(obj)
 		clone.pouet = 'third'
 		expect(clone).not.toEqual(obj)
@@ -115,38 +137,26 @@ describe('Object Clone Tests', () => {
 			pouet: {is: 'first'},
 			toto: 'second'
 		}
-		const clone = cloneObject(obj)
+		const clone = objectClone(obj)
 		expect(clone).toEqual(obj)
 		clone.toto = 'third'
 		expect(clone).not.toEqual(obj)
 	})
 
-	it('Should keep types', () => {
-		const obj = {
-			a: [],
-			b: '10',
-			c: 10,
-			d: {},
-			e: [10],
-			f: {g: 10}
-		}
+	it('should clone an Array', () => {
+		const obj = ['one', 'two']
 		const clone = objectClone(obj)
 		expect(clone).toEqual(obj)
+		clone[0] = 'three'
+		expect(clone).not.toEqual(obj)
 	})
 
-	it ('Should clone any types', () => {
-		const obj = {
-			a: [],
-			b: '10',
-			c: 10,
-			d: {},
-			e: [10],
-			f: {g: 10}
-		}
-		objectLoop(obj, (subObj) => {
-			const clone = objectClone(subObj)
-			expect(clone).toEqual(subObj)
-		})
+	it('should deeply clone an Array', () => {
+		const obj = ['one', 'two', ['three']]
+		const clone = objectClone(obj)
+		expect(clone).toEqual(obj)
+		;(clone[2][0] as string) = 'zero'
+		expect(clone).not.toEqual(obj)
 	})
 })
 
@@ -219,5 +229,64 @@ describe('Object Equal Test', () => {
 		}, {
 			a: [10, {b: 'c'}], d: '1', e: 2, f: true, g: null, h: undefined
 		})).toBe(true)
+	})
+})
+
+describe('Object Clean Tests', () => {
+	it('should clean undefined by default', () => {
+		const obj = {a: '', b: null, c: undefined}
+		objectClean(obj)
+		expect(obj).toEqual({a: '', b: null})
+
+		const obj2 = {a: '', b: null, c: undefined}
+		objectClean(obj2, {cleanUndefined: false})
+		expect(obj2).toEqual({a: '', b: null, c: undefined})
+	})
+	it('should clean null when set', () => {
+		const obj = {a: '', b: null, c: undefined}
+		objectClean(obj, {cleanNull: true})
+		expect(obj).toEqual({a: ''})
+	})
+	it('should clean deep by default', () => {
+		const obj = {a: '', b: null, c: undefined, d: {da: '', db: null, dc: undefined}}
+		objectClean(obj)
+		expect(obj).toEqual({a: '', b: null, d: {da: '', db: null}})
+	})
+	it('should clean deep when set', () => {
+		const obj = {a: '', b: null, c: undefined, d: {da: '', db: null, dc: undefined}}
+		objectClean(obj, {deep: true})
+		expect(obj).toEqual({a: '', b: null, d: {da: '', db: null}})
+	})
+})
+
+describe('Object Omit Tests', () => {
+	it('should omit certain elements', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectOmit(obj, 'b')).toEqual({a: 'a', c: 'b'})
+	})
+	it('should not care when key to omit is not present', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectOmit(obj, 'b', 'd')).toEqual({a: 'a', c: 'b'})
+	})
+})
+
+describe('Is Object Tests', () => {
+	it('null is not an "object"', () => {
+		expect(isObject(null)).toBe(false)
+	})
+	it('boolean is not an "object"', () => {
+		expect(isObject(true)).toBe(false)
+	})
+	it('undefined is not an "object"', () => {
+		expect(isObject(undefined)).toBe(false)
+	})
+	it('string is not an "object"', () => {
+		expect(isObject("null")).toBe(false)
+	})
+	it('number is not an "object"', () => {
+		expect(isObject(0)).toBe(false)
+	})
+	it('object is an "object"', () => {
+		expect(isObject({})).toBe(true)
 	})
 })
