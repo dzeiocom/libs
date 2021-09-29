@@ -38,9 +38,14 @@ jobs:
     - name: Test packages
       run: npm run test --workspaces --if-present
 
-    # You may pin to the exact commit or the version.
-    # uses: codecov/codecov-action@6004246f47ab62d32be025ce173b241cd84ac58e
-    - uses: codecov/codecov-action@v2.1.0
+    - uses: sonarsource/sonarcloud-github-action@master
       with:
-        # Comma-separated list of files to upload
-        files: ./packages/url-manager/coverage/coverage-final.json,./packages/object-util/coverage/coverage-final.json,./packages/easy-sitemap/coverage/coverage-final.json # optional
+        args: >
+          -Dsonar.organization=dzeio
+          -Dsonar.projectKey=libs
+          -Dsonar.python.coverage.reportPaths=packages/**/coverage/clover.xml
+          -Dsonar.sources=.
+          -Dsonar.verbose=true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
