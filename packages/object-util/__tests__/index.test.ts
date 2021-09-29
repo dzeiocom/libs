@@ -158,6 +158,18 @@ describe('Object Clone Tests', () => {
 		;(clone[2][0] as string) = 'zero'
 		expect(clone).not.toEqual(obj)
 	})
+
+
+	it('should clone with Object.freeze', () => {
+		const obj = Object.freeze({
+			pouet: 'first',
+			toto: 'second'
+		})
+		const clone = objectClone<Record<string, string>>(obj)
+		expect(clone).toEqual(obj)
+		clone.pouet = 'third'
+		expect(clone).not.toEqual(obj)
+	})
 })
 
 describe('Object Set Tests', () => {
@@ -237,7 +249,8 @@ describe('Object Clean Tests', () => {
 		const obj = {a: '', b: null, c: undefined}
 		objectClean(obj)
 		expect(obj).toEqual({a: '', b: null})
-
+	})
+	it('should not clean when options.cleanUndefined is false', () => {
 		const obj2 = {a: '', b: null, c: undefined}
 		objectClean(obj2, {cleanUndefined: false})
 		expect(obj2).toEqual({a: '', b: null, c: undefined})
@@ -267,6 +280,10 @@ describe('Object Omit Tests', () => {
 	it('should not care when key to omit is not present', () => {
 		const obj = {a: 'a', b: 'c', c: 'b'}
 		expect(objectOmit(obj, 'b', 'd')).toEqual({a: 'a', c: 'b'})
+	})
+	it('should work with Object.freeze', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectOmit(Object.freeze(obj), 'b', 'd')).toEqual({a: 'a', c: 'b'})
 	})
 })
 

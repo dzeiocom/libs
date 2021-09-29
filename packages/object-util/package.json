@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/object-util",
-	"version": "1.4.1",
+	"version": "1.4.2",
 	"description": "Utility functions to manipulate an object",
 	"repository": {
 		"type": "git",
