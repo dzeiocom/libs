@@ -51,7 +51,6 @@ jobs:
           -Dsonar.tests=packages/easy-sitemap/__tests__,packages/object-util/__tests__,packages/url-manager/__tests__
           -Dsonar.test.inclusions=packages/**/*.test.ts
           -Dsonar.sourceEncoding=UTF-8
-          -Dsonar.verbose=true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
