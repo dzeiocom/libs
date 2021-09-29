@@ -42,7 +42,7 @@ jobs:
       with:
         args: >
           -Dsonar.organization=dzeio
-          -Dsonar.projectKey=libs
+          -Dsonar.projectKey=dzeiocom_libs
           -Dsonar.python.coverage.reportPaths=packages/**/coverage/clover.xml
           -Dsonar.sources=.
           -Dsonar.verbose=true
