@@ -45,6 +45,7 @@ jobs:
           -Dsonar.organization=dzeio
           -Dsonar.projectKey=dzeiocom_libs
           -Dsonar.javascript.lcov.reportPaths=packages/**/coverage/lcov.info
+          -Dsonar.testExecutionReportPaths=packages/**/test-report.xml
           -Dsonar.sources=packages
           -Dsonar.verbose=true
       env:
