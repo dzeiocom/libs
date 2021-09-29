@@ -2,7 +2,7 @@
 
 Collection of libraries for differents usages
 
-[![codecov](https://codecov.io/gh/dzeiocom/libs/branch/master/graph/badge.svg?token=8NVHOWXWP8)](https://codecov.io/gh/dzeiocom/libs)
+[![codecov](https://img.shields.io/sonar/coverage/dzeiocom_libs?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/project/overview?id=dzeiocom_libs)
 
 ## Libraries
 
