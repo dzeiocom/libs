@@ -47,7 +47,7 @@ jobs:
           -Dsonar.javascript.lcov.reportPaths=packages/**/coverage/lcov.info
           -Dsonar.testExecutionReportPaths=packages/easy-sitemap/test-report.xml,packages/object-util/test-report.xml,packages/url-manager/test-report.xml
           -Dsonar.sources=packages
-          -Dsonar.tests=packages/easy-sitemap/__tests__,packages/object-util/__tests__,packages/url-manager/__tests__
+        #  -Dsonar.tests=packages/easy-sitemap/__tests__,packages/object-util/__tests__,packages/url-manager/__tests__
           -Dsonar.sourceEncoding=UTF-8
           -Dsonar.verbose=true
       env:
