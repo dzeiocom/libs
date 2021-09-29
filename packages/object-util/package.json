@@ -10,19 +10,21 @@
 	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/object-util",
 	"author": "Aviortheking",
 	"license": "MIT",
-	"main": "./dist/ObjectUtil.js",
-	"types": "./dist/ObjectUtil.d.ts",
+	"main": "./dist/cjs/ObjectUtil.js",
+	"module": "./dist/esm/ObjectUtil.js",
+	"types": "./dist/types/ObjectUtil.d.ts",
+	"sideEffects": false,
 	"devDependencies": {
 		"@types/jest": "^27.0.0",
+		"esbuild": "^0.13.2",
 		"jest": "^27.0.0",
-		"parcel": "1.12.3",
 		"ts-jest": "^27.0.0",
 		"ts-node": "^10.2.1",
 		"typescript": "^4.0.2"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"build": "parcel build src/index.ts --out-file browser.js --experimental-scope-hoisting && tsc",
+		"build": "esbuild src/index.ts --outfile=dist/browser.js --minify --bundle --target=es6 && tsc && tsc --project tsconfig.esm.json",
 		"test": "jest --coverage"
 	}
 }
