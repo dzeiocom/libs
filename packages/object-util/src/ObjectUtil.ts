@@ -20,7 +20,7 @@ export function objectMap<T = any, J = any>(
 /**
  * Loop through the object
  * @param obj the object to loop through
- * @param fn the function to run for each childs
+ * @param fn the function to run for each childs if the function return `false` it will stop
  */
 export function objectLoop<T = any>(
 	obj: Record<string, T>,

@@ -36,6 +36,35 @@ describe('Object Loop Tests', () => {
 				throw "it should not come here"
 			}
 		})
+
+	})
+
+	it('Should return false', () => {
+		const obj = {
+			pouet: true
+		}
+		expect(objectLoop(obj, () => {
+			return false
+		})).toBe(false)
+		// TO BE EXPECTED in MAJOR change
+		// expect(objectLoop(obj, () => {
+		// 	return undefined
+		// })).toBe(false)
+
+	})
+
+	it('Should return true', () => {
+		const obj = {
+			pouet: true
+		}
+		expect(objectLoop(obj, () => {
+			return true
+		})).toBe(true)
+		// TO BE EXPECTED until major change
+		expect(objectLoop(obj, () => {
+			return undefined
+		})).toBe(true)
+
 	})
 })
 
