@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/config",
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"description": "global configuration files for programming",
 	"author": "Avior",
 	"license": "MIT",
@@ -14,7 +14,7 @@
 		"next": "^11.1.2"
 	},
 	"peerDependencies": {
-		"@typescript-eslint/parser": "^4.28.2",
+		"@typescript-eslint/parser": "^4.28.2|^5.6.0",
 		"next": "^11.1.2",
 		"next-pre-css": "^1.0.0"
 	},
