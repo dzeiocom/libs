@@ -1,57 +1,49 @@
 import { NextConfig, defaultConfig } from 'next/dist/server/config-shared'
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants'
+import { objectLoop } from '@dzeio/object-util'
 // @ts-expect-error next-pre-css has no typing available
 import preCSS from 'next-pre-css'
+
+interface Options {
+	/**
+	 * Hold the lit of additionnal hosts the frontend might connect to
+	 */
+	hosts?: Partial<Record<
+	'style'| 'script' | 'prefetch' | 'img' | 'font',
+	Array<string>
+>>
+}
 
 /**
  * Return a default NextJS hardened configuration with experimental features enabled and headers preset
  */
-export const config = (additionnalHost: string): typeof defaultConfig & NextConfig => ({
-	// Experimentals
-	experimental: {
-		plugins: true,
-		profiling: process.env.NODE_ENV === 'developpment',
-		isrFlushToDisk: true,
-
-		// Bugged
-		// https://github.com/vercel/next.js/issues/18913
-		// reactRoot: true,
-		workerThreads: true,
-
-		pageEnv: true,
-		optimizeImages: true,
-		optimizeCss: true,
-
-		scrollRestoration: true,
-
-		stats: process.env.NODE_ENV === 'developpment',
-		externalDir: true,
-		conformance: true,
-		disableOptimizedLoading: false,
-		gzipSize: process.env.NODE_ENV === 'developpment',
-		craCompat: false,
-
-
-
-	},
-
+export const config = (options?: Options): typeof defaultConfig & NextConfig => ({
 	excludeDefaultMomentLocales: true,
 	trailingSlash: false,
 	cleanDistDir: true,
 	generateEtags: true,
 	compress: false,
-	// Non experimental config
-	// target: 'serverless',
+
 	poweredByHeader: false,
 	reactStrictMode: true,
 
-	// Futures
-	future: {
-		strictPostcssConfiguration: true,
-	},
+	crossOrigin: 'anonymous',
+	swcMinify: true,
+
 
 	// Headers and rewrites
 	async headers() {
+		const hosts = options?.hosts ?? {}
+
+
+		let hostlist: Array<string> = []
+
+		objectLoop(hosts, (it) => {
+			hostlist.push(...it)
+		})
+
+		hostlist = hostlist.filter((it, index, arr) => arr.indexOf(it) === index)
+
 		// CSS no CSP, x-xss-protection
 		const CSP = {
 			key: 'Content-Security-Policy',
@@ -62,11 +54,11 @@ export const config = (additionnalHost: string): typeof defaultConfig & NextConf
 				"form-action 'self'; " +
 				"manifest-src 'self'; " +
 				"prefetch-src 'self'; " +
-				`script-src 'self' 'unsafe-inline' 'unsafe-eval' ${additionnalHost}; ` +
-				"style-src 'self' 'unsafe-inline'; " +
-				"img-src data: 'self'; " +
-				"font-src 'self'; " +
-				`connect-src 'self' ${additionnalHost}; ` +
+				`script-src 'self' 'unsafe-inline' 'unsafe-eval' ${hosts?.script?.join(' ')}; ` +
+				`style-src 'self' 'unsafe-inline' ${hosts?.style?.join(' ')}; ` +
+				`img-src data: 'self' ${hosts?.img?.join(' ')}; ` +
+				`font-src 'self' ${hosts?.font?.join(' ')}; ` +
+				`connect-src 'self' ${hostlist.join(' ')}; ` +
 				"base-uri 'self';"
 		}
 		const XXssProtection = {
