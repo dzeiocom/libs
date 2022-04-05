@@ -6,6 +6,10 @@ Collection of libraries for differents usages
 
 ## Libraries
 
+### Config
+
+Holder for my configurations used in most of my other repositories
+
 ### DOM Manager
 
 Library to manage the browser DOM easier
