@@ -158,7 +158,7 @@
 		"no-unused-labels": "error",
 		"no-unused-vars": "warn",
 		"no-var": "error",
-		"object-shorthand": "error",
+		"object-shorthand": ["warn", "methods"],
 		"one-var": [
 			"error",
 			"never"
