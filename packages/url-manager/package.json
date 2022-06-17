@@ -22,7 +22,7 @@
 		"serializer"
 	],
 	"devDependencies": {
-		"esbuild": "^0.13.2"
+		"esbuild": "^0.14.45"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
