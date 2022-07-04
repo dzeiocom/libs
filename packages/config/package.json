@@ -10,7 +10,7 @@
 		"directory": "packages/config"
 	},
 	"devDependencies": {
-		"@types/node": "^17.0.23",
+		"@types/node": "^18.0.1",
 		"next": "^12.1.0"
 	},
 	"peerDependencies": {
