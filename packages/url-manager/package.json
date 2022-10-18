@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/url-manager",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "A simple to use yet complete Urls parser and serializer",
 	"repository": {
 		"type": "git",
