@@ -167,18 +167,22 @@ export default class URLManager {
 
 	/**
 	 * set the url domain name
-	 * @param val the domain name
+	 * @param val the domain name (if set to null it will remove the domain)
 	 */
-	public domain(val: string): this
+	public domain(val: string | null): this
 
 	/**
 	 * Manipulate the url domain
-	 * @param { string | undefined } val the url domain (Optionnal)
+	 * @param { string | null | undefined } val the url domain (Optionnal)
 	 * @return { string | this }
 	 */
-	public domain(val?: string) {
-		if (!val) {
+	public domain(val?: string | null) {
+		if (typeof val === 'undefined') {
 			return this._domain
+		}
+		if (!val) {
+			delete this._domain
+			return this
 		}
 		this._domain = val
 		return this
