@@ -12,7 +12,7 @@
 	"main": "./dist/Listener.js",
 	"types": "./dist/Listener.d.ts",
 	"scripts": {
-		"prepublishOnly": "yarn build",
+		"prepublishOnly": "npm run build",
 		"build": "tsc"
 	}
 }
