@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/listener",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "A NodeJS Listener implementation",
 	"repository": {
 		"type": "git",
