@@ -15,7 +15,7 @@
 	"types": "./dist/types/ObjectUtil.d.ts",
 	"sideEffects": false,
 	"devDependencies": {
-		"esbuild": "^0.13.2"
+		"esbuild": "^0.15.16"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
