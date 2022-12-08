@@ -31,5 +31,11 @@
 		"build": "esbuild src/index.ts --outfile=dist/browser.js --minify --bundle --target=es6 && tsc && tsc --project tsconfig.esm.json",
 		"test": "jest --coverage",
 		"lint": "eslint src"
-	}
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"package.json",
+		"CHANGELOG.md"
+	]
 }

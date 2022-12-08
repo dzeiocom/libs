@@ -6,6 +6,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.4] - 2022-12-08
+
+### Fixed
+
+- Export being borked
+
+## [1.4.3] - 2022-12-08
+
+### Fixed
+
+- 6be80cb2e135ac98c8a156f0c2bc93dc4cc170f6 Missing type declaration for some callback functions
+
+### Changed 
+
+- f515091ac58f309106dd06a86e9c6a011f90623d More clear comment
+
+## [1.4.2] - 2021-09-29
+
+### Fixed
+
+- 9f608a52fc32447b6f839415f90cba85d4b1ca35 `Object.freeze` error with `objectClone`
+
+### Changed 
+
+- 7ce7daf75184249da62c521bcab75263d324f0b1 Updated Jest to 27
+
+## [1.4.1] - 2021-09-29
+
+### Changed
+
+- b7b604e11f8fe8654de963822080269066de9c41 Used objectLoop instead of basic loops
+- b7b604e11f8fe8654de963822080269066de9c41 Add JS modules support
+- 3d02a29bc5a059f8e5f28640144870311dc3d449 Moved back to NPM from Yarn
+
+## [1.4.0] - 2021-09-28
+
+### Added
+
+- cb97ded195963c1a9ec17f0085b3d195b344a91e new `objectOmit` function that allows you to remove items from an object
+
+## [1.3.0] - 2021-09-21
+
+### Added
+
+- 4efb33c0cb243ddf26fb144ea6c6d5c3714ea6ae new `objectClean` cleanup `null`/`undefined` from an object (more in options)
+- 4efb33c0cb243ddf26fb144ea6c6d5c3714ea6ae new `isObject` function that allows verify is your variable is an object
+
 ## [1.2.0] - 2021-05-21
 
 ### Added
