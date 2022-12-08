@@ -39,7 +39,14 @@
 				"default": "generic"
 			}
 		],
-		"@typescript-eslint/ban-types": "error",
+		"@typescript-eslint/ban-types": [
+			"error",
+			{
+				"types": {
+					"{}": false
+				}
+			}
+		],
 		"@typescript-eslint/consistent-type-assertions": "error",
 		"@typescript-eslint/consistent-type-definitions": "error",
 		"@typescript-eslint/explicit-member-accessibility": [
@@ -48,8 +55,6 @@
 				"accessibility": "explicit"
 			}
 		],
-		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"@typescript-eslint/interface-name-prefix": "off",
 		"@typescript-eslint/member-delimiter-style": [
 			"error",
 			{
@@ -74,7 +79,6 @@
 				"ignoreJSX": "all"
 			}
 		],
-		"@typescript-eslint/no-inferrable-types": "off",
 		"@typescript-eslint/no-misused-new": "error",
 		"@typescript-eslint/no-namespace": "error",
 		"@typescript-eslint/no-parameter-properties": "off",
@@ -85,7 +89,6 @@
 				"allowTernary": true
 			}
 		],
-		"@typescript-eslint/no-use-before-define": "off",
 		"@typescript-eslint/prefer-for-of": "error",
 		"@typescript-eslint/prefer-function-type": "error",
 		"@typescript-eslint/prefer-namespace-keyword": "error",
