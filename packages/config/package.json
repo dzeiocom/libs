@@ -10,14 +10,15 @@
 		"directory": "packages/config"
 	},
 	"devDependencies": {
+		"@dzeio/object-util": "^1",
 		"@types/node": "^18",
 		"next": "^12"
 	},
 	"peerDependencies": {
+		"@dzeio/object-util": ">=1.4.2",
 		"@typescript-eslint/parser": ">=5.18.0",
 		"next": ">=12.1.0",
-		"next-pre-css": ">=1.0.0",
-		"@dzeio/object-util": ">=1.4.2"
+		"next-pre-css": ">=1.0.0"
 	},
 	"peerDependenciesMeta": {
 		"next": {
@@ -33,5 +34,8 @@
 	"scripts": {
 		"prepublishOnly": "tsc",
 		"build": "tsc --noEmit"
+	},
+	"dependencies": {
+		"package.json": "^2.0.1"
 	}
 }
