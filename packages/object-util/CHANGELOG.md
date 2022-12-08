@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.5] - 2022-12-08
+
+### Fixed
+
+- Typescript returning errors when object can contains undefined
+
 ## [1.4.4] - 2022-12-08
 
 ### Fixed

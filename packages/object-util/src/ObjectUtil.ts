@@ -1,5 +1,5 @@
 type BasicObjectKeys = string | number | symbol
-type BasicObject<K extends BasicObjectKeys = BasicObjectKeys, V = any> = Record<K, V>
+type BasicObject<K extends BasicObjectKeys = BasicObjectKeys, V = any> = { [P in K]?: V }
 
 /**
  * Remap an object to an array through a function
@@ -50,7 +50,7 @@ export function objectLoop<T = any, K extends BasicObjectKeys = BasicObjectKeys>
  */
 export function objectValues<T = any>(obj: BasicObject<BasicObjectKeys, T>): Array<T> {
 	mustBeObject(obj)
-	return Object.values(obj)
+	return Object.values(obj) as Array<T>
 }
 
 /**
