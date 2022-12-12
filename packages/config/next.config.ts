@@ -1,6 +1,6 @@
-import { NextConfig, defaultConfig } from 'next/dist/server/config-shared'
-import { PHASE_DEVELOPMENT_SERVER } from 'next/constants'
 import { objectLoop } from '@dzeio/object-util'
+import { PHASE_DEVELOPMENT_SERVER } from 'next/constants'
+import { defaultConfig, NextConfig } from 'next/dist/server/config-shared'
 // @ts-expect-error next-pre-css has no typing available
 import preCSS from 'next-pre-css'
 
@@ -35,6 +35,12 @@ export const config = (options?: Options): typeof defaultConfig & NextConfig => 
 	async headers() {
 		const hosts = options?.hosts ?? {}
 
+		if (process.env.NODE_ENV !== 'production') {
+			if (!hosts.script) {
+				hosts.script = []
+			}
+			hosts.script.push('unsafe-eval')
+		}
 
 		let hostlist: Array<string> = []
 
@@ -54,11 +60,11 @@ export const config = (options?: Options): typeof defaultConfig & NextConfig => 
 				"form-action 'self'; " +
 				"manifest-src 'self'; " +
 				"prefetch-src 'self'; " +
-				`script-src 'self' 'unsafe-inline' 'unsafe-eval' ${hosts?.script?.join(' ')}; ` +
-				`style-src 'self' 'unsafe-inline' ${hosts?.style?.join(' ')}; ` +
-				`img-src data: 'self' ${hosts?.img?.join(' ')}; ` +
-				`font-src 'self' ${hosts?.font?.join(' ')}; ` +
-				`connect-src 'self' ${hostlist.join(' ')}; ` +
+				`script-src 'self' 'unsafe-inline' ${hosts?.script?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
+				`style-src 'self' 'unsafe-inline' ${hosts?.style?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
+				`img-src data: 'self' ${hosts?.img?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
+				`font-src 'self' ${hosts?.font?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
+				`connect-src 'self' ${hostlist.filter((it) => !it.startsWith('unsafe')).map((it) => `'${it}'`).join(' ')}; ` +
 				"base-uri 'self';"
 		}
 		const XXssProtection = {
@@ -75,7 +81,7 @@ export const config = (options?: Options): typeof defaultConfig & NextConfig => 
 			value: 'nosniff'
 		}, {
 			key: 'Referrer-Policy',
-			value: 'strict-origin-when-cross-origin'
+			value: 'no-referer'
 		}, {
 			key: 'Permissions-Policy',
 			value: 'geolocation=(), microphone=(), interest-cohort=()'
