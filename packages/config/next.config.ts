@@ -60,11 +60,11 @@ export const config = (options?: Options): typeof defaultConfig & NextConfig => 
 				"form-action 'self'; " +
 				"manifest-src 'self'; " +
 				"prefetch-src 'self'; " +
-				`script-src 'self' 'unsafe-inline' ${hosts?.script?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
-				`style-src 'self' 'unsafe-inline' ${hosts?.style?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
-				`img-src data: 'self' ${hosts?.img?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
-				`font-src 'self' ${hosts?.font?.map((it) => `'${it}'`)?.join(' ') ?? ''}; ` +
-				`connect-src 'self' ${hostlist.filter((it) => !it.startsWith('unsafe')).map((it) => `'${it}'`).join(' ')}; ` +
+				`script-src 'self' 'unsafe-inline' ${hosts?.script?.join(' ') ?? ''}; ` +
+				`style-src 'self' 'unsafe-inline' ${hosts?.style?.join(' ') ?? ''}; ` +
+				`img-src data: 'self' ${hosts?.img?.join(' ') ?? ''}; ` +
+				`font-src 'self' ${hosts?.font?.join(' ') ?? ''}; ` +
+				`connect-src 'self' ${hostlist.filter((it) => !it.startsWith('unsafe')).join(' ')}; ` +
 				"base-uri 'self';"
 		}
 		const XXssProtection = {
