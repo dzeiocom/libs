@@ -39,7 +39,7 @@ export const config = (options?: Options): typeof defaultConfig & NextConfig => 
 			if (!hosts.script) {
 				hosts.script = []
 			}
-			hosts.script.push('unsafe-eval')
+			hosts.script.push('\'unsafe-eval\'')
 		}
 
 		let hostlist: Array<string> = []
