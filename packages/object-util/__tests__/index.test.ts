@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { objectSize, objectMap, objectSort, objectEqual, objectKeys, objectSet, objectLoop, objectClone, objectValues, objectClean, isObject, objectOmit } from '../src/ObjectUtil'
+import { isObject, objectClean, objectClone, objectEqual, objectKeys, objectLoop, objectMap, objectOmit, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
 
 describe('Throw if parameter is not an object', () => {
 	it('should works', () => {
@@ -270,6 +270,9 @@ describe('Object Equal Test', () => {
 		}, {
 			a: [10, {b: 'c'}], d: '1', e: 2, f: true, g: null, h: undefined
 		})).toBe(true)
+	})
+	it('should handle arrays with empty elements', () => {
+		expect(objectEqual([,true], [,true])).toBe(true)
 	})
 })
 

@@ -200,7 +200,7 @@ export function objectEqual(first: BasicObject, second: BasicObject): boolean {
 		return false
 	}
 	const res = objectLoop(first, (item, key) => {
-		if (!(key in second)) {
+		if (!(key in second) && key in first) {
 			return false
 		}
 		const item2 = second[key]
