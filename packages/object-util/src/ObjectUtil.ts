@@ -8,6 +8,7 @@ export type BasicObject<K extends BasicObjectKeys = BasicObjectKeys, V = any> = 
  *
  * @param obj the object to remap
  * @param fn the function to run for each key: value pairs
+ * @returns {Array} a new array filled with the object fn callback
  */
 export function objectMap<T = any, J = any, K extends BasicObjectKeys = BasicObjectKeys>(
 	obj: BasicObject<K, T>,
@@ -26,6 +27,7 @@ export function objectMap<T = any, J = any, K extends BasicObjectKeys = BasicObj
  *
  * @param obj the object to loop through
  * @param fn the function to run for each childs if the function return `false` it will stop
+ * @returns {boolean} return if the loop finished or ended early
  */
 export function objectLoop<T = any, K extends BasicObjectKeys = BasicObjectKeys>(
 	obj: BasicObject<K, T>,
@@ -47,6 +49,7 @@ export function objectLoop<T = any, K extends BasicObjectKeys = BasicObjectKeys>
  * Transform an object to an array of its values
  *
  * @param obj the object to transform
+ * @returns {Array} an array containing the object's values
  */
 export function objectValues<T = any>(obj: BasicObject<BasicObjectKeys, T>): Array<T> {
 	mustBeObject(obj)
@@ -65,6 +68,7 @@ export function objectToArray<T = any>(obj: BasicObject<BasicObjectKeys, T>): Ar
  * return the keys of the object
  *
  * @param obj the object
+ * @returns {Array} an array containing the object's keys
  */
 export function objectKeys<K extends BasicObjectKeys = BasicObjectKeys>(obj: BasicObject<K>): Array<K> {
 	mustBeObject(obj)
@@ -80,6 +84,7 @@ export function objectKeys<K extends BasicObjectKeys = BasicObjectKeys>(obj: Bas
  * return the length of an object
  *
  * @param obj the object
+ * @returns {number} the object's size
  */
 export function objectSize(obj: BasicObject): number {
 	return objectKeys(obj).length
@@ -92,6 +97,7 @@ export function objectSize(obj: BasicObject): number {
  *
  * @param obj the object to sort
  * @param fn (Optionnal) the function to run to sort
+ * @returns a new object with the keys sorted using the fn
  */
 export function objectSort<T extends BasicObject>(
 	obj: T,
@@ -182,6 +188,7 @@ export function objectSet(obj: BasicObject, path: Array<BasicObjectKeys>, value:
 			}
 			break
 		}
+
 		// move pointer to new key
 		pointer = pointer[key]
 	}
@@ -192,6 +199,7 @@ export function objectSet(obj: BasicObject, path: Array<BasicObjectKeys>, value:
  *
  * @param first the first object
  * @param second the second object
+ * @returns {boolean} a boolean representing the equality of the two objects
  */
 export function objectEqual(first: BasicObject, second: BasicObject): boolean {
 	mustBeObject(first)
@@ -216,11 +224,12 @@ export function objectEqual(first: BasicObject, second: BasicObject): boolean {
 }
 
 /**
- * deeply clean an object from having {key: undefined}
+ * Deeply clean an object from having `undefined` and/or `null` (option to enable)
  *
  * @param obj the object to clean
+ * @param options cleanup options
  * @param {boolean?} options.cleanUndefined (default: true) clean undefined from the object
- * @param {boolean?} options.cleanNull clean null from the object
+ * @param {boolean?} options.cleanNull (default: false) clean null from the object
  * @param {boolean?} options.deep (default: true) deeply clean the object
  */
 export function objectClean(obj: BasicObject, options?: {cleanUndefined?: boolean, cleanNull?: boolean, deep?: boolean}): void {
@@ -241,13 +250,15 @@ export function objectClean(obj: BasicObject, options?: {cleanUndefined?: boolea
 }
 
 /**
- * clone the object (not deeply) and emit some keys from cloning
+ * return a new object containing only not the keys defined
+ *
+ * note: clone is not deep
  *
  * @param obj the object to clone
  * @param keys the keys to emit
  * @returns the cloned object
  */
-export function objectOmit<T extends BasicObject>(obj: T, ...keys: Array<string>): T {
+export function objectOmit<T extends BasicObject>(obj: T, ...keys: Array<string | number>): T {
 	const cloned = objectClone(obj, {deep: false})
 	for (const key of keys) {
 		if (key in cloned) {
@@ -270,8 +281,10 @@ export function isObject(item: any): item is BasicObject {
 /**
  * Strict check for an object
  *
+ * throw an error is the item is not an item
+ *
  * @param item the item to check
- * @returns {boolean} throw an error is the item is not an item
+ * @returns {boolean} true is the item is an object, else throw an error
  */
 export function mustBeObject(item: any): item is BasicObject {
 	if (isObject(item)) {
