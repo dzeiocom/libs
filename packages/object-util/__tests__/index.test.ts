@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { isObject, objectClean, objectClone, objectEqual, objectKeys, objectLoop, objectMap, objectOmit, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
+import { isObject, objectClean, objectClone, objectEqual, objectKeys, objectLoop, objectMap, objectOmit, objectRemap, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
 
 describe('Throw if parameter is not an object', () => {
 	it('should works', () => {
@@ -385,4 +385,31 @@ describe('Is Object Tests', () => {
 		expect(isObject({})).toBe(true)
 	})
 	it('array is an object', () => expect(isObject([])).toBe(true))
+})
+
+
+describe('object remap tests', () => {
+	it('should works on objects', () => {
+		expect(objectRemap({a: "pouet"}, (value, key) => {
+			return {key: key + 'a', value}
+		})).toEqual({aa: "pouet"})
+	})
+	it('should works on arrays', () => {
+		const pouet: [string] = ['pokemon']
+		expect(objectRemap(pouet, (value, key: number) => {
+			return {key: key + 2, value}
+		})).toEqual({2: "pokemon"})
+	})
+	it('should replace value', () => {
+		expect(objectRemap({a: 'a', b: 'b'}, (value) => {
+			return {key: 'b', value}
+		})).toEqual({b: 'b'})
+	})
+	it('should throw an error in strict mode', () => {
+		expect(() => {
+			objectRemap({a: 'a', b: 'b'}, (value) => {
+				return {key: 'b', value}
+			}, {strict: true})
+		}).toThrow()
+	})
 })

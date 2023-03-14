@@ -23,6 +23,38 @@ export function objectMap<T = any, J = any, K extends BasicObjectKeys = BasicObj
 }
 
 /**
+ * a more advanced map function that transform an object back into another object
+ *
+ * note: if multiple key are the same only the last value will be set unless options.strict is enabled
+ *
+ * note2: for an array you will have to add manual typing to the `key` like this: `key: number`
+ *
+ * warn: the value is not a clone
+ *
+ * @param obj the object to remap (it will not be changed)
+ * @param fn the function to run through
+ * @param options optionnal options that change how the function works
+ * @param options.strict (default: false) enabling this will throw an error if the same key is set twice
+ * @returns a not deeply cloned object with it's key/values set from the [fn] function
+ */
+export function objectRemap<T = any, J extends BasicObject = BasicObject, K extends BasicObjectKeys = BasicObjectKeys>(
+	obj: BasicObject<K, T>,
+	fn: (value: T, key: K, index: number) => {key: keyof J, value: J[typeof key]},
+	options?: {strict?: boolean}
+): J {
+	mustBeObject(obj)
+	const clone: J = {} as any
+	objectLoop(obj, (item, oldKey, index) => {
+		const { key, value } = fn(item, oldKey, index)
+		if (options?.strict && key in clone) {
+			throw new Error('objectRemap strict mode active, you can\'t remap the same key twice')
+		}
+		clone[key] = value
+	})
+	return clone
+}
+
+/**
  * Loop through the object
  *
  * @param obj the object to loop through
@@ -296,6 +328,7 @@ export function mustBeObject(item: any): item is BasicObject {
 
 export default {
 	objectMap,
+	objectRemap,
 	objectLoop,
 	objectToArray,
 	objectKeys,
