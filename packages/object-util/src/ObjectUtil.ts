@@ -256,27 +256,29 @@ export function objectEqual(first: BasicObject, second: BasicObject): boolean {
 }
 
 /**
- * Deeply clean an object from having `undefined` and/or `null` (option to enable)
+ * Deeply clean an object from having `undefined`,`null` and/or flasy values (options to enable)
  *
  * @param obj the object to clean
  * @param options cleanup options
  * @param {boolean?} options.cleanUndefined (default: true) clean undefined from the object
+ * @param {boolean?} options.cleanFalsy (default: false) clean falsy values (including undefined and null) from the object see https://developer.mozilla.org/en-US/docs/Glossary/Falsy
  * @param {boolean?} options.cleanNull (default: false) clean null from the object
  * @param {boolean?} options.deep (default: true) deeply clean the object
  */
-export function objectClean(obj: BasicObject, options?: {cleanUndefined?: boolean, cleanNull?: boolean, deep?: boolean}): void {
+export function objectClean(obj: BasicObject, options?: {cleanUndefined?: boolean, cleanNull?: boolean, cleanFalsy?: boolean, deep?: boolean}): void {
 	mustBeObject(obj)
 	objectLoop(obj, (item, key) => {
-		if ((typeof options?.cleanUndefined === 'undefined' || options?.cleanUndefined) && item === undefined) {
-			delete obj[key]
+		if ((typeof options?.cleanUndefined === 'undefined' || options.cleanUndefined) && item === undefined) {
+			delete obj[key] // clean undefined values
+		} else if (options?.cleanFalsy && !obj[key]) {
+			delete obj[key] // clean falsy values
+		} else if (options?.cleanNull && item === null) {
+			delete obj[key] // clean null values
 		}
 
-		if (options?.cleanNull && item === null) {
-			delete obj[key]
-		}
-
-		if ((typeof options?.deep === 'undefined' || options?.deep) && isObject(item)) {
-			return objectClean(item, options)
+		// deeply clean the object
+		if ((typeof options?.deep === 'undefined' || options.deep) && isObject(item)) {
+			objectClean(item, options)
 		}
 	})
 }

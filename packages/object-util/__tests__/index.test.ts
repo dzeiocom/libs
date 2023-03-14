@@ -324,6 +324,22 @@ describe('Object Clean Tests', () => {
 		objectClean(obj)
 		expect(obj).toEqual({a: '', b: null})
 	})
+	it('should clean undefined when told to', () => {
+		const obj = {a: '', b: null, c: undefined}
+		objectClean(obj, {cleanUndefined: true})
+		expect(obj).toEqual({a: '', b: null})
+	})
+	it('should clean deeply when told to', () => {
+		const obj = {a: '', b: null, c: {aa: undefined}}
+		objectClean(obj, {deep: true})
+		expect(obj).toEqual({a: '', b: null, c: {}})
+	})
+
+	it('should clean falsy values when told to', () => {
+		const obj = {obj: 'util', a: '', b: null, c: {aa: undefined}}
+		objectClean(obj, {cleanFalsy: true})
+		expect(obj).toEqual({obj: 'util', c: {}})
+	})
 	it('should not clean when options.cleanUndefined is false', () => {
 		const obj2 = {a: '', b: null, c: undefined}
 		objectClean(obj2, {cleanUndefined: false})
