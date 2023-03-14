@@ -1,5 +1,5 @@
-type BasicObjectKeys = string | number | symbol
-type BasicObject<K extends BasicObjectKeys = BasicObjectKeys, V = any> = { [P in K]?: V }
+export type BasicObjectKeys = string | number | symbol
+export type BasicObject<K extends BasicObjectKeys = BasicObjectKeys, V = any> = { [P in K]?: V }
 
 /**
  * Remap an object to an array through a function
