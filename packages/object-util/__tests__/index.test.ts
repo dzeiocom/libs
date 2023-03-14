@@ -214,6 +214,17 @@ describe('Object Clone Tests', () => {
 		expect(clone).not.toEqual(obj)
 	})
 
+	it('should deeply clone the object when option is set', () => {
+		const obj = {
+			pouet: {is: 'first'},
+			toto: 'second'
+		}
+		const clone = objectClone(obj, {deep: true})
+		expect(clone).toEqual(obj)
+		clone.toto = 'third'
+		expect(clone).not.toEqual(obj)
+	})
+
 	it('should clone an Array', () => {
 		const obj = ['one', 'two']
 		const clone = objectClone(obj)
