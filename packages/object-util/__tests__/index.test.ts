@@ -4,7 +4,6 @@ import { isObject, objectClean, objectClone, objectEqual, objectKeys, objectLoop
 
 describe('Throw if parameter is not an object', () => {
 	it('should works', () => {
-		// @ts-ignore
 		expect(objectKeys).toThrow()
 	})
 })
@@ -19,6 +18,16 @@ describe('Object Map tests', () => {
 			return [index, value]
 		})).toEqual([['pouet', 'first'],['toto','second']])
 	})
+
+	it('should works on arrays', () => {
+		const obj = [
+			'first',
+			'second'
+		]
+		expect(objectMap(obj, (value, index) => {
+			return [index, value]
+		})).toEqual([[0, 'first'],[1, 'second']])
+	})
 })
 
 describe('Object Loop Tests', () => {
@@ -31,6 +40,23 @@ describe('Object Loop Tests', () => {
 			if (key === 'pouet') {
 				expect(value).toBe(true)
 			} else if (key === 'toto') {
+				expect(value).toBe('object-util')
+			} else {
+				throw "it should not come here"
+			}
+		})
+
+	})
+
+	it('should work on arrays', () => {
+		const obj = [
+			true,
+			'object-util'
+		]
+		objectLoop(obj, (value, key) => {
+			if (key === 0) {
+				expect(value).toBe(true)
+			} else if (key === 1) {
 				expect(value).toBe('object-util')
 			} else {
 				throw "it should not come here"
@@ -76,20 +102,28 @@ describe('Object To Array Tests', () => {
 		}
 		expect(objectValues(obj)).toEqual(['first', 'second'])
 	})
+	// it('shoud work on arrays', () => {
+	// 	const obj = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+	// 	expect(objectValues(obj)).toEqual(obj)
+	// })
 })
 
 describe('Object Keys Tests', () => {
-	it('Should Works', () => {
+	it('Should work on objects', () => {
 		const obj = {
 			pouet: 'first',
 			toto: 'second'
 		}
 		expect(objectKeys(obj)).toEqual(['pouet', 'toto'])
 	})
+	it('shoud work on arrays', () => {
+		const obj = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+		expect(objectKeys(obj)).toEqual(obj)
+	})
 })
 
 describe('Object Size Tests', () => {
-	it('shoud return length of the object', () => {
+	it('shoud return length of an object', () => {
 		const obj = {
 			index0: true,
 			index1: false,
@@ -105,6 +139,10 @@ describe('Object Size Tests', () => {
 		}
 		expect(objectSize(obj)).toBe(11)
 	})
+	it('shoud return length of an array', () => {
+		const obj = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+		expect(objectSize(obj)).toBe(10)
+	})
 })
 
 describe('Object sort Tests', () => {
@@ -118,6 +156,10 @@ describe('Object sort Tests', () => {
 			b: 'first'
 		})
 	})
+	// it('should sort an array (yes stupid)', () => {
+	// 	const arr = [2, 1, 0]
+	// 	expect(objectSort(arr, (a, b) => a - b)).toEqual([0, 1, 2])
+	// })
 	it('should sort by the specified key', () => {
 		const obj = {
 			b: 'first',
@@ -317,6 +359,10 @@ describe('Object Omit Tests', () => {
 		const obj = {a: 'a', b: 'c', c: 'b'}
 		expect(objectOmit(Object.freeze(obj), 'b', 'd')).toEqual({a: 'a', c: 'b'})
 	})
+	it('should work with an array', () => {
+		const obj = [1, 2, 3, 4]
+		expect(objectOmit(obj, 1, 3)).toEqual([1,undefined,3,undefined])
+	})
 })
 
 describe('Is Object Tests', () => {
@@ -338,4 +384,5 @@ describe('Is Object Tests', () => {
 	it('object is an "object"', () => {
 		expect(isObject({})).toBe(true)
 	})
+	it('array is an object', () => expect(isObject([])).toBe(true))
 })
