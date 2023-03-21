@@ -195,7 +195,7 @@ export default class URLManager {
 		}
 		if (val === null) {
 			delete this._domain
-      return this
+			return this
 		}
 		this._domain = val
 		return this
