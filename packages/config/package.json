@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/config",
-	"version": "1.1.4",
+	"version": "1.1.12",
 	"description": "global configuration files for programming",
 	"author": "Avior",
 	"license": "MIT",
@@ -10,13 +10,15 @@
 		"directory": "packages/config"
 	},
 	"devDependencies": {
-		"@types/node": "^16.10.1",
-		"next": "^11.1.2"
+		"@dzeio/object-util": "^1",
+		"@types/node": "^18",
+		"next": "^12"
 	},
 	"peerDependencies": {
-		"@typescript-eslint/parser": "^4.28.2",
-		"next": "^11.1.2",
-		"next-pre-css": "^1.0.0"
+		"@dzeio/object-util": ">=1.4.2",
+		"@typescript-eslint/parser": ">=5.18.0",
+		"next": ">=12.1.0",
+		"next-pre-css": ">=1.0.0"
 	},
 	"peerDependenciesMeta": {
 		"next": {
@@ -32,5 +34,8 @@
 	"scripts": {
 		"prepublishOnly": "tsc",
 		"build": "tsc --noEmit"
+	},
+	"dependencies": {
+		"package.json": "^2.0.1"
 	}
 }

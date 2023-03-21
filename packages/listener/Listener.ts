@@ -69,7 +69,7 @@ export default abstract class Listener<
 			(this.handlers[event] as Array<T[typeof event]>).splice(index, 1)
 		}
 
-		// @ts-ignore
+		// @ts-expect-error Meta Listener
 		this.emit('removeListener', event, listener)
 		return this
 	}
@@ -122,6 +122,10 @@ export default abstract class Listener<
 	 * @param ev the variables to send
 	 */
 	public emit(event: keyof T, ...ev: Parameters<T[typeof event]>) {
+		if (event !== 'all') {
+			// @ts-expect-error Meta Listener
+			this.emit('all', event, ...ev)
+		}
 		const listeners = this.listeners(event)
 		listeners.forEach((fn) => fn(...ev))
 		return listeners.length > 0
@@ -175,7 +179,7 @@ export default abstract class Listener<
 	}
 
 	private internalAdd(push: boolean, event: keyof T, listener: T[typeof event]) {
-		// @ts-ignore
+		// @ts-expect-error Meta Listener
 		this.emit('newListener', event, listener)
 		const item = this.handlers[event]
 		if (!item) {
@@ -189,7 +193,7 @@ export default abstract class Listener<
 		}
 		const listenerCount = this.listenerCount(event)
 		if (listenerCount > this.getMaxListeners()) {
-			console.warn(`MaxListenersExceededWarning: Possible EventEmitter memory leak detected. ${this.getMaxListeners()} userStateChanged listeners added to [FireAuth]. Use emitter.setMaxListeners() to increase limitWarning: more than  are in the event ${event}! (${listenerCount})`)
+			console.warn(`MaxListenersExceededWarning: Possible EventEmitter memory leak detected. ${this.getMaxListeners()} listeners recommended while there is ${listenerCount} listeners. Use emitter.setMaxListeners() to increase limit`)
 		}
 		return this
 	}

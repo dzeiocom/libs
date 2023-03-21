@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/object-util",
-	"version": "1.4.2",
+	"version": "1.5.0",
 	"description": "Utility functions to manipulate an object",
 	"repository": {
 		"type": "git",
@@ -15,11 +15,27 @@
 	"types": "./dist/types/ObjectUtil.d.ts",
 	"sideEffects": false,
 	"devDependencies": {
-		"esbuild": "^0.13.2"
+		"@types/jest": "^29",
+		"@typescript-eslint/eslint-plugin": "^5",
+		"@typescript-eslint/parser": "^5",
+		"esbuild": "^0.16.2",
+		"eslint": "^8",
+		"jest": "^29",
+		"jest-sonar-reporter": "^2",
+		"ts-jest": "^29",
+		"ts-node": "^10",
+		"typescript": "^4"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
 		"build": "esbuild src/index.ts --outfile=dist/browser.js --minify --bundle --target=es6 && tsc && tsc --project tsconfig.esm.json",
-		"test": "jest --coverage"
-	}
+		"test": "jest --coverage",
+		"lint": "eslint src"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"package.json",
+		"CHANGELOG.md"
+	]
 }

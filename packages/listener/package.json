@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/listener",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"description": "A NodeJS Listener implementation",
 	"repository": {
 		"type": "git",
@@ -12,7 +12,7 @@
 	"main": "./dist/Listener.js",
 	"types": "./dist/Listener.d.ts",
 	"scripts": {
-		"prepublishOnly": "yarn build",
+		"prepublishOnly": "npm run build",
 		"build": "tsc"
 	}
 }

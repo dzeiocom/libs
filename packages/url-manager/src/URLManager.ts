@@ -180,13 +180,13 @@ export default class URLManager {
 
 	/**
 	 * set the url domain name
-	 * @param val the domain name
+	 * @param val the domain name (if set to null it will remove the domain)
 	 */
 	public domain(val: string | null): this
 
 	/**
 	 * Manipulate the url domain
-	 * @param { string | undefined } val the url domain (Optionnal)
+	 * @param { string | null | undefined } val the url domain (Optionnal)
 	 * @return { string | this }
 	 */
 	public domain(val?: string | null) {
@@ -195,9 +195,9 @@ export default class URLManager {
 		}
 		if (val === null) {
 			delete this._domain
-		} else {
-			this._domain = val
+      return this
 		}
+		this._domain = val
 		return this
 	}
 
