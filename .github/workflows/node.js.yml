@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -37,20 +37,3 @@ jobs:
 
     - name: Test packages
       run: npm run test --workspaces --if-present
-
-    - uses: sonarsource/sonarcloud-github-action@master
-      if: matrix.node-version == '16.x'
-      with:
-        args: >
-          -Dsonar.organization=dzeio
-          -Dsonar.projectKey=dzeiocom_libs
-          -Dsonar.javascript.lcov.reportPaths=packages/**/coverage/lcov.info
-          -Dsonar.testExecutionReportPaths=packages/easy-sitemap/test-report.xml,packages/object-util/test-report.xml,packages/url-manager/test-report.xml
-          -Dsonar.sources=packages
-          -Dsonar.exclusions=packages/**/__tests__,packages/**/dist,node_modules,packages/**/coverage
-          -Dsonar.tests=packages/easy-sitemap/__tests__,packages/object-util/__tests__,packages/url-manager/__tests__
-          -Dsonar.test.inclusions=packages/**/*.test.ts
-          -Dsonar.sourceEncoding=UTF-8
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
