@@ -1,5 +1,5 @@
-import colors, { black, white, blue, yellow, green } from 'ansi-colors'
-import { theme, logType, ObjectArray } from '../typing/types'
+import { black, blue, green, white, yellow } from 'picocolors'
+import { logType, theme } from '../typing/types'
 
 export default class Logger implements Console {
 
@@ -51,12 +51,12 @@ export default class Logger implements Console {
 	/**
 	 * `count` function object value
 	 */
-	private countCount: ObjectArray<number> = {}
+	private countCount: Record<string, number> = {}
 
 	/**
 	 * `time` function object value
 	 */
-	private timeCount: ObjectArray<Date> = {}
+	private timeCount: Record<string, Date> = {}
 
 	/**
 	 * Construct a new Logger
@@ -66,12 +66,6 @@ export default class Logger implements Console {
 		public prefix: string = 'Logger'
 	) {
 		Logger.loggers.push(this)
-
-		// If Firefox disable colors
-		// @ts-ignore
-		if (typeof InstallTrigger !== 'undefined') {
-			colors.enabled = false
-		}
 	}
 
 	/**
@@ -129,7 +123,7 @@ export default class Logger implements Console {
 	 * @param label Display label, default to `default`
 	 */
 	public count(label: string = 'default'): void {
-		if (!Object.prototype.hasOwnProperty.call(this.countCount, label)) {
+		if (!(label in this.countCount)) {
 			this.countCount[label] = 0
 		}
 		this.log(`${label}:`, ++this.countCount[label])
@@ -274,7 +268,7 @@ export default class Logger implements Console {
 	 * @param label Timer label
 	 */
 	public time(label: string = 'default'): void {
-		if (!Object.prototype.hasOwnProperty.call(this.timeCount, label)) {
+		if (!this.timeCount[label]) {
 			this.timeCount[label] = new Date()
 			return
 		}
@@ -363,7 +357,7 @@ export default class Logger implements Console {
 		const spacers: Array<string> = ['', '']
 		if (Logger.prefixLen > prefixLen) {
 			const diff = Logger.prefixLen - prefixLen
-			const diff2 = diff /2
+			const diff2 = diff / 2
 			spacers[0] = this.buildSpace(diff2 - (diff % 2 !== 0 ? 1 : 0))
 			spacers[1] = this.buildSpace(diff2)
 		}
@@ -373,9 +367,9 @@ export default class Logger implements Console {
 
 		if (Logger.timestamp) {
 			const now = new Date()
-			const h = now.getHours() >= 10 ? now.getHours().toString() : `0${now.getHours()}`
-			const m = now.getMinutes() >= 10 ? now.getMinutes().toString() : `0${now.getMinutes()}`
-			const s = now.getSeconds() >= 10 ? now.getSeconds().toString() : `0${now.getSeconds()}`
+			const h = now.getHours().toString().padStart(2, '0')
+			const m = now.getMinutes().toString().padStart(2, '0')
+			const s = now.getSeconds().toString().padStart(2, '0')
 			res.unshift(`${this.blackOrWhite('<')}${yellow(h)}:${yellow(m)}:${yellow(s)}${this.blackOrWhite('>')}`)
 		}
 		return res.concat(
