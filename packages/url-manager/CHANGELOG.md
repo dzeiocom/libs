@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.10] - 2023-06-28
+
+- Better support for ESM modules
+
 ### Deprecated
 
 - not URL related functions ([#21](https://github.com/dzeiocom/libs/issues/21))

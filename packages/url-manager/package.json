@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/url-manager",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"description": "A simple to use yet complete Urls parser and serializer",
 	"repository": {
 		"type": "git",
@@ -16,6 +16,14 @@
 	"files": [
 		"dist"
 	],
+	"exports": {
+		".": {
+			"types": "./dist/types/URLManager.d.ts",
+			"require": "./dist/cjs/URLManager.js",
+			"import": "./dist/esm/URLManager.js",
+			"default": "./dist/esm/URLManager.js"
+		}
+	},
 	"keywords": [
 		"url",
 		"url-manager",
@@ -25,7 +33,13 @@
 		"serializer"
 	],
 	"devDependencies": {
-		"esbuild": "^0.13.2"
+		"@types/jest": "^29",
+		"jest": "^29",
+		"jest-sonar-reporter": "^2.0.0",
+		"ts-jest": "^29",
+		"ts-node": "^10",
+		"typescript": "^5",
+		"esbuild": "^0.18.10"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
@@ -33,6 +47,6 @@
 		"test": "jest --coverage"
 	},
 	"dependencies": {
-		"@dzeio/object-util": "^1.4.0"
+		"@dzeio/object-util": "^1.5.0"
 	}
 }
