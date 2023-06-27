@@ -1,11 +1,7 @@
 {
-	"extends": "../config/tsconfig.esm.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"outDir": "dist/esm",
-		"declaration": false,
-		"declarationDir": null
-	},
-	"files": [
-		"src/URLManager.ts"
-	]
+		"outDir": "./dist/esm",
+		"module": "ESNext"
+	}
 }
