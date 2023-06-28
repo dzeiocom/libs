@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/object-util",
-	"version": "1.5.0",
+	"version": "1.6.0",
 	"description": "Utility functions to manipulate an object",
 	"repository": {
 		"type": "git",
@@ -10,9 +10,22 @@
 	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/object-util",
 	"author": "Aviortheking",
 	"license": "MIT",
-	"main": "./dist/cjs/ObjectUtil.js",
-	"module": "./dist/esm/ObjectUtil.js",
-	"types": "./dist/types/ObjectUtil.d.ts",
+	"main": "./dist/ObjectUtil.js",
+	"module": "./dist/ObjectUtil.mjs",
+	"types": "./dist/ObjectUtil.d.ts",
+	"browser": "./dist/ObjectUtil.global.js",
+	"exports": {
+		".": {
+			"require": {
+				"types": "./dist/ObjectUtil.d.ts",
+				"default": "./dist/ObjectUtil.js"
+			},
+			"import": {
+				"default": "./dist/ObjectUtil.mjs",
+				"types": "./dist/ObjectUtil.d.mts"
+			}
+		}
+	},
 	"sideEffects": false,
 	"devDependencies": {
 		"@types/jest": "^29",
@@ -24,11 +37,12 @@
 		"jest-sonar-reporter": "^2",
 		"ts-jest": "^29",
 		"ts-node": "^10",
+		"tsup": "^7.1.0",
 		"typescript": "^4"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"build": "esbuild src/index.ts --outfile=dist/browser.js --minify --bundle --target=es6 && tsc && tsc --project tsconfig.esm.json",
+		"build": "tsup ./src/ObjectUtil.ts --format cjs,esm --dts --clean && tsup ./src/ObjectUtil.ts --format iife --global-name ObjectUtil --sourcemap",
 		"test": "jest --coverage",
 		"lint": "eslint src"
 	},
