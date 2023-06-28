@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2023-06-28
+
+### Added
+
+- Support for ESM
+
 ## [2.0.4] - 2021-02-08
 
 ### Removed

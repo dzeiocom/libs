@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/logger",
-	"version": "3.0.0",
+	"version": "3.1.0",
 	"description": "My Personnal Logger",
 	"repository": {
 		"type": "git",
@@ -10,7 +10,21 @@
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/Logger.js",
+	"module": "./dist/Logger.mjs",
 	"types": "./dist/Logger.d.ts",
+	"browser": "./dist/Logger.global.js",
+	"exports": {
+		".": {
+			"require": {
+				"types": "./dist/Logger.d.ts",
+				"default": "./dist/Logger.js"
+			},
+			"import": {
+				"default": "./dist/Logger.mjs",
+				"types": "./dist/Logger.d.mts"
+			}
+		}
+	},
 	"dependencies": {
 		"ansi-colors": "^4.1.1"
 	},
@@ -18,11 +32,11 @@
 		"@typescript-eslint/eslint-plugin": "^4.5.0",
 		"@typescript-eslint/parser": "^4.5.0",
 		"eslint": "^7.4.0",
-		"parcel": "1.12.3"
+		"tsup": "^7.1.0"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"build": "parcel build src/index.ts --out-file browser.js --experimental-scope-hoisting && tsc",
+		"build": "tsup ./src/Logger.ts --format cjs,esm --dts --clean && tsup ./src/Logger.ts --format iife --global-name Logger --sourcemap",
 		"test": "ts-node test"
 	}
 }
