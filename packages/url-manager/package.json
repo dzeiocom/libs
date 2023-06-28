@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/url-manager",
-	"version": "1.0.10",
+	"version": "1.1.0",
 	"description": "A simple to use yet complete Urls parser and serializer",
 	"repository": {
 		"type": "git",
@@ -10,18 +10,23 @@
 	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/url-manager#readme",
 	"author": "Aviortheking",
 	"license": "MIT",
-	"main": "./dist/cjs/URLManager.js",
-	"module": "./dist/esm/URLManager.js",
-	"types": "./dist/types/URLManager.d.ts",
 	"files": [
 		"dist"
 	],
+	"main": "./dist/URLManager.js",
+	"module": "./dist/URLManager.mjs",
+	"types": "./dist/URLManager.d.ts",
+	"browser": "./dist/URLManager.global.js",
 	"exports": {
 		".": {
-			"types": "./dist/types/URLManager.d.ts",
-			"require": "./dist/cjs/URLManager.js",
-			"import": "./dist/esm/URLManager.js",
-			"default": "./dist/esm/URLManager.js"
+			"require": {
+				"types": "./dist/URLManager.d.ts",
+				"default": "./dist/URLManager.js"
+			},
+			"import": {
+				"default": "./dist/URLManager.mjs",
+				"types": "./dist/URLManager.d.mts"
+			}
 		}
 	},
 	"keywords": [
@@ -38,12 +43,12 @@
 		"jest-sonar-reporter": "^2.0.0",
 		"ts-jest": "^29",
 		"ts-node": "^10",
-		"typescript": "^5",
-		"esbuild": "^0.18.10"
+		"tsup": "^7.1.0",
+		"typescript": "^5"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"build": "esbuild src/index.ts --bundle --outfile=dist/browser.js --minify --target=es6 && tsc && tsc --project tsconfig.esm.json",
+		"build": "tsup ./src/URLManager.ts --format cjs,esm --dts --clean && tsup ./src/URLManager.ts --format iife --global-name URLManager --sourcemap",
 		"test": "jest --coverage"
 	},
 	"dependencies": {
