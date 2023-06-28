@@ -1,5 +1,5 @@
-import colors, { black, white, blue, yellow, green } from 'ansi-colors'
-import { theme, logType, ObjectArray } from '../typing/types'
+import { black, blue, green, white, yellow } from 'colorette'
+import { ObjectArray, logType, theme } from '../typing/types'
 
 export default class Logger implements Console {
 
@@ -66,12 +66,6 @@ export default class Logger implements Console {
 		public prefix: string = 'Logger'
 	) {
 		Logger.loggers.push(this)
-
-		// If Firefox disable colors
-		// @ts-ignore
-		if (typeof InstallTrigger !== 'undefined') {
-			colors.enabled = false
-		}
 	}
 
 	/**
