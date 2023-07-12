@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/object-util",
-	"version": "1.6.0",
+	"version": "1.6.1",
 	"description": "Utility functions to manipulate an object",
 	"repository": {
 		"type": "git",
@@ -21,8 +21,8 @@
 				"default": "./dist/ObjectUtil.js"
 			},
 			"import": {
-				"default": "./dist/ObjectUtil.mjs",
-				"types": "./dist/ObjectUtil.d.mts"
+				"types": "./dist/ObjectUtil.d.mts",
+				"default": "./dist/ObjectUtil.mjs"
 			}
 		}
 	},

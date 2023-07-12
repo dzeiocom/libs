@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/url-manager",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "A simple to use yet complete Urls parser and serializer",
 	"repository": {
 		"type": "git",
@@ -20,8 +20,8 @@
 	"exports": {
 		".": {
 			"require": {
-				"types": "./dist/URLManager.d.ts",
-				"default": "./dist/URLManager.js"
+				"default": "./dist/URLManager.js",
+				"types": "./dist/URLManager.d.ts"
 			},
 			"import": {
 				"default": "./dist/URLManager.mjs",

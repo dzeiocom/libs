@@ -1,5 +1,18 @@
 import { ServerResponse } from 'http'
 
+interface SitemapEntry {
+	changefreq?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
+	lastmod?: Date
+	priority?: 1 | 0.9 | 0.8 | 0.7 | 0.6 | 0.5 | 0.4 | 0.3 | 0.2 | 0.1 | 0
+	images?: Array<{
+		location: string
+		caption?: string
+		geoLocation?: string
+		title?: string
+		license?: string
+	}>
+}
+
 export default class Sitemap {
 
 	private static allowedChangefreq = ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never']
@@ -8,7 +21,8 @@ export default class Sitemap {
 
 	public constructor(
 		private domain: string, private options?: {
-			response?: ServerResponse
+			response?: ServerResponse,
+			defaults?: SitemapEntry
 		}
 	) {
 		if (this.options?.response) {
@@ -22,18 +36,7 @@ export default class Sitemap {
 	 * @param path the url path
 	 * @param options aditional datas you want in the sitemap for the `path`
 	 */
-	public addEntry(path: string, options?: {
-		changefreq?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
-		lastmod?: Date
-		priority?: 1 | 0.9 | 0.8 | 0.7 | 0.6 | 0.5 | 0.4 | 0.3 | 0.2 | 0.1 | 0
-		images?: Array<{
-			location: string
-			caption?: string
-			geoLocation?: string
-			title?: string
-			license?: string
-		}>
-	}) {
+	public addEntry(path: string, options?: SitemapEntry) {
 		let entryString = '<url>'
 
 		const url = this.fixText(`${this.domain}${path}`)
