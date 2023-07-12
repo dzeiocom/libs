@@ -16,7 +16,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  dom-manager:
+  queue:
     runs-on: ubuntu-latest
     defaults:
       run:
