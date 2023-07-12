@@ -1,0 +1,42 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Test Easy Sitemap
+
+on:
+  push:
+    paths:
+      - './packages/easy-sitemap/**'
+      - '.github/workflows/test-easy-sitemap.yml'
+    branches: [ "master" ]
+  pull_request:
+    paths:
+      - './packages/easy-sitemap/**'
+      - '.github/workflows/test-easy-sitemap.yml'
+    branches: [ "master" ]
+
+jobs:
+  easy-sitemap:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/easy-sitemap
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 20.x]
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Easy Sitemap deps
+      run: npm ci
+
+    - name: Build Easy Sitemap
+      run: npm run build
+
+    - name: Test Easy Sitemap
+      run: npm run test
