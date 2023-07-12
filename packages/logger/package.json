@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/logger",
-	"version": "3.2.0",
+	"version": "3.2.1",
 	"description": "My Personnal Logger",
 	"repository": {
 		"type": "git",
@@ -20,8 +20,8 @@
 				"default": "./dist/Logger.js"
 			},
 			"import": {
-				"default": "./dist/Logger.mjs",
-				"types": "./dist/Logger.d.mts"
+				"types": "./dist/Logger.d.mts",
+				"default": "./dist/Logger.mjs"
 			}
 		}
 	},
