@@ -1,6 +1,6 @@
 {
 	"name": "easy-sitemap",
-	"version": "1.1.2",
+	"version": "1.2.0",
 	"description": "A very easy sitemap maker library",
 	"repository": {
 		"type": "git",
@@ -10,11 +10,27 @@
 	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/easy-sitemap#readme",
 	"author": "Aviortheking",
 	"license": "MIT",
+	"files": [
+		"dist"
+	],
 	"main": "./dist/Sitemap.js",
+	"module": "./dist/Sitemap.mjs",
 	"types": "./dist/Sitemap.d.ts",
+	"exports": {
+		".": {
+			"require": {
+				"types": "./dist/Sitemap.d.ts",
+				"default": "./dist/Sitemap.js"
+			},
+			"import": {
+				"types": "./dist/Sitemap.d.mts",
+				"default": "./dist/Sitemap.mjs"
+			}
+		}
+	},
 	"scripts": {
-		"prepublishOnly": "yarn build",
-		"build": "tsc",
+		"prepublishOnly": "npm run build",
+		"build": "tsup ./src/Sitemap.ts --format cjs,esm --dts --clean",
 		"test": "jest --coverage"
 	},
 	"keywords": [
@@ -25,5 +41,13 @@
 		"generator",
 		"SEO",
 		"search-engine"
-	]
+	],
+	"devDependencies": {
+		"@types/jest": "^29",
+		"jest": "^29",
+		"jest-sonar-reporter": "^2.0.0",
+		"ts-jest": "^29.1.1",
+		"tsup": "^7",
+		"typescript": "^5"
+	}
 }
