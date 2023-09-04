@@ -1,4 +1,7 @@
 /// <reference types="jest" />
+/**
+ * Tests for currently deprecated functions, so that there works die only after the next major update
+ */
 
 import { cloneObject, objectToArray } from "../src/ObjectUtil"
 

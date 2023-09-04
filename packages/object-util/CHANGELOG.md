@@ -6,7 +6,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2023-09-04
+
+### Added
+
+- a new `objectFind` function to find elements in an object
+
+## [1.6.1] - 2023-07-12
+
+### Fixed
+
+- Import order not respected for some loaders
+
+## [1.6.0] - 2023-06-28
+
+### Changed
+
+- Better support for both ESM and CommonJS
+
+## [1.5.0] - 2023-03-14
+
+### Added
+
+- new option for `objectClean` that clean falthy values
+- new `objectRemap` function that allow to create a new object from the key/value of the old object while applying modifications
+- Tests to better support Arrays
+
+### Changed
+
+- Export previously internal types `BasiceObject` and `BasicObjectKeys`
+
+### Fixed
+
+- Missing JSDocs for the retuns
+
+## [1.4.6] - 2023-02-22
+
+### Fixed
+
+- Handle arrays with empty elements
+
 ## [1.4.5] - 2022-12-08
+
 
 ### Fixed
 
