@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { isObject, objectClean, objectClone, objectEqual, objectKeys, objectLoop, objectMap, objectOmit, objectRemap, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
+import { isObject, objectClean, objectClone, objectEqual, objectFind, objectKeys, objectLoop, objectMap, objectOmit, objectRemap, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
 
 describe('Throw if parameter is not an object', () => {
 	it('should works', () => {
@@ -102,6 +102,7 @@ describe('Object To Array Tests', () => {
 		}
 		expect(objectValues(obj)).toEqual(['first', 'second'])
 	})
+
 	// it('shoud work on arrays', () => {
 	// 	const obj = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 	// 	expect(objectValues(obj)).toEqual(obj)
@@ -116,6 +117,7 @@ describe('Object Keys Tests', () => {
 		}
 		expect(objectKeys(obj)).toEqual(['pouet', 'toto'])
 	})
+
 	it('shoud work on arrays', () => {
 		const obj = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 		expect(objectKeys(obj)).toEqual(obj)
@@ -139,6 +141,7 @@ describe('Object Size Tests', () => {
 		}
 		expect(objectSize(obj)).toBe(11)
 	})
+
 	it('shoud return length of an array', () => {
 		const obj = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 		expect(objectSize(obj)).toBe(10)
@@ -156,10 +159,12 @@ describe('Object sort Tests', () => {
 			b: 'first'
 		})
 	})
+
 	// it('should sort an array (yes stupid)', () => {
 	// 	const arr = [2, 1, 0]
 	// 	expect(objectSort(arr, (a, b) => a - b)).toEqual([0, 1, 2])
 	// })
+
 	it('should sort by the specified key', () => {
 		const obj = {
 			b: 'first',
@@ -174,6 +179,7 @@ describe('Object sort Tests', () => {
 			d: 'fourth'
 		})
 	})
+
 	it('should sort by the specified key', () => {
 		const obj = {
 			b: 'first',
@@ -241,7 +247,6 @@ describe('Object Clone Tests', () => {
 		expect(clone).not.toEqual(obj)
 	})
 
-
 	it('should clone with Object.freeze', () => {
 		const obj = Object.freeze({
 			pouet: 'first',
@@ -290,33 +295,42 @@ describe('Object Equal Test', () => {
 	it('should be equal', () => {
 		expect(objectEqual({pouet: true}, {pouet: true})).toBe(true)
 	})
+
 	it('should not be equal', () => {
 		expect(objectEqual({pouet: true}, {pouet: false})).toBe(false)
 	})
+
 	it('should be deeply equal', () => {
 		expect(objectEqual({pouet: {is: true}}, {pouet: {is: true}})).toBe(true)
 	})
+
 	it('should not be equal if lengths are differents', () => {
 		expect(objectEqual({pouet: true, added: true }, {pouet: true})).toBe(false)
 		expect(objectEqual({pouet: true }, {pouet: true, added: true})).toBe(false)
 	})
+
 	it('should not be equal if lengths are equal but content different', () => {
 		expect(objectEqual({pouet: true, added: true }, {pouet: true, removed: true})).toBe(false)
 	})
+
 	it('should be equal object contains null', () => {
 		expect(objectEqual({pouet: null, added: true }, {pouet: true, added: true})).toBe(false)
 		expect(objectEqual({pouet: null, added: true }, {pouet: null, added: true})).toBe(true)
 	})
+
 	it('should be equal object contains undefined', () => {
 		expect(objectEqual({pouet: undefined, added: true }, {pouet: true, added: true})).toBe(false)
 		expect(objectEqual({pouet: undefined, added: true }, {pouet: undefined, added: true})).toBe(true)
 	})
+
 	it('should not be deeply equal', () => {
 		expect(objectEqual({pouet: {is: true}}, {pouet: {is: false}})).toBe(false)
 	})
+
 	it('should not be differently equal', () => {
 		expect(objectEqual({pouet: true}, {})).toBe(false)
 	})
+
 	it('should handle every types', () => {
 		expect(objectEqual({
 			a: [10, {b: 'c'}], d: '1', e: 2, f: true, g: null, h: undefined
@@ -324,6 +338,7 @@ describe('Object Equal Test', () => {
 			a: [10, {b: 'c'}], d: '1', e: 2, f: true, g: null, h: undefined
 		})).toBe(true)
 	})
+
 	it('should handle arrays with empty elements', () => {
 		expect(objectEqual([,true], [,true])).toBe(true)
 	})
@@ -335,11 +350,13 @@ describe('Object Clean Tests', () => {
 		objectClean(obj)
 		expect(obj).toEqual({a: '', b: null})
 	})
+
 	it('should clean undefined when told to', () => {
 		const obj = {a: '', b: null, c: undefined}
 		objectClean(obj, {cleanUndefined: true})
 		expect(obj).toEqual({a: '', b: null})
 	})
+
 	it('should clean deeply when told to', () => {
 		const obj = {a: '', b: null, c: {aa: undefined}}
 		objectClean(obj, {deep: true})
@@ -351,21 +368,25 @@ describe('Object Clean Tests', () => {
 		objectClean(obj, {cleanFalsy: true})
 		expect(obj).toEqual({obj: 'util', c: {}})
 	})
+
 	it('should not clean when options.cleanUndefined is false', () => {
 		const obj2 = {a: '', b: null, c: undefined}
 		objectClean(obj2, {cleanUndefined: false})
 		expect(obj2).toEqual({a: '', b: null, c: undefined})
 	})
+
 	it('should clean null when set', () => {
 		const obj = {a: '', b: null, c: undefined}
 		objectClean(obj, {cleanNull: true})
 		expect(obj).toEqual({a: ''})
 	})
+
 	it('should clean deep by default', () => {
 		const obj = {a: '', b: null, c: undefined, d: {da: '', db: null, dc: undefined}}
 		objectClean(obj)
 		expect(obj).toEqual({a: '', b: null, d: {da: '', db: null}})
 	})
+
 	it('should clean deep when set', () => {
 		const obj = {a: '', b: null, c: undefined, d: {da: '', db: null, dc: undefined}}
 		objectClean(obj, {deep: true})
@@ -378,14 +399,17 @@ describe('Object Omit Tests', () => {
 		const obj = {a: 'a', b: 'c', c: 'b'}
 		expect(objectOmit(obj, 'b')).toEqual({a: 'a', c: 'b'})
 	})
+
 	it('should not care when key to omit is not present', () => {
 		const obj = {a: 'a', b: 'c', c: 'b'}
 		expect(objectOmit(obj, 'b', 'd')).toEqual({a: 'a', c: 'b'})
 	})
+
 	it('should work with Object.freeze', () => {
 		const obj = {a: 'a', b: 'c', c: 'b'}
 		expect(objectOmit(Object.freeze(obj), 'b', 'd')).toEqual({a: 'a', c: 'b'})
 	})
+
 	it('should work with an array', () => {
 		const obj = [1, 2, 3, 4]
 		expect(objectOmit(obj, 1, 3)).toEqual([1,undefined,3,undefined])
@@ -396,24 +420,29 @@ describe('Is Object Tests', () => {
 	it('null is not an "object"', () => {
 		expect(isObject(null)).toBe(false)
 	})
+
 	it('boolean is not an "object"', () => {
 		expect(isObject(true)).toBe(false)
 	})
+
 	it('undefined is not an "object"', () => {
 		expect(isObject(undefined)).toBe(false)
 	})
+
 	it('string is not an "object"', () => {
 		expect(isObject("null")).toBe(false)
 	})
+
 	it('number is not an "object"', () => {
 		expect(isObject(0)).toBe(false)
 	})
+
 	it('object is an "object"', () => {
 		expect(isObject({})).toBe(true)
 	})
+
 	it('array is an object', () => expect(isObject([])).toBe(true))
 })
-
 
 describe('object remap tests', () => {
 	it('should works on objects', () => {
@@ -421,22 +450,39 @@ describe('object remap tests', () => {
 			return {key: key + 'a', value}
 		})).toEqual({aa: "pouet"})
 	})
+
 	it('should works on arrays', () => {
 		const pouet: [string] = ['pokemon']
 		expect(objectRemap(pouet, (value, key: number) => {
 			return {key: key + 2, value}
 		})).toEqual({2: "pokemon"})
 	})
+
 	it('should replace value', () => {
 		expect(objectRemap({a: 'a', b: 'b'}, (value) => {
 			return {key: 'b', value}
 		})).toEqual({b: 'b'})
 	})
+
 	it('should throw an error in strict mode', () => {
 		expect(() => {
 			objectRemap({a: 'a', b: 'b'}, (value) => {
 				return {key: 'b', value}
 			}, {strict: true})
 		}).toThrow()
+	})
+})
+
+describe('object find', () => {
+	it('should find the first object', () => {
+		expect(objectFind({a: "pou", b: "poue", c: "pouet", d: "pouet"}, (value) => {
+			return value === 'pouet'
+		})).toEqual({key: 'c', value: 'pouet', index: 2})
+	})
+
+	it('should return undefined if no object is found', () => {
+		expect(objectFind({a: 'no more pouet'}, (value) => {
+			return value === 'pouet'
+		})).toEqual(undefined)
 	})
 })

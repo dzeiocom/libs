@@ -303,6 +303,31 @@ export function objectOmit<T extends BasicObject>(obj: T, ...keys: Array<string 
 }
 
 /**
+ * find an element in an object
+ *
+ * @param obj the object to find within
+ * @param fn the function that find the object
+ * @returns the key, value, index of the element found or undefined
+ */
+export function objectFind<T = any, K extends BasicObjectKeys = BasicObjectKeys>(
+	obj: BasicObject<K, T>,
+	fn: (value: T, key: K, index: number) => boolean
+): {key: K, value: T} | undefined {
+	mustBeObject(obj)
+	let res: {key: K, value: T, index: number} | undefined = undefined
+	objectLoop(obj, (value, key, index) => {
+		const tmp = fn(value, key, index)
+		if (tmp) {
+			res = {
+				key, value, index
+			}
+		}
+		return !tmp
+	})
+	return res
+}
+
+/**
  * return if an item is an object
  *
  * @param item the item to check
@@ -342,6 +367,7 @@ export default {
 	objectEqual,
 	objectClean,
 	objectOmit,
+	objectFind,
 	isObject,
 	mustBeObject
 }
