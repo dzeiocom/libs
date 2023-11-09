@@ -1,6 +1,6 @@
 {
 	"name": "@dzeio/listener",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"description": "A NodeJS Listener implementation",
 	"repository": {
 		"type": "git",
@@ -10,9 +10,28 @@
 	"author": "Aviortheking",
 	"license": "MIT",
 	"main": "./dist/Listener.js",
+	"module": "./dist/Listener.mjs",
 	"types": "./dist/Listener.d.ts",
+	"browser": "./dist/Listener.global.js",
+	"exports": {
+		".": {
+			"require": {
+				"types": "./dist/Listener.d.ts",
+				"default": "./dist/Listener.js"
+			},
+			"import": {
+				"types": "./dist/Listener.d.mts",
+				"default": "./dist/Listener.mjs"
+			}
+		}
+	},
+	"files": ["dist"],
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"build": "tsc"
+		"build": "tsup ./Listener.ts --format cjs,esm --dts --clean && tsup ./Listener.ts --format iife --global-name Listener --minify --sourcemap"
+	},
+	"devDependencies": {
+		"tsup": "^7.2.0",
+		"typescript": "^5.2.2"
 	}
 }
