@@ -40,15 +40,21 @@ export function objectMap<T = any, J = any, K extends BasicObjectKeys = BasicObj
 export function objectRemap<T = any, J extends BasicObject = BasicObject, K extends BasicObjectKeys = BasicObjectKeys>(
 	obj: BasicObject<K, T>,
 	fn: (value: T, key: K, index: number) => {key: keyof J, value: J[typeof key]},
-	options?: {strict?: boolean}
+	options?: { strict?: boolean }
 ): J {
 	mustBeObject(obj)
+
+	// create a clone
 	const clone: J = {} as any
+
+	// loop through each keys
 	objectLoop(obj, (item, oldKey, index) => {
 		const { key, value } = fn(item, oldKey, index)
 		if (options?.strict && key in clone) {
 			throw new Error('objectRemap strict mode active, you can\'t remap the same key twice')
 		}
+
+		// set new key pair into the clone
 		clone[key] = value
 	})
 	return clone
@@ -66,7 +72,11 @@ export function objectLoop<T = any, K extends BasicObjectKeys = BasicObjectKeys>
 	fn: (value: T, key: K, index: number) => boolean | void
 ): boolean {
 	mustBeObject(obj)
+
+	// get the object keys
 	const keys = objectKeys(obj)
+
+	// loop trough each keys
 	for (let index = 0; index < keys.length; index++) {
 		const key = keys[index]
 		const stop = fn(obj[key] as T, key as K, index)
@@ -328,6 +338,49 @@ export function objectFind<T = any, K extends BasicObjectKeys = BasicObjectKeys>
 }
 
 /**
+ * go through an object to get a specific value
+ *
+ * note: it will be slower than getting it directly (ex: `obj['pouet']`)
+ *
+ * @param obj the object to go through
+ * @param {Array<string | number | symbol> | string} path the path to follow (if path is a string it will be splitted with `.` and ints will be parsed)
+ *
+ * @returns the value if found or undefined if it was not found
+ */
+export function objectGet<T = any>(obj: object, path: Array<string | number | symbol> | string): T | undefined {
+	mustBeObject(obj)
+
+	// transform path into an Array
+	if (typeof path === 'string') {
+		path = path.split('.').map((it) => /^\d+$/g.test(it) ? Number.parseInt(it) : it)
+	}
+
+	// the pointer
+	let pointer: object = obj
+
+	// loop through each keys
+	for (let index = 0; index < path.length; index++) {
+		const key = path[index]
+		const nextIndex = index + 1;
+
+		// handle key being undefined or pointer not having key and not the last key
+		if (typeof key === 'undefined' || !Object.prototype.hasOwnProperty.call(pointer, key) && nextIndex < path.length) {
+			return undefined
+		}
+
+		// if last index
+		if (nextIndex === path.length) {
+			return (pointer as any)[key] as T
+		}
+
+		// move pointer to new key
+		pointer = (pointer as any)[key]
+	}
+
+	throw new Error(`it should never be here ! (${JSON.stringify(obj)}, ${path}, ${JSON.stringify(pointer)})`)
+}
+
+/**
  * return if an item is an object
  *
  * @param item the item to check
@@ -346,28 +399,32 @@ export function isObject(item: any): item is BasicObject {
  * @returns {boolean} true is the item is an object, else throw an error
  */
 export function mustBeObject(item: any): item is BasicObject {
-	if (isObject(item)) {
-		return true
-	} else {
+	if (!isObject(item)) {
 		throw new Error('Input is not an object!')
 	}
+	return true
 }
 
 export default {
-	objectMap,
-	objectRemap,
-	objectLoop,
-	objectToArray,
+	objectClean,
+	objectClone,
+	objectEqual,
+	objectFind,
+	objectGet,
 	objectKeys,
+	objectLoop,
+	objectMap,
+	objectOmit,
+	objectRemap,
+	objectSet,
 	objectSize,
 	objectSort,
-	cloneObject,
-	objectClone,
-	objectSet,
-	objectEqual,
-	objectClean,
-	objectOmit,
-	objectFind,
+
+	// helpers
 	isObject,
-	mustBeObject
+	mustBeObject,
+
+	// deprecated
+	objectToArray,
+	cloneObject,
 }

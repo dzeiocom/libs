@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 
-import { isObject, objectClean, objectClone, objectEqual, objectFind, objectKeys, objectLoop, objectMap, objectOmit, objectRemap, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
+import { isObject, objectClean, objectClone, objectEqual, objectFind, objectGet, objectKeys, objectLoop, objectMap, objectOmit, objectRemap, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
 
 describe('Throw if parameter is not an object', () => {
 	it('should works', () => {
@@ -484,5 +484,29 @@ describe('object find', () => {
 		expect(objectFind({a: 'no more pouet'}, (value) => {
 			return value === 'pouet'
 		})).toEqual(undefined)
+	})
+})
+
+
+describe('object get', () => {
+	it('should deeply get an object value', () => {
+		expect(objectGet({a: { b: [{ c: 'pouet' }]}}, ['a', 'b', 0, 'c']))
+			.toEqual('pouet')
+	})
+	it('should deeply get an object value from a string', () => {
+		expect(objectGet({a: { b: [{ c: 'pouet' }]}}, 'a.b.0.c'))
+			.toEqual('pouet')
+	})
+	it('return undefined if key is too profound', () => {
+		expect(objectGet({a: { b: [{ c: 'pouet' }]}}, 'a.b.0.c.d'))
+			.toEqual(undefined)
+	})
+	it('return the object if key is too shallow', () => {
+		expect(objectGet({a: { b: [{ c: 'pouet' }]}}, 'a.b.0'))
+			.toEqual({ c: 'pouet' })
+	})
+	it('return undefined if key is invalid', () => {
+		expect(objectGet({a: { b: [{ c: 'pouet' }]}}, 'a.c.0'))
+			.toEqual(undefined)
 	})
 })
