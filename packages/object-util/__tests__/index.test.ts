@@ -509,4 +509,13 @@ describe('object get', () => {
 		expect(objectGet({a: { b: [{ c: 'pouet' }]}}, 'a.c.0'))
 			.toEqual(undefined)
 	})
+
+	it('object get should return undefined', () => {
+		expect(() => {
+			objectGet({a: { b: [{ c: 'pouet' }]}}, [])
+		}).toThrow()
+		expect(() => {
+			objectGet({a: { b: [{ c: 'pouet' }]}}, '')
+		}).toThrow()
+	})
 })

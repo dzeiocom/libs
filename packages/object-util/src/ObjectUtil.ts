@@ -350,6 +350,10 @@ export function objectFind<T = any, K extends BasicObjectKeys = BasicObjectKeys>
 export function objectGet<T = any>(obj: object, path: Array<string | number | symbol> | string): T | undefined {
 	mustBeObject(obj)
 
+	if (path === '' || Array.isArray(path) && path.length === 0) {
+		throw new Error(`Path MUST at least have a value (${path})`)
+	}
+
 	// transform path into an Array
 	if (typeof path === 'string') {
 		path = path.split('.').map((it) => /^\d+$/g.test(it) ? Number.parseInt(it) : it)
@@ -377,7 +381,7 @@ export function objectGet<T = any>(obj: object, path: Array<string | number | sy
 		pointer = (pointer as any)[key]
 	}
 
-	throw new Error(`it should never be here ! (${JSON.stringify(obj)}, ${path}, ${JSON.stringify(pointer)})`)
+	throw new Error(`it should never get there ! (${JSON.stringify(obj)}, ${path}, ${JSON.stringify(pointer)})`)
 }
 
 /**
