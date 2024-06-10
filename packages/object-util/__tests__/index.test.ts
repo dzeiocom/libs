@@ -511,11 +511,9 @@ describe('object get', () => {
 	})
 
 	it('object get should return undefined', () => {
-		expect(() => {
-			objectGet({a: { b: [{ c: 'pouet' }]}}, [])
-		}).toThrow()
-		expect(() => {
-			objectGet({a: { b: [{ c: 'pouet' }]}}, '')
-		}).toThrow()
+		expect(objectGet({a: 'pouet'}, []))
+			.toEqual({a: 'pouet'})
+		expect(objectGet({a: 'pouet'}, ''))
+			.toEqual({a: 'pouet'})
 	})
 })
