@@ -347,13 +347,13 @@ export function objectFind<T = any, K extends BasicObjectKeys = BasicObjectKeys>
  *
  * @returns the value if found or undefined if it was not found
  */
-export function objectGet<T = any>(obj: object, path: Array<string | number | symbol> | string): T | undefined {
-	mustBeObject(obj)
-
+export function objectGet<T = any>(obj: any, path: Array<string | number | symbol> | string): T | undefined {
 	// if path is not defined or path is empty return the current object
 	if (!path || path === '' || Array.isArray(path) && path.length === 0) {
 		return obj as T
 	}
+
+	mustBeObject(obj)
 
 	// transform path into an Array
 	if (typeof path === 'string') {
