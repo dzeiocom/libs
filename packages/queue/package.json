@@ -1,18 +1,44 @@
 {
 	"name": "@dzeio/queue",
-	"version": "1.2.0",
-	"description": "My Personnal Promise Queue System",
+	"version": "1.2.1",
+	"description": "A Promise compatible Queue System",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/dzeiocom/libs.git",
 		"directory": "packages/Queue"
 	},
+	"homepage": "https://github.com/dzeiocom/libs/tree/master/packages/queue",
 	"author": "Aviortheking",
+	"sideEffects": false,
 	"license": "MIT",
 	"main": "./dist/Queue.js",
+	"module": "./dist/Queue.mjs",
 	"types": "./dist/Queue.d.ts",
+	"browser": "./dist/Queue.global.js",
+	"exports": {
+		".": {
+			"require": {
+				"types": "./dist/Queue.d.ts",
+				"default": "./dist/Queue.js"
+			},
+			"import": {
+				"types": "./dist/Queue.d.mts",
+				"default": "./dist/Queue.mjs"
+			}
+		}
+	},
 	"scripts": {
-		"prepublishOnly": "yarn build",
-		"build": "tsc"
+		"prepublishOnly": "npm run build",
+		"build": "tsup ./src/Queue.ts --format cjs,esm --dts --clean && tsup ./src/Queue.ts --format iife --global-name Queue --sourcemap"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"package.json",
+		"CHANGELOG.md"
+	],
+	"devDependencies": {
+		"tsup": "^8.3.5",
+		"typescript": "^5.7.2"
 	}
 }
