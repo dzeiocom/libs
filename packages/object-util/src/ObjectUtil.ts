@@ -39,7 +39,7 @@ export function objectMap<T = any, J = any, K extends BasicObjectKeys = BasicObj
  */
 export function objectRemap<T = any, J extends BasicObject = BasicObject, K extends BasicObjectKeys = BasicObjectKeys>(
 	obj: BasicObject<K, T>,
-	fn: (value: T, key: K, index: number) => {key: keyof J, value: J[typeof key]},
+	fn: (value: T, key: K, index: number) => { key: keyof J, value: J[typeof key] },
 	options?: { strict?: boolean }
 ): J {
 	mustBeObject(obj)
@@ -174,7 +174,7 @@ export function cloneObject<T extends BasicObject>(obj: T): T {
  * @param options.deep (Default: true) deeply clone the object
  * @returns the clone of the object
  */
-export function objectClone<T extends BasicObject>(obj: T, options?: {deep?: boolean}): T {
+export function objectClone<T extends BasicObject>(obj: T, options?: { deep?: boolean }): T {
 	mustBeObject(obj)
 	if (Array.isArray(obj)) {
 		const arr: Array<any> = []
@@ -275,7 +275,7 @@ export function objectEqual(first: BasicObject, second: BasicObject): boolean {
  * @param {boolean?} options.cleanNull (default: false) clean null from the object
  * @param {boolean?} options.deep (default: true) deeply clean the object
  */
-export function objectClean(obj: BasicObject, options?: {cleanUndefined?: boolean, cleanNull?: boolean, cleanFalsy?: boolean, deep?: boolean}): void {
+export function objectClean(obj: BasicObject, options?: { cleanUndefined?: boolean, cleanNull?: boolean, cleanFalsy?: boolean, deep?: boolean }): void {
 	mustBeObject(obj)
 	objectLoop(obj, (item, key) => {
 		if ((typeof options?.cleanUndefined === 'undefined' || options.cleanUndefined) && item === undefined) {
@@ -303,7 +303,7 @@ export function objectClean(obj: BasicObject, options?: {cleanUndefined?: boolea
  * @returns the cloned object
  */
 export function objectOmit<T extends BasicObject>(obj: T, ...keys: Array<string | number>): T {
-	const cloned = objectClone(obj, {deep: false})
+	const cloned = objectClone(obj, { deep: false })
 	for (const key of keys) {
 		if (key in cloned) {
 			delete cloned[key]
@@ -322,9 +322,9 @@ export function objectOmit<T extends BasicObject>(obj: T, ...keys: Array<string 
 export function objectFind<T = any, K extends BasicObjectKeys = BasicObjectKeys>(
 	obj: BasicObject<K, T>,
 	fn: (value: T, key: K, index: number) => boolean
-): {key: K, value: T} | undefined {
+): { key: K, value: T } | undefined {
 	mustBeObject(obj)
-	let res: {key: K, value: T, index: number} | undefined = undefined
+	let res: { key: K, value: T, index: number } | undefined = undefined
 	objectLoop(obj, (value, key, index) => {
 		const tmp = fn(value, key, index)
 		if (tmp) {
@@ -386,6 +386,39 @@ export function objectGet<T = any>(obj: any, path: Array<string | number | symbo
 }
 
 /**
+ * Only return the specified keys from the object
+ *
+ * @param obj the object to pick from
+ * @param keys the keys to keep
+ * @returns a new copy of `obj` with only `keys` in it
+ */
+function objectPick<V, K extends string | number | symbol>(obj: Record<K, V>, ...keys: Array<K>): Pick<Record<K, V>, K> {
+	mustBeObject(obj)
+	return objectFilter(obj, (_, k) => keys.includes(k)) as Pick<Record<K, V>, K>
+}
+
+/**
+ * filter elements from the object and return a new copy
+ *
+ * @param obj the object to filter
+ * @param fn the function to pass it through
+ * @returns the filtered object
+ */
+function objectFilter<V, K extends string | number | symbol>(obj: Record<K, V>, fn: (v: V, k: K, idx: number) => boolean): Partial<Record<K, V>> {
+	mustBeObject(obj)
+	const clone: Partial<Record<K, V>> = {}
+	objectLoop(obj, (v, k, idx) => {
+		const res = fn(v, k, idx)
+		if (res) {
+			clone[k] = v
+		}
+	})
+
+	return clone
+}
+
+
+/**
  * return if an item is an object
  *
  * @param item the item to check
@@ -414,12 +447,14 @@ export default {
 	objectClean,
 	objectClone,
 	objectEqual,
+	objectFilter,
 	objectFind,
 	objectGet,
 	objectKeys,
 	objectLoop,
 	objectMap,
 	objectOmit,
+	objectPick,
 	objectRemap,
 	objectSet,
 	objectSize,
