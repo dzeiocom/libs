@@ -392,7 +392,7 @@ export function objectGet<T = any>(obj: any, path: Array<string | number | symbo
  * @param keys the keys to keep
  * @returns a new copy of `obj` with only `keys` in it
  */
-function objectPick<V, K extends string | number | symbol>(obj: Record<K, V>, ...keys: Array<K>): Pick<Record<K, V>, K> {
+export function objectPick<V, K extends string | number | symbol>(obj: Record<K, V>, ...keys: Array<K>): Pick<Record<K, V>, K> {
 	mustBeObject(obj)
 	return objectFilter(obj, (_, k) => keys.includes(k)) as Pick<Record<K, V>, K>
 }
@@ -404,7 +404,7 @@ function objectPick<V, K extends string | number | symbol>(obj: Record<K, V>, ..
  * @param fn the function to pass it through
  * @returns the filtered object
  */
-function objectFilter<V, K extends string | number | symbol>(obj: Record<K, V>, fn: (v: V, k: K, idx: number) => boolean): Partial<Record<K, V>> {
+export function objectFilter<V, K extends string | number | symbol>(obj: Record<K, V>, fn: (v: V, k: K, idx: number) => boolean): Partial<Record<K, V>> {
 	mustBeObject(obj)
 	const clone: Partial<Record<K, V>> = {}
 	objectLoop(obj, (v, k, idx) => {
