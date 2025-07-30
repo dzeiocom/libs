@@ -2,6 +2,11 @@ export type BasicObjectKeys = string | number | symbol
 export type BasicObject<K extends BasicObjectKeys = BasicObjectKeys, V = any> = { [P in K]?: V }
 
 /**
+ * Pick a from a text union only elements in Keys
+ */
+type TextPick<T extends BasicObjectKeys, Keys extends BasicObjectKeys> = T extends Keys ? T : never
+
+/**
  * Remap an object to an array through a function
  *
  * (Same as Array.map but for objects)
@@ -187,8 +192,22 @@ export function objectClone<T extends BasicObject>(obj: T, options?: { deep?: bo
 	}
 	const clone: Partial<T> = {}
 	objectLoop(obj, (value, key) => {
-		if (typeof value === 'object' && value != null && (typeof options?.deep === 'undefined' || options.deep)) {
+		if (
+			typeof value === 'object' // make sure child is an object
+			&& value != null // object is not null
+			&& (
+				typeof options?.deep === 'undefined'
+				|| options.deep
+			) // deep is set to true or undefined
+			&& !(value instanceof Date) // object is not a date
+		) {
 			clone[key as Extract<keyof T, string>] = objectClone(value)
+			return
+		}
+		// special case for Date
+		if (value instanceof Date) {
+			// @ts-expect-error value type is a Date
+			clone[key as Extract<keyof T, Date>] = new Date(value.getTime())
 			return
 		}
 		clone[key as Extract<keyof T, string>] = value
@@ -302,7 +321,7 @@ export function objectClean(obj: BasicObject, options?: { cleanUndefined?: boole
  * @param keys the keys to emit
  * @returns the cloned object
  */
-export function objectOmit<T extends BasicObject>(obj: T, ...keys: Array<string | number>): T {
+export function objectOmit<T extends BasicObject, Keys extends (keyof T | (string & {}))>(obj: T, ...keys: Array<Keys | keyof T>): Omit<T, Keys> {
 	const cloned = objectClone(obj, { deep: false })
 	for (const key of keys) {
 		if (key in cloned) {
@@ -392,9 +411,9 @@ export function objectGet<T = any>(obj: any, path: Array<string | number | symbo
  * @param keys the keys to keep
  * @returns a new copy of `obj` with only `keys` in it
  */
-export function objectPick<V, K extends string | number | symbol>(obj: Record<K, V>, ...keys: Array<K>): Pick<Record<K, V>, K> {
+export function objectPick<T extends BasicObject, Keys extends (keyof T | (string & {}))>(obj: T, ...keys: Array<Keys | keyof T>): Pick<T, TextPick<Keys, keyof T>> {
 	mustBeObject(obj)
-	return objectFilter(obj, (_, k) => keys.includes(k)) as Pick<Record<K, V>, K>
+	return objectFilter(obj, (_, k) => keys.includes(k)) as Pick<T, Keys>
 }
 
 /**

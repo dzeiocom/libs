@@ -1,5 +1,6 @@
 /// <reference types="jest" />
 
+import { objectPick } from '../dist/ObjectUtil'
 import { isObject, objectClean, objectClone, objectEqual, objectFind, objectGet, objectKeys, objectLoop, objectMap, objectOmit, objectRemap, objectSet, objectSize, objectSort, objectValues } from '../src/ObjectUtil'
 
 describe('Throw if parameter is not an object', () => {
@@ -220,6 +221,25 @@ describe('Object Clone Tests', () => {
 		expect(clone).not.toEqual(obj)
 	})
 
+	it('it should clone dates', () => {
+		const date = new Date('2025-01-02')
+		const obj = {
+			pouet: date,
+		}
+
+		// check base clone
+		const clone = objectClone(obj)
+		expect(clone).toEqual(obj)
+
+		// check that it is deep (date changes doesn't affect the clone)
+		date.setFullYear(2020)
+		expect(clone).not.toEqual(obj)
+
+		// check a value change doesn't affect the clone
+		clone.pouet = new Date()
+		expect(clone).not.toEqual(obj)
+	})
+
 	it('should deeply clone the object when option is set', () => {
 		const obj = {
 			pouet: {is: 'first'},
@@ -413,6 +433,28 @@ describe('Object Omit Tests', () => {
 	it('should work with an array', () => {
 		const obj = [1, 2, 3, 4]
 		expect(objectOmit(obj, 1, 3)).toEqual([1,undefined,3,undefined])
+	})
+})
+
+describe('Object Pick Tests', () => {
+	it('should pick certain elements', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectPick(obj, 'b')).toEqual({b: 'c'})
+	})
+
+	it('should not care when key to pick is not present', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectPick(obj, 'b', 'd')).toEqual({b: 'c'})
+	})
+
+	it('should work with Object.freeze', () => {
+		const obj = {a: 'a', b: 'c', c: 'b'}
+		expect(objectPick(Object.freeze(obj), 'b', 'd')).toEqual({b: 'c'})
+	})
+
+	it('should work with an array', () => {
+		const obj = [1, 2, 3, 4]
+		expect(objectPick(obj, 1, 3)).toEqual([undefined,2,undefined,4])
 	})
 })
 
