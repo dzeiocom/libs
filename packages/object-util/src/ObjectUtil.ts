@@ -70,7 +70,7 @@ export function objectRemap<T = any, J extends BasicObject = BasicObject, K exte
  *
  * @param obj the object to loop through
  * @param fn the function to run for each childs if the function return `false` it will stop
- * @returns {boolean} return if the loop finished or ended early
+ * @returns {boolean} return `false` if the loop finished early, else return `true`
  */
 export function objectLoop<T = any, K extends BasicObjectKeys = BasicObjectKeys>(
 	obj: BasicObject<K, T>,
