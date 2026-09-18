@@ -276,7 +276,7 @@ export function objectEqual(first: BasicObject, second: BasicObject): boolean {
 		if (item === null && item2 === null) {
 			return true
 		}
-		if (typeof item === 'object' && typeof item2 === 'object') {
+		if (item !== null && typeof item === 'object' && item2 !== null && typeof item2 === 'object') {
 			return objectEqual(item, item2)
 		}
 		return item === item2
