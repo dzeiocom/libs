@@ -423,9 +423,9 @@ export function objectPick<T extends BasicObject, Keys extends (keyof T | (strin
  * @param fn the function to pass it through
  * @returns the filtered object
  */
-export function objectFilter<V, K extends string | number | symbol>(obj: Record<K, V>, fn: (v: V, k: K, idx: number) => boolean): Partial<Record<K, V>> {
+export function objectFilter<V, K extends string | number | symbol>(obj: BasicObject<K, V>, fn: (v: V, k: K, idx: number) => boolean): Partial<Record<K, V>> {
 	mustBeObject(obj)
-	const clone: Partial<Record<K, V>> = {}
+	const clone = (Array.isArray(obj) ? [] : {}) as Partial<BasicObject<K, V>>
 	objectLoop(obj, (v, k, idx) => {
 		const res = fn(v, k, idx)
 		if (res) {
