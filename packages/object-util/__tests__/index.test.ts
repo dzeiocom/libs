@@ -362,6 +362,14 @@ describe('Object Equal Test', () => {
 	it('should handle arrays with empty elements', () => {
 		expect(objectEqual([,true], [,true])).toBe(true)
 	})
+
+	it('should be equal object contains Date|null values', () => {
+		const newDate = new Date()
+
+		expect(objectEqual({pouet: null, added: true }, {pouet: newDate, added: true})).toBe(false)
+		expect(objectEqual({pouet: null, added: true }, {pouet: null, added: true})).toBe(true)
+		expect(objectEqual({pouet: newDate, added: true }, {pouet: newDate, added: true})).toBe(true)
+	})
 })
 
 describe('Object Clean Tests', () => {

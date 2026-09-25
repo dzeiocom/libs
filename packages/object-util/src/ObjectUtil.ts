@@ -273,8 +273,8 @@ export function objectEqual(first: BasicObject, second: BasicObject): boolean {
 			return false
 		}
 		const item2 = second[key]
-		if (item === null && item2 === null) {
-			return true
+		if (item === null || item2 === null) {
+			return item === item2
 		}
 		if (typeof item === 'object' && typeof item2 === 'object') {
 			return objectEqual(item, item2)
